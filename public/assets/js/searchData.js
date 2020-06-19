@@ -1,90 +1,240 @@
+// enums
+const method = {
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE'
+}
 
+const TableJemaat = props => {
+    const data = props.data;
+    return (
+        <div id="tableJemaat" className="raised-shadow">
+            <table className="ui single line selectable sortable striped unstackable table">
+                <thead>
+                    <tr>
+                        {data.header.map((item, key) => {
+                            if (item != 'Kode Keluarga') {
+                                return (<th className="sorted ascending" key={key}>{item}</th>);
+                            }
+                        })}
+                        {data.user_role == 'admin' ? '' : <th>Aksi</th>}
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.filteredData.map(item => ( // given an object
+                        <tr key={item}>
+                            { /* we want to get the each paired value-key in obj */
+                                Object.keys(item).map(key => {
+                                    if (key != 'Kode Keluarga') {
+                                        {/* we dont want print column Kode Keluarga */ }
+                                        return (<td key={key}>{item[key]}</td>);
+                                    }
+                                })
+                            }
+                            {(() => {
+                                {/* we want print Kode Keluarga here */ }
+                                switch (data.user_role) {
+                                    case 'admin': return;
+                                    case 'user': return (
+                                        <td>
+                                            {/* this is for print button on aksi column */}
+                                            <button onClick={props.whenClicked.bind(null, item['Kode Keluarga'], data.sektor, data.user_role)}
+                                                id={`btn${item['Kode Keluarga']}`}
+                                                className="ui inverted blue button btnModal"><i className="child icon"></i>Anggota Keluarga</button>
+                                        </td>);
+                                }
+                            })()}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    )
+}
 
-class App extends React.Component {
+const LoadingPreview = () => {
+    return (
+        <div className="ui fluid placeholder">
+            <div className="very short line"></div>
+            <div className="paragraph">
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+            </div>
+            <div className="very short line"></div>
+            <div className="paragraph">
+                <div className="line"></div>
+                <div className="line"></div>
+            </div>
+        </div>
+    )
+}
+
+class DataJemaat extends React.Component {
     constructor() {
         super();
         this.state = {
-            filter: "",
+            sektor: '',
+            filter: '',
             data: [],
-            header: [],
-        };
+            listSektor: [],
+            user_role: ''
+        }
+
+        // register this method into this class
+        this.getDataKeluargaJemaat = this.getDataKeluargaJemaat.bind(this);
+        this.getDataJemaatSektor = this.getDataJemaatSektor.bind(this);
     }
 
     componentDidMount() {
-        const urlFetch = fetch('http://localhost/api/data');
-        urlFetch.then(result => {
-            if (result.status === 200)
-                return result.json()
-        }).then(resJson => {
-            Object.keys(resJson).map((item, key) => {
-                var data = resJson[item];
-                var header = Object.keys(data);
-                if (this.state.header.length == 0) {
-                    this.state.header.push(header);
-                }
-                this.state.data.push(data);
-                this.setState(() => { // re-render
-                    return { unseen: "does not display" }
-                });
-                $("#dataTable").dataTable({
-                    retrieve: true,
-                    searching: false,
-                    lengthChange: false
-                });
+        $('#dropdown-sektor').dropdown({ clearable: true });
+        const urlFetch = this.handleRequestAPI('http://localhost:8000/api/jemaat/list', method.GET);
+        urlFetch.then(resJson => {
+            Object.keys(resJson).map((item) => {
+                this.state.listSektor.push(resJson[item]);
             })
+            this.setState({ user_role: $('#contentJemaat').attr('type-user') });
+        }).catch(error => console.log(error));
+    }
+
+    async handleRequestAPI(url, method, data = undefined) {
+        if (!url) return; // guard claue
+        return fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(result => {
+            if (result.status === 200) { return result.json() }
+        }).catch(error => console.log(error));
+    }
+
+    handleSearch = event => {
+        this.setState({ filter: event.target.value });
+    }
+
+    calculateAge (dateString) {
+        if (!dateString) return;
+        dateString = dateString.split(/\//g).reverse().join('-');
+        return Math.floor((new Date() - new Date(dateString)) / 3.15576e+10);
+    }
+
+    getDataKeluargaJemaat(kodeKeluarga, sektor, user_role) {
+        const contentTarget = '#detailKeluarga';
+        const formTarget = '#dataKeluarga';
+        const modalTarget = '#modalDataKeluarga';
+        const btnIDTarget = `#btn${kodeKeluarga}`;
+
+        const urlFetch = this.handleRequestAPI(`http://localhost:8000/api/jemaat/${sektor}/${user_role}/Keluarga?familyID=${kodeKeluarga}`, method.GET);
+        
+        try {
+            urlFetch.then(resJson => {
+                const data = Object.keys(resJson).map(item => { return resJson[item] });
+    
+                // ini mulai setelah data sektor telah ada
+                $(contentTarget).text('Keluarga ' + data[0]['Nama']);
+                $(formTarget).html('');
+    
+                data.forEach(item => {
+                    $(formTarget).append(`<div class="ui list"><div class="item"><div class="header">${item['Nama']}</div>${item['Hubungan']}</div></div>`);
+                });
+
+                // start animate button and modal
+                $(btnIDTarget).toggleClass('loading');
+                $(modalTarget).modal({ inverted: true }).modal('toggle');
+            })
+        } finally {
+            // perform animate again
+            $(btnIDTarget).toggleClass('loading');
+        }
+    }
+
+    getDataJemaatSektor = event => {
+        // check search history
+        const sektor = event.target.value;
+        if (sektor == '' || sektor == this.state.sektor) return;
+
+        const user_role = this.state.user_role;
+        const relation = 'Kepala Keluarga'; // define whatever you want, default
+
+        const urlFetch = this.handleRequestAPI(`http://localhost:8000/api/jemaat/${sektor}/${user_role}/` + (user_role != 'admin' ? `Hubungan?relation=${relation}` : ''), method.GET);
+
+        urlFetch.then(resJson => {
+            const data = Object.keys(resJson).map(item => {
+                // adding item Usia
+                resJson[item]['Usia'] = this.calculateAge(resJson[item]['Tanggal Lahir']);
+
+                if (user_role != 'admin') { // removing some item if user role
+                    ['Hubungan', 'Tanggal Lahir'].forEach(properties => {
+                        delete resJson[item][properties];
+                    });
+                }
+
+                return resJson[item];
+            })
+            this.setState({ sektor: sektor, data: data });
+            $('table').tablesort(); // sort with tablesort js and semantic
         })
     }
 
-    handleChange = event => {
-        this.setState({ filter: event.target.value });
-    };
-
     render() {
-        const { filter, data } = this.state;
-        const lowercasedFilter = filter.toLowerCase();
-        const filteredData = data.filter(item => {
-            return Object.keys(item).some(key =>
-                item[key].toLowerCase().includes(lowercasedFilter)
-            );
-        });
-        var header = this.state.header; // data before fetch
-        if (header[0]) {
-            header = header[0]; // if data already fetch
+        const { filter, data, listSektor, sektor, user_role } = this.state;
+        
+        // this will do action for table if data[0] not null
+        var header, filteredData;
+        
+        if (data[0]){
+            header = Object.keys(data[0]).map(key => key);
+            filteredData = data.filter(item => {
+                return Object.keys(item).some(key =>
+                    item[key].toLowerCase().includes(filter.toLowerCase())
+                )
+            });
         }
 
+        // passing object data table to Table Component
+        const dataTable = { ... { filteredData: filteredData }, header, sektor, user_role };
+
+        // var waw = this.handleRequestAPI('http://localhost/api/data/test', method.POST, {
+        //     // object
+        //     name: 'Apriyanto',
+        //     marge: 'Tobing'
+        // });
+        // waw.then(resJson => {
+        //     console.log(resJson)
+        // });
+
         return (
-            <div className="uk-margin">
-                <div className="uk-inline">
-                    <span class="uk-form-icon" uk-icon="icon: user"></span>
-                    <input value={filter} onChange={this.handleChange}
-                        className="uk-input uk-form-width-large uk-form-large"
-                        placeholder="Ketik dan cari disini"
-                    />
+            <div>
+                <div className="ui big form">
+                    <div className="inline fields">
+                        <div className="field">
+                            <div className="ui left icon input">
+                                {/* Correct: handleClick is passed as a reference! */}
+                                <input value={filter} onChange={this.handleSearch} type="text" placeholder="Cari Jemaat" />
+                                <i className="users icon"></i>
+                            </div>
+                        </div>
+                        <div className="field">
+                            <select id="dropdown-sektor" className="ui simple search dropdown" onChange={this.getDataJemaatSektor}>
+                                <option value="">Pilih Sektor</option>
+                                {listSektor.map(item => ( // given an object
+                                    <option value={item['sektor']}>{item['sektor']}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <table className="uk-table uk-table-striped uk-table-hover uk-table-divider" id="dataTable">
-                    <thead>
-                        <tr>
-                            {
-                                header.map((item, key) =>
-                                    <th className="uk-table-expand" key={key}>{item}</th>)
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            filteredData.map(item => ( // given an object
-                                <tr key={item}>
-                                    {/* we want to get the each paired value-key in obj */}
-                                    {Object.keys(item).map(key =>
-                                        <td key={key}>{item[key]}</td>)}
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+                {/* render content depend on given condition, pass the method */}
+                {data[0] ? <TableJemaat data={dataTable} whenClicked={this.getDataKeluargaJemaat} /> : <LoadingPreview />}
             </div>
-        );
+        )
     }
 }
 
-ReactDOM.render(<App />, document.getElementById("table"));
+$(document).ready(function () {
+    ReactDOM.render(<DataJemaat />, document.getElementById('contentJemaat'));
+});

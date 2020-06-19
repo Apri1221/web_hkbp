@@ -1,104 +1,121 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600" rel="stylesheet">
-
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.4.0/dist/css/uikit.min.css" />
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.uikit.min.js"></script>
-
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <!-- react js -->
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-
-    <!-- Styles -->
-    <style>
-    html,
-    body {
-        background-color: #fff;
-        color: #636b6f;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 200;
-        height: 100vh;
-        margin: 0;
+@extends('layouts.template')
+@push('any_css')
+<style>
+    #detailKeluarga {
+        background-position: center;
+        /* di dribble, dapat gunakn query compress=1&resize=400x300 utk mereduksi file gambar */
+        background-image: url("https://cdn.dribbble.com/users/507883/screenshots/3717340/andy-hau-mountains-sunset-illustration.jpg?compress=1&resize=400x300");
+        object-fit: cover;
+        color: brown
     }
 
-    .full-height {
-        height: 100vh;
+    body #title-massive {
+        font-family: 'Montserrat', sans-serif;
+        color: white
     }
 
-    .flex-center {
-        align-items: center;
-        display: flex;
-        justify-content: center;
+    .ui.custom.header {
+        font-size: 4rem !important;
     }
 
-    .position-ref {
-        position: relative;
+    .ui.form .inline.fields .field {
+        padding: 0 1em 1em 0 !important
     }
 
-    .top-right {
-        position: absolute;
-        right: 10px;
-        top: 18px;
+    .section.blue {
+        background-color: var(--main-color-palete)
     }
 
-    .content {
+    .slider .content-custom {
+        background: #fff;
+        color: #3498db;
+        font-size: 36px;
+        line-height: 100px;
+        margin: 10px;
+        padding: 1rem;
         text-align: center;
     }
+</style>
+@endpush
 
-    .title {
-        font-size: 84px;
-    }
-
-    .links>a {
-        color: #636b6f;
-        padding: 0 25px;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: .1rem;
-        text-decoration: none;
-        text-transform: uppercase;
-    }
-
-    .uk-table-hover>tr:hover,
-    .uk-table-hover tbody tr:hover {
-        background: #51c7ff2b !important
-    }
-    </style>
-</head>
-
-<body>
-    <div class="uk-container uk-container-small uk-padding-large">
-        <h1>Halo</h1>
-
-        <div class="uk-overflow-auto">
-            <div id="table"></div>
+@push('any_content')
+<div class="ui fluid parallax" data-imgsrc="{{ asset('./assets/images/curch.jpg') }}">
+    <div class="ui container" style="padding:60vh 0 0">
+        <div class="ui two column stackable grid">
+            <div class="column">
+                <div class="ui custom left aligned header" id="title-massive">
+                    We Worship You
+                </div>
+            </div>
+            <div class="column">
+                <!-- Not yet content -->
+            </div>
         </div>
-
     </div>
+</div>
+@endpush
 
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.4.0/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.4.0/dist/js/uikit-icons.min.js"></script>
+@section('content')
+<!-- modal ini digunakan untuk menampilkan data keluarga dari searchData.js (ini sangat kompleks) -->
+<div class="ui tiny modal" id="modalDataKeluarga">
+    <div class="header" id="detailKeluarga">
+    </div>
+    <div class="content ui left aligned container" id="dataKeluarga">
+    </div>
+</div>
 
-    <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
+<div class="ui container" style="margin:70px 0">
+    <div class="ui stackable grid" style="align-items: flex-start;">
+        <!-- section content -->
+        <div class="twelve wide column">
+            <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
+            <div class="ui hidden divider huge"></div>
+            <div id="announcement"></div>
+        </div>
+        <!-- section announcement -->
+        <div class="four wide column" id="sticky-content">
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Pelayanan Minggu, 28 Oktober 2020</div>
+                </div>
+                <div class="content">
+                    <h4 class="ui sub header">Misa Pagi</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                    <h4 class="ui sub header">Misa Siang</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                    <h4 class="ui sub header">Misa Sore</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                </div>
+            </div>
+            <div class="ui fluid card">
+                <div class="content">
+                    <div class="header">Pelayanan Minggu, 28 Oktober 2020</div>
+                </div>
+                <div class="content">
+                    <h4 class="ui sub header">Misa Pagi</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                    <h4 class="ui sub header">Misa Siang</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                    <h4 class="ui sub header">Misa Sore</h4>
+                    <p>06.00 - 08.00</p>
+                    <p>Pelayan: </p>
+                </div>
+            </div>
+            <a class="fluid ui positive labeled icon button" href="admin/dashboard#/dataTingting">
+                <i class="edit icon"></i>
+                Tambah Pelayanan
+            </a>
+        </div>
+    </div>
+</div>
+@endsection
 
-</script>
-
-</body>
-
-</html>
+@push('any_js')
+<script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/announce.js') }}"></script>
+@endpush

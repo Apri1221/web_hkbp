@@ -14,4 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(('/data'), 'DataController@index');
+
+Route::group(['prefix' => 'jemaat', 'namespace' => 'Api'], 
+function () {
+    // GET
+    Route::get('/list', 'JemaatController@get_list');
+    Route::get('/{sektor}/{user}/{dataCategory?}', 'JemaatController@get_jemaat');
+});
+

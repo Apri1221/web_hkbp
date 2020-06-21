@@ -128,63 +128,6 @@
             });
         };
         $('.ui.parallax').uiParallax();
-
-
-        /* SCRIPT TO TEST API */
-        const method = {
-            GET: 'GET',
-            POST: 'POST',
-            PUT: 'PUT',
-            DELETE: 'DELETE'
-        }
-        async function handleRequestAPI(url, method, data = undefined) {
-            return fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(
-                result => {
-                    const {
-                        status
-                    } = result
-                    const data = result.json()
-                    console.log({
-                        status,
-                        data
-                    })
-                    return data;
-                }
-            ).catch(error => console.log(error))
-        }
-        // define your url here
-        var URL = 'http://localhost:8000/api/schedule_students/delete/3';
-        // DATA = {name: "Apriyanto", marga: "Tobing"}
-        // define your data here
-        // example create new data
-        var DATA = {
-            // column : value
-            schedule_id : 2,
-            student_id:1,
-            score : 2
-        };
-        DATA = DATA !== '' ? DATA : undefined;
-        // define your POST PUT GET DELETE HERE
-        // example create new data
-        // const urlFetch = this.handleRequestAPI(URL, method.POST, DATA);
-        // urlFetch.then( data => {console.log(data);} )
-        const urlFetch = this.handleRequestAPI(URL, method.POST);
-
-        // console
-        // resJson as object, resJson[item]
-        urlFetch.then(resJson => {
-            console.log({
-                resJson
-            });
-        });
-
     });
 </script>
 

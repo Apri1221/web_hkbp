@@ -17,6 +17,7 @@ class JemaatSeeder extends Seeder
             'distrik' => 'Distrik X - Medan Aceh',
             'resort' => 'Padang Bulan',
             'sektor' => 'Sektor 14',
+            'gereja' => 'HKBP Padang Bulan',
             'url_sheet' => '1XQXOEorERpWq-DyVCRKN7EHX7hPkZUgKLm9oIpkoQeo',
             'id_sheet' => 'Sektor14'
         ]);

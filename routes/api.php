@@ -20,5 +20,9 @@ function () {
     // GET
     Route::get('/list', 'JemaatController@get_list');
     Route::get('/{sektor}/{user}/{dataCategory?}', 'JemaatController@get_jemaat');
+    
 });
+
+Route::get('ibadah/all', 'Api\IbadahController@getAllIbadah');
+Route::post('ibadah/create', 'Api\IbadahController@createIbadah');
 

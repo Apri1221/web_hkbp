@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
+// Note, provide Sanctum Laravel API Token
+
 class BaseController extends Controller
 {
     public function index()
     {
         return view('welcome');
+    }
+
+    public function post() {
+        return view('post');
     }
 
     public function login(Request $request)

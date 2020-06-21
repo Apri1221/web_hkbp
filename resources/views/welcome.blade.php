@@ -38,7 +38,7 @@
 </style>
 @endpush
 
-@push('any_content')
+@push('top_content')
 <div class="ui fluid parallax" data-imgsrc="{{ asset('./assets/images/curch.jpg') }}">
     <div class="ui container" style="padding:60vh 0 0">
         <div class="ui two column stackable grid">
@@ -115,7 +115,85 @@
 </div>
 @endsection
 
+@stack('carousel_js')
+@stack('tablesort_js')
+
 @push('any_js')
+<script>
+    $(document).ready(() => {
+        $.fn.uiParallax = function() {
+            $(this).each(function() {
+                var imageUrl = $(this).data('imgsrc');
+                $(this).css('background-image', 'url(' + imageUrl + ')');
+            });
+        };
+        $('.ui.parallax').uiParallax();
+
+
+        /* SCRIPT TO TEST API */
+        const method = {
+            GET: 'GET',
+            POST: 'POST',
+            PUT: 'PUT',
+            DELETE: 'DELETE'
+        }
+        async function handleRequestAPI(url, method, data = undefined) {
+            return fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(
+                result => {
+                    const {
+                        status
+                    } = result
+                    const data = result.json()
+                    console.log({
+                        status,
+                        data
+                    })
+                    return data;
+                }
+            ).catch(error => console.log(error))
+        }
+        // define your url here
+        var URL = 'http://localhost:8000/api/schedule_students/delete/3';
+        // DATA = {name: "Apriyanto", marga: "Tobing"}
+        // define your data here
+        // example create new data
+        var DATA = {
+            // column : value
+            schedule_id : 2,
+            student_id:1,
+            score : 2
+        };
+        DATA = DATA !== '' ? DATA : undefined;
+        // define your POST PUT GET DELETE HERE
+        // example create new data
+        // const urlFetch = this.handleRequestAPI(URL, method.POST, DATA);
+        // urlFetch.then( data => {console.log(data);} )
+        const urlFetch = this.handleRequestAPI(URL, method.POST);
+
+        // console
+        // resJson as object, resJson[item]
+        urlFetch.then(resJson => {
+            console.log({
+                resJson
+            });
+        });
+
+    });
+</script>
+
+<!-- Library Carousel Slick -->
+<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<!-- Library for table sorting -->
+<script src="{{ asset('./assets/lib/tablesort/tablesort.min.js') }}"></script>
+
 <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
 <script type="text/babel" src="{{ asset('assets/js/announce.js') }}"></script>
 @endpush

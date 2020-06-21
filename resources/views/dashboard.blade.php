@@ -21,7 +21,7 @@
 <div class="ui container" style="margin:70px 0">
     <div class="ui two column stackable grid">
         <div class="four wide column">
-            <div class="ui vertical fluid tabular menu">
+            <div class="ui vertical fluid tabular menu hiddenGSAP">
                 <a class="item active" data-tab="dataJemaat">Data Jemaat</a>
                 <a class="item" data-tab="dataTingting">Data Tingting</a>
                 <a class="item" data-tab="dataIbadah">Data Ibadah</a>
@@ -140,15 +140,8 @@
             history: true
         });
 
-        TweenMax.from(".tabular.menu .item", {
-            x: 0, // move from 0px right to the current position
-            y: 100, // move from 100px down to the current position
-            duration: 1,
-            autoAlpha: 0, // fade in from opacity 0 to the current
-            stagger: 0.1, 
-            delay: 0.75,
-            ease: Power3.easeInOut,
-        });
+        // calling method from template blade
+        animateFadeIn('.tabular.menu .item');
 
         // for modal editing Data Jemaat
         $('.btnModal').click(function() {

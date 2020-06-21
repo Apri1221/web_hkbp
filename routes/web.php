@@ -13,18 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', 'BaseController@index')->name('home');
 Route::post('/login', 'BaseController@login')->name('login');
 Route::get('/logout', 'BaseController@logout')->name('logout');
+
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], 
 function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 });
+
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Api'], 
 function () {
@@ -32,3 +30,6 @@ function () {
     Route::post('/dashboard/store-data', 'JemaatController@store_list')->name('store_data');
     Route::get('/dashboard/destroy-data/{id}', 'JemaatController@destroy_list')->name('destroy_data');
 });
+
+
+Route::get('/post', 'BaseController@post')->name('post_prototype');

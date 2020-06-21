@@ -38,7 +38,7 @@
 
             --main-color-palete: #00a6fb;
             --main-color-palete-dark: #006494;
-            
+
             /* pink */
             --secondary-color-palete: #ef8354;
             --third-color-palete: #ef8354;
@@ -140,20 +140,27 @@
         #tableJemaat {
             overflow-x: auto;
         }
+
+        /* affect hidden to child, for GSAP animation */
+        .hiddenGSAP>div,
+        .hiddenGSAP>a {
+            visibility: hidden;
+        }
     </style>
+
     @stack('any_css')
 
 </head>
 
 <body>
-    @stack('any_content')
+    @stack('top_content')
 
-    <div>
+    <div class="overlay">
         <div class="ui huge menu" id='sticky-header'>
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
-                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}"></a>
+                        <img style="width: 21px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}"></a>
                 </div>
                 <div class="right menu">
                     <div class="item">
@@ -163,7 +170,7 @@
                         <div class="ui primary button" id="btnLogin">Masuk</div>
                         @endif
                     </div>
-                    <div class="ui floating dropdown item" id="dropdown-menu">Menu<i class="dropdown icon"></i>
+                    <div class="ui floating dropdown item" id="dropdown-menu"><i class="sidebar icon"></i>Menu<i class="dropdown icon"></i>
                         <div class="menu">
                             <a class="item">
                                 <i class="user secret icon"></i>Pengembang
@@ -171,6 +178,10 @@
 
                             <a class="item" href="{{ route('dashboard') }}">
                                 <i class="th icon"></i>Dashboard
+                            </a>
+
+                            <a class="item" href="{{ route('post_prototype') }}">
+                                <i class="th icon"></i>Post
                             </a>
                         </div>
                     </div>
@@ -215,9 +226,7 @@
                 </form>
             </div>
         </div>
-
         @yield('content')
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -229,22 +238,22 @@
 
     <!-- Semantic JS -->
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <script src="{{ asset('./assets/lib/tablesort/tablesort.min.js') }}"></script>
-
-    <!-- Library Carousel Slick -->
-    <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <script>
+        function animateFadeIn(className) {
+            TweenMax.from(className, {
+                x: 0, // move from 0px right to the current position
+                y: 50, // move from 100px down to the current position
+                duration: 1,
+                autoAlpha: 0, // fade in from opacity 0 to the current
+                stagger: 0.1,
+                delay: 0.75,
+                ease: Power3.easeInOut,
+            });
+        }
+
         $(document).ready(() => {
             try {
-                $.fn.uiParallax = function() {
-                    $(this).each(function() {
-                        var imageUrl = $(this).data('imgsrc');
-                        $(this).css('background-image', 'url(' + imageUrl + ')');
-                    });
-                };
-                $('.ui.parallax').uiParallax();
-
                 $('#dropdown-menu').dropdown();
 
                 // Modal Login
@@ -256,6 +265,12 @@
             } catch (error) {
                 console.error(error);
             }
+
+            $('.overlay.example .overlay')
+                .visibility({
+                    type: 'fixed',
+                    offset: 15 // give some space from top of screen
+                });
         });
     </script>
 

@@ -17,8 +17,8 @@ class BaseController extends Controller
         return view('welcome');
     }
 
-    public function post() {
-        return view('post');
+    public function post($id = null) {
+        return view('post', ['id' => $id]);
     }
 
     public function login(Request $request)

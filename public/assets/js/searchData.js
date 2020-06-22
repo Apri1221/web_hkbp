@@ -181,7 +181,7 @@ class DataJemaat extends React.Component {
     }
 
     render() {
-        const { filter, data, listSektor, sektor, user_role } = this.state;
+        const {filter, data, listSektor, sektor, user_role} = this.state;
         
         // this will do action for table if data[0] not null
         var header, filteredData;

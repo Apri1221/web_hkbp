@@ -157,7 +157,7 @@
             const url_sheet = $(this).attr('url_sheet') ? $(this).attr('url_sheet') : '';
             const id_sheet = $(this).attr('id_sheet') ? $(this).attr('id_sheet') : '';
 
-            var formTarget = item == '#addGerejaModal' ? '#valueFormStore' : ('#valueFormUpdate' + id);
+            var formTarget = modal == '#addGerejaModal' ? '#valueFormStore' : ('#valueFormUpdate' + id);
 
             $(formTarget).html('');
             $(formTarget).append('<div class="field">' +

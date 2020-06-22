@@ -1,5 +1,6 @@
 <?php
 
+use App\Ibadah;
 use Illuminate\Database\Seeder;
 
 class IbadahSeeder extends Seeder
@@ -15,7 +16,7 @@ class IbadahSeeder extends Seeder
         $mydate = '23-01-2016';
         $y = 1;
         for($i = 1; $i <= 5; $i++){
-            DB::table('ibadah')->insert([
+            Ibadah::create([
                 'judul' => "isi konten " .$i,
                 'deskripsi' => "judul konten " .$i,
                 'created_at' =>  date('Y-m-d', strtotime($mydate.' + '.($y++).' days')),

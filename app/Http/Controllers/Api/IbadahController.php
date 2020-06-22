@@ -3,27 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Jemaat;
 use App\Ibadah;
 use App\IsiIbadah;
 use Illuminate\Http\Request;
-use Revolution\Google\Sheets\Facades\Sheets;
-
-// php artisan vendor:publish --provider="PulkitJalan\Google\GoogleServiceProvider" --tag="config"
-// Copied File [\vendor\pulkitjalan\google-apiclient\config\google.php] To [\config\google.php]
 
 class IbadahController extends Controller
 {
-    public function getAllIbadah(){
-        $ibadah = Ibadah::all()->sortByDesc('created_at');
+    public function getIbadah($id = null){
+        $ibadah = !$id ? Ibadah::all()->sortByDesc('created_at') : Ibadah::where('id', $id)->get();
 
-        $all = collect();
+        $data = collect();
         foreach($ibadah as $ibadahSatuan){
             $isi_ibadah = IsiIbadah::where('id_ibadah', $ibadahSatuan->id)->get();
             $ibadahSatuan->isi_ibadah = $isi_ibadah;
-            $all->add($ibadahSatuan);
+            $data->add($ibadahSatuan);
         }
-        return $all;
+        return response()->json($data, 200);
     }
 
     public function createIbadah(request $request){

@@ -23,6 +23,6 @@ function () {
     
 });
 
-Route::get('ibadah/all', 'Api\IbadahController@getAllIbadah');
+Route::get('ibadah/{id?}', 'Api\IbadahController@getIbadah');
 Route::post('ibadah/create', 'Api\IbadahController@createIbadah');
 

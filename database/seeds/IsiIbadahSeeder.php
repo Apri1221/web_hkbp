@@ -1,5 +1,6 @@
 <?php
 
+use App\IsiIbadah;
 use Illuminate\Database\Seeder;
 
 class IsiIbadahSeeder extends Seeder
@@ -13,7 +14,7 @@ class IsiIbadahSeeder extends Seeder
     { 
         for($i = 1; $i <= 5; $i++){
             for($a = 1; $a <= 4; $a++){
-                DB::table('isi_ibadah')->insert([
+                IsiIbadah::create([
                     'isi_konten' => "isi konten " .$a,
                     'judul_konten' => "judul konten " .$a,
                     'id_ibadah' =>  $i,

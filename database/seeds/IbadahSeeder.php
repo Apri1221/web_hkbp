@@ -22,6 +22,6 @@ class IbadahSeeder extends Seeder
                 'created_at' =>  date('Y-m-d', strtotime($mydate.' + '.($y++).' days')),
     			'updated_at' => date('Y-m-d', strtotime($mydate.' + '.$y.' days'))
             ]);
-    }
+        }
     }
 }

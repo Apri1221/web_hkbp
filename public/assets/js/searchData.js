@@ -198,15 +198,6 @@ class DataJemaat extends React.Component {
         // passing object data table to Table Component
         const dataTable = { ... { filteredData: filteredData }, header, sektor, user_role };
 
-        // var waw = this.handleRequestAPI('http://localhost/api/data/test', method.POST, {
-        //     // object
-        //     name: 'Apriyanto',
-        //     marge: 'Tobing'
-        // });
-        // waw.then(resJson => {
-        //     console.log(resJson)
-        // });
-
         return (
             <div>
                 <div className="ui big form">

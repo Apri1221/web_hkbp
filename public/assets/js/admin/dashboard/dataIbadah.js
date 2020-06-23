@@ -6,6 +6,22 @@ const method = {
     DELETE: 'DELETE'
 }
 
+const handleRequestAPI = (url, method, data = undefined) => {
+    if (!url) return; // guard claue
+    return fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(result => {
+        if (result.status === 200) { return result.json() }
+    }).then(resJson => {
+        return resJson
+    }).catch(error => console.log(error));
+}
+
 const Form = (props) => {
     const { contents } = props
     return (
@@ -69,24 +85,8 @@ class GetIbadah extends React.Component {
         }
     }
 
-    handleRequestAPI(url, method, data = undefined) {
-        if (!url) return; // guard claue
-        return fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(result => {
-            if (result.status === 200) { return result.json() }
-        }).then(resJson => {
-            return resJson
-        }).catch(error => console.log(error));
-    }
-
     async getDataListIbadah() {
-        const listIbadah = await this.handleRequestAPI('http://localhost:8000/api/ibadah/', method.GET);
+        const listIbadah = await handleRequestAPI('http://localhost:8000/api/ibadah/', method.GET);
         this.setState({ listDataIbadah: listIbadah })
     }
 
@@ -109,18 +109,17 @@ class GetIbadah extends React.Component {
                 <tbody>
                     { dataIbadahs.map(data => {
                         {/* keep eye on this */}
-                        const {judul, deskripsi} = data; 
+                        const {id, title, description} = data; 
                         return (
                             <tr>
-                                <td>{judul}</td>
-                                <td>{deskripsi}</td>
+                                <td>{title}</td>
+                                <td>{description}</td>
                                 <td>
                                     <div className="ui icon buttons">
-                                        {/* when button click, passing single data Ibadah to MasterIbadah class */}
                                         <button className="ui blue basic button" onClick={fCallbackEdit.bind(null, data)}>
                                             <i className="edit outline icon"></i>
                                         </button>
-                                        <a className="ui red basic button" href=""><i className="trash alternate outline icon"></i></a>
+                                        <a className="ui red basic button" href={`http://localhost:8000/api/ibadah/delete/${id}`}><i className="trash alternate outline icon"></i></a>
                                     </div>
                                 </td>
                             </tr>)
@@ -147,16 +146,17 @@ class PostIbadah extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: '',
+            id: null,
             title: '',
             description: '',
             contents: [{
-                id: '',
+                id: null,
                 title: '',
                 post: ''
             }]
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.sendDataIbadah = this.sendDataIbadah.bind(this);
         this.addClick = this.addClick.bind(this);
         this.removeContent = this.removeContent.bind(this);
     }
@@ -166,16 +166,16 @@ class PostIbadah extends React.Component {
         const dataFromMaster = this.props.dataIbadah;
         if (!dataFromMaster.id) { return }
         // keep eye on this, look at the data JSON API
-        const {id, judul, deskripsi, isi_ibadah} = dataFromMaster;
+        const {id, title, description, content} = dataFromMaster;
         let contents = []
-        isi_ibadah.forEach((value) => {
-            const {id, judul_konten: title, isi_konten: post} = value
-            contents.push({id: id, title: title, post: post})
+        content.forEach((value) => {
+            const {id, title, content} = value
+            contents.push({id: id, title: title, post: content})
         })
         this.setState({
             id: id,
-            title: judul,
-            description: deskripsi,
+            title: title,
+            description: description,
             contents: contents
         })
     }
@@ -194,6 +194,20 @@ class PostIbadah extends React.Component {
 
     handleChange = (e) => {
         this.setValue(e.target.dataset.id, e.target.className, e.target.value)
+    }
+
+    sendDataIbadah() {
+        console.log(this.state)
+        const {id, title, description, contents} = this.state;
+        let urlAPI = (id) ? `http://localhost:8000/api/ibadah/update/${id}` : 'http://localhost:8000/api/ibadah/create';
+        let methodREST = (id) ? method.PUT : method.POST;
+        handleRequestAPI(urlAPI, methodREST, {
+            // object in controller Ibadah
+            id: id,
+            title: title,
+            description: description,
+            content: contents
+        });
     }
 
     setValue(id, name, value) {
@@ -233,7 +247,7 @@ class PostIbadah extends React.Component {
                     {<Form contents={contents} removeContent={this.removeContent} />}
 
                     <button className="ui left floated primary button" onClick={this.addClick.bind(this)}>Tambah</button>
-                    <input type="submit" value="Simpan" className="ui positive button"/>
+                    <input type="submit" value="Simpan" className="ui positive button" onClick={this.sendDataIbadah}/>
                     <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 </form>
             </div>

@@ -41,16 +41,16 @@ class ContentIbadah extends React.Component {
         const dataIbadah = await this.handleRequestAPI(`http://localhost:8000/api/ibadah/${id}`, method.GET);
         dataIbadah.forEach(element =>{
             // keep eye on this, look at the data JSON API
-            const {id, judul, deskripsi, isi_ibadah} = element;
+            const {id, title, description, content} = element;
             let contents = []
-            isi_ibadah.forEach((value) => {
-                const {id, judul_konten: title, isi_konten: post} = value
-                contents.push({id: id, title: title, post: post})
+            content.forEach((value) => {
+                const {id, title, content} = value;
+                contents.push({id: id, title: title, post: content})
             })
             this.setState({
                 id: id,
-                title: judul,
-                description: deskripsi,
+                title: title,
+                description: description,
                 contents: contents
             })
         })

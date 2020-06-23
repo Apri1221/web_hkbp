@@ -8,5 +8,5 @@ class Ibadah extends Model
 {
     protected $table = 'ibadah';
 
-    protected $fillable = ['judul', 'deskripsi'];
+    protected $fillable = ['title', 'description'];
 }

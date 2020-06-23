@@ -25,4 +25,6 @@ function () {
 
 Route::get('ibadah/{id?}', 'Api\IbadahController@getIbadah');
 Route::post('ibadah/create', 'Api\IbadahController@createIbadah');
+Route::post('ibadah/update', 'Api\IbadahController@updateIbadah');
+Route::post('ibadah/delete', 'Api\IbadahController@deleteIbadah');
 

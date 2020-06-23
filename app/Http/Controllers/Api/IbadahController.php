@@ -4,37 +4,69 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Ibadah;
-use App\IsiIbadah;
+use App\IbadahContent;
 use Illuminate\Http\Request;
 
 class IbadahController extends Controller
 {
     public function getIbadah($id = null){
-        $ibadah = !$id ? Ibadah::all()->sortByDesc('created_at') : Ibadah::where('id', $id)->get();
+        $ibadahs = !$id ? Ibadah::all()->sortByDesc('created_at') : Ibadah::where('id', $id)->get();
 
         $data = collect();
-        foreach($ibadah as $ibadahSatuan){
-            $isi_ibadah = IsiIbadah::where('id_ibadah', $ibadahSatuan->id)->get();
-            $ibadahSatuan->isi_ibadah = $isi_ibadah;
-            $data->add($ibadahSatuan);
+        foreach($ibadahs as $ibadah){
+            $ibadahContent = IbadahContent::where('id_ibadah', $ibadah->id)->get();
+            $ibadah->content = $ibadahContent;
+            $data->add($ibadah);
         }
         return response()->json($data, 200);
     }
 
     public function createIbadah(request $request){
         $ibadah = new Ibadah;
-        $ibadah->judul = $request->judul;
-        $ibadah->deskripsi = $request->deskripsi;
+        $ibadah->title = $request->title;
+        $ibadah->description = $request->description;
         $ibadah->save();
 
-        foreach ($request->isi_ibadah as $isi) {
-            $isi_ibadah = new IsiIbadah();
-            $isi_ibadah->judul_konten = $isi['judul_konten'];
-            $isi_ibadah->isi_konten = $isi['isi_konten'];
-            $isi_ibadah->id_ibadah = $ibadah->id;
-            $isi_ibadah->save();
+        foreach ($request->contents as $content) {
+            $ibadahContent = new IbadahContent();
+            $ibadahContent->title = $content['title'];
+            $ibadahContent->content = $content['post'];
+            $ibadahContent->id_ibadah = $ibadah->id;
+            $ibadahContent->save();
             }
 
         return "sudah ditambahkan";
+    }
+
+    public function updateIbadah(request $request){
+        $ibadah = Ibadah::where('id', $request->id)->first();
+        $ibadah->title = $request->title;
+        $ibadah->description = $request->description;
+        $ibadah->save();
+
+        $ibadahContent = IbadahContent::where('id_ibadah', $request->id)->get();
+        $x = 0;
+        foreach ($ibadahContent as $content) {
+            $content->title = $request->content[$x]['title'];
+            $content->content = $request->content[$x]['content'];
+            $content->save();
+            $x++;
+            }
+
+        return "sudah diganti";
+    }
+
+    public function deleteIbadah(request $request){
+        $ibadahContent = IbadahContent::where('id_ibadah', $request->id)->get();
+        $x = 0;
+        foreach ($ibadahContent as $content) {
+            $content->delete();
+            $x++;
+            }
+            
+        $ibadah = Ibadah::where('id', $request->id)->first();
+        $ibadah->delete();
+
+        return "sudah dihapus";
     }
 }

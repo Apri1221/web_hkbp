@@ -17,8 +17,8 @@ class IbadahSeeder extends Seeder
         $y = 1;
         for($i = 1; $i <= 5; $i++){
             Ibadah::create([
-                'judul' => "isi konten " .$i,
-                'deskripsi' => "judul konten " .$i,
+                'title' => "title " .$i,
+                'description' => "description " .$i,
                 'created_at' =>  date('Y-m-d', strtotime($mydate.' + '.($y++).' days')),
     			'updated_at' => date('Y-m-d', strtotime($mydate.' + '.$y.' days'))
             ]);

@@ -13,10 +13,10 @@ class CreateIsiIbadahTable extends Migration
      */
     public function up()
     {
-        Schema::create('isi_ibadah', function (Blueprint $table) {
+        Schema::create('ibadah_content', function (Blueprint $table) {
             $table->id();
-            $table->string('judul_konten');
-            $table->string('isi_konten');
+            $table->string('title');
+            $table->string('content');
             $table->unsignedBigInteger('id_ibadah');
             $table->foreign('id_ibadah')->references('id')->on('ibadah');
             $table->timestamps();

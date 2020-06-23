@@ -27,13 +27,11 @@ class IbadahController extends Controller
         $ibadah->description = $request->description;
         $ibadah->save();
 
-        $x = 0;
         foreach ($request->contents as $content) {
             $ibadahContent = new IbadahContent();
-            $ibadahContent->title = $content[$x]['title'];
-            $ibadahContent->content = $content[$x]['post'];
+            $ibadahContent->title = $content['title'];
+            $ibadahContent->content = $content['post'];
             $ibadahContent->id_ibadah = $ibadah->id;
-            $x++;
             $ibadahContent->save();
         }
 

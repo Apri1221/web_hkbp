@@ -25,6 +25,7 @@ function () {
 
 Route::get('ibadah/{id?}', 'Api\IbadahController@getIbadah');
 Route::post('ibadah/create', 'Api\IbadahController@createIbadah');
+Route::post('tingting/create', 'Api\TingtingController@createTingting');
 Route::put('ibadah/update/{id}', 'Api\IbadahController@updateIbadah');
 Route::get('ibadah/delete/{id}', 'Api\IbadahController@deleteIbadah');
 

@@ -194,5 +194,5 @@
 <!-- https://codepen.io/cwiens/full/gyvqrg, https://greensock.com/cheatsheet/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
 
-<script type="text/babel" src="{{ asset('assets/js/cobaPost.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
 @endpush

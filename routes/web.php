@@ -32,4 +32,4 @@ function () {
 });
 
 
-Route::get('/post', 'BaseController@post')->name('post_prototype');
+Route::get('/post/{id?}', 'BaseController@post')->name('post_prototype');

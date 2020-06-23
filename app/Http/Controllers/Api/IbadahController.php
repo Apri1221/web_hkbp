@@ -27,46 +27,48 @@ class IbadahController extends Controller
         $ibadah->description = $request->description;
         $ibadah->save();
 
+        $x = 0;
         foreach ($request->contents as $content) {
             $ibadahContent = new IbadahContent();
-            $ibadahContent->title = $content['title'];
-            $ibadahContent->content = $content['post'];
+            $ibadahContent->title = $content[$x]['title'];
+            $ibadahContent->content = $content[$x]['post'];
             $ibadahContent->id_ibadah = $ibadah->id;
+            $x++;
             $ibadahContent->save();
-            }
+        }
 
-        return "sudah ditambahkan";
+        return response()->json('', 200);
     }
 
-    public function updateIbadah(request $request){
-        $ibadah = Ibadah::where('id', $request->id)->first();
+    public function updateIbadah(request $request, $id){
+        $ibadah = Ibadah::where('id', $id)->first();
         $ibadah->title = $request->title;
         $ibadah->description = $request->description;
         $ibadah->save();
 
-        $ibadahContent = IbadahContent::where('id_ibadah', $request->id)->get();
+        $ibadahContent = IbadahContent::where('id_ibadah', $id)->get();
         $x = 0;
         foreach ($ibadahContent as $content) {
             $content->title = $request->content[$x]['title'];
-            $content->content = $request->content[$x]['content'];
+            $content->content = $request->content[$x]['post'];
             $content->save();
             $x++;
-            }
+        }
 
-        return "sudah diganti";
+        return response()->json('', 200);
     }
 
-    public function deleteIbadah(request $request){
-        $ibadahContent = IbadahContent::where('id_ibadah', $request->id)->get();
+    public function deleteIbadah($id){
+        $ibadahContent = IbadahContent::where('id_ibadah', $id)->get();
         $x = 0;
         foreach ($ibadahContent as $content) {
             $content->delete();
             $x++;
-            }
+        }
             
-        $ibadah = Ibadah::where('id', $request->id)->first();
+        $ibadah = Ibadah::where('id', $id)->first();
         $ibadah->delete();
 
-        return "sudah dihapus";
+        return response()->json('', 200);
     }
 }

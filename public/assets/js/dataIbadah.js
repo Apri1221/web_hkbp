@@ -51,7 +51,7 @@ class ContentIbadah extends React.Component {
                 id: id,
                 title: title,
                 description: description,
-                contents: contents
+                content: contents
             })
         })
     }

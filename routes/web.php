@@ -33,3 +33,4 @@ function () {
 
 
 Route::get('/post/{id?}', 'BaseController@post')->name('post_prototype');
+Route::get('/about', 'BaseController@about')->name('about');

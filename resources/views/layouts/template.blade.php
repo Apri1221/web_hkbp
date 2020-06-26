@@ -172,7 +172,7 @@
                     </div>
                     <div class="ui floating dropdown item" id="dropdown-menu"><i class="sidebar icon"></i>Menu<i class="dropdown icon"></i>
                         <div class="menu">
-                            <a class="item">
+                            <a class="item" href="{{ route('about') }}">
                                 <i class="user secret icon"></i>Pengembang
                             </a>
 
@@ -246,16 +246,20 @@
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
     <script>
+        // className can be separate by '|' if there is multiple object to animate
         function animateFadeIn(className) {
-            TweenMax.from(className, {
-                x: 0, // move from 0px right to the current position
-                y: 50, // move from 100px down to the current position
-                duration: 1,
-                autoAlpha: 0, // fade in from opacity 0 to the current
-                stagger: 0.1,
-                delay: 0.75,
-                ease: Power3.easeInOut,
-            });
+            let elements = className.split('|');
+            for (let element of elements) {
+                TweenMax.from(element, {
+                    x: 0, // move from 0px right to the current position
+                    y: 50, // move from 100px down to the current position
+                    duration: 1,
+                    autoAlpha: 0, // fade in from opacity 0 to the current
+                    stagger: 0.1,
+                    delay: 0.75,
+                    ease: Power3.easeInOut,
+                });
+            }
         }
 
         $(document).ready(() => {

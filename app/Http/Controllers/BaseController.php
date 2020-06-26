@@ -21,6 +21,10 @@ class BaseController extends Controller
         return view('post', ['id' => $id]);
     }
 
+    public function about(){
+        return view('about');
+    }
+
     public function login(Request $request)
     {
         // I'm from HTTP

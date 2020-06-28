@@ -27,7 +27,7 @@ class IbadahController extends Controller
         $ibadah->description = $request->description;
         $ibadah->save();
 
-        foreach ($request->content as $oneContent) {
+        foreach ($request->contents as $oneContent) {
             $ibadahContent = new IbadahContent();
             $ibadahContent->title = $oneContent['title'];
             $ibadahContent->content = $oneContent['post'];
@@ -46,7 +46,7 @@ class IbadahController extends Controller
 
         $ibadahContent = IbadahContent::where('id_ibadah', $id);
         $ibadahContent->delete();
-        foreach ($request->content as $content) {
+        foreach ($request->contents as $content) {
             $newIbadahContent = new IbadahContent();
             $newIbadahContent->title = $content['title'];
             $newIbadahContent->content = $content['post'];

@@ -198,7 +198,7 @@ class PostIbadah extends React.Component {
 
     sendDataIbadah() {
         console.log(this.state)
-        const {id, title, description, contents} = this.state;
+        const {id, title, description, content} = this.state;
         let urlAPI = (id) ? `http://localhost:8000/api/ibadah/update/${id}` : 'http://localhost:8000/api/ibadah/create';
         let methodREST = (id) ? method.PUT : method.POST;
         handleRequestAPI(urlAPI, methodREST, {
@@ -206,7 +206,7 @@ class PostIbadah extends React.Component {
             id: id,
             title: title,
             description: description,
-            content: contents
+            content: content
         });
     }
 

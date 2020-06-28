@@ -8,6 +8,7 @@ const method = {
 
 const handleRequestAPI = (url, method, data = undefined) => {
     if (!url) return; // guard claue
+    console.log(data, JSON.stringify(data))
     return fetch(url, {
         method: method,
         headers: {
@@ -196,18 +197,17 @@ class PostIbadah extends React.Component {
         this.setValue(e.target.dataset.id, e.target.className, e.target.value)
     }
 
-    sendDataIbadah() {
-        console.log(this.state)
+    async sendDataIbadah() {
         const {id, title, description, contents} = this.state;
         let urlAPI = (id) ? `http://localhost:8000/api/ibadah/update/${id}` : 'http://localhost:8000/api/ibadah/create';
         let methodREST = (id) ? method.PUT : method.POST;
-        handleRequestAPI(urlAPI, methodREST, {
+        console.log(await handleRequestAPI(urlAPI, methodREST, {
             // object in controller Ibadah
             id: id,
             title: title,
             description: description,
-            content: contents
-        });
+            contents: contents
+        }))
     }
 
     setValue(id, name, value) {

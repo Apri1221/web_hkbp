@@ -27,10 +27,10 @@ class IbadahController extends Controller
         $ibadah->description = $request->description;
         $ibadah->save();
 
-        foreach ($request->contents as $content) {
+        foreach ($request->content as $oneContent) {
             $ibadahContent = new IbadahContent();
-            $ibadahContent->title = $content['title'];
-            $ibadahContent->content = $content['post'];
+            $ibadahContent->title = $oneContent['title'];
+            $ibadahContent->content = $oneContent['post'];
             $ibadahContent->id_ibadah = $ibadah->id;
             $ibadahContent->save();
         }
@@ -44,13 +44,14 @@ class IbadahController extends Controller
         $ibadah->description = $request->description;
         $ibadah->save();
 
-        $ibadahContent = IbadahContent::where('id_ibadah', $id)->get();
-        $x = 0;
-        foreach ($ibadahContent as $content) {
-            $content->title = $request->content[$x]['title'];
-            $content->content = $request->content[$x]['post'];
-            $content->save();
-            $x++;
+        $ibadahContent = IbadahContent::where('id_ibadah', $id);
+        $ibadahContent->delete();
+        foreach ($request->content as $content) {
+            $newIbadahContent = new IbadahContent();
+            $newIbadahContent->title = $content['title'];
+            $newIbadahContent->content = $content['post'];
+            $newIbadahContent->id_ibadah = $ibadah->id;
+            $newIbadahContent->save();
         }
 
         return response()->json('', 200);

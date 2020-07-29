@@ -29,6 +29,7 @@
         </div>
         <div class="twelve wide column">
             <div class="ui tab active" data-tab="dataJemaat">
+                <h1>Kelola Data Jemaat</h1>
                 <table class="ui compact celled table">
                     <thead>
                         <tr>
@@ -81,7 +82,7 @@
                         <tr>
                             <th colspan="6">
                                 <div class="ui right floated small primary labeled icon button btnModal" id="addGereja">
-                                    <i class="user icon"></i> Tambah Data
+                                    <i class="plus icon"></i> Tambah Data
                                 </div>
                                 <div class="">
                                     NB: Pastikan integrasi data excel yang baru sudah benar
@@ -110,14 +111,7 @@
             </div>
 
             <div class="ui tab" data-tab="dataTingting">
-                <div class="ui form">
-                    <div class="field">
-                        <input type="text" name="first-name" placeholder="First name">
-                    </div>
-                    <div class="field">
-                        <textarea placeholder="Some example text..."></textarea>
-                    </div>
-                </div>
+                <div id="contentTingting"></div>
             </div>
 
             <div class="ui tab" data-tab="dataIbadah">
@@ -193,6 +187,9 @@
 
 <!-- https://codepen.io/cwiens/full/gyvqrg, https://greensock.com/cheatsheet/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 
 <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
+
+<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script>
 @endpush

@@ -117,9 +117,9 @@ class DataJemaat extends React.Component {
     }
 
     calculateAge (dateString) {
-        if (!dateString) return;
+        if (!dateString) return '';
         dateString = dateString.split(/\//g).reverse().join('-');
-        return Math.floor((new Date() - new Date(dateString)) / 3.15576e+10);
+        return String(Math.floor((new Date() - new Date(dateString)) / 3.15576e+10));
     }
 
     getDataKeluargaJemaat(kodeKeluarga, sektor, user_role) {
@@ -185,7 +185,6 @@ class DataJemaat extends React.Component {
         
         // this will do action for table if data[0] not null
         var header, filteredData;
-        
         if (data[0]){
             header = Object.keys(data[0]).map(key => key);
             filteredData = data.filter(item => {

@@ -70,16 +70,17 @@ class ContentIbadah extends React.Component {
             <div>
                 <h1>{title}</h1>
                 <p>{description}</p>
-                <div className="ui hidden divider"></div>
+                <div className="ui divider huge"></div>
                 <div className="ui stackable grid">
                     <div className="sixteen wide column">
                         <div className="hiddenGSAP">
                             {contents.map(element => {
                                 const {title, post} = element
                                 return(
-                                    <div className="ui raised segment">
-                                        <h3>{title}</h3>
-                                        <p>{post}</p>
+                                    <div className="ui raised segment" style={{ "margin-bottom": "2.5em"}}>
+                                        <h4 className="ui sub header">{title}</h4>
+                                        <br></br>
+                                        <p className="textIbadah">{post}</p>
                                     </div>)
                                 })
                             }

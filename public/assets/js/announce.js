@@ -21,8 +21,9 @@ class Announcement extends React.Component {
         });
     }
 
+
     async handleRequestAPI(url, method, data = undefined) {
-        if (!url) return; // guard claue
+        if (!url) return; // guard clause
         return fetch(url, {
             method: method,
             headers: {
@@ -32,6 +33,8 @@ class Announcement extends React.Component {
             body: JSON.stringify(data)
         }).then(result => {
             if (result.status === 200) { return result.json() }
+        }).then(resJson => {
+            return resJson
         }).catch(error => console.log(error));
     }
 

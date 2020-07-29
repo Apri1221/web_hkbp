@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'BaseController@index')->name('home');
 Route::post('/login', 'BaseController@login')->name('login');
 Route::get('/logout', 'BaseController@logout')->name('logout');
+Route::get('/about', 'BaseController@about')->name('about');
+Route::get('/post/{id}', 'BaseController@getIbadah');
 
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['checkStatus']], 
 function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 });
@@ -26,11 +28,10 @@ function () {
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Api'], 
 function () {
-    Route::post('/dashboard/update-data/{id}', 'JemaatController@update_list')->name('update_data');
-    Route::post('/dashboard/store-data', 'JemaatController@store_list')->name('store_data');
-    Route::get('/dashboard/destroy-data/{id}', 'JemaatController@destroy_list')->name('destroy_data');
+    Route::post('/dashboard/update-data/{id}', 'JemaatController@updateList')->name('update_data');
+    Route::post('/dashboard/store-data', 'JemaatController@storeList')->name('store_data');
+    Route::get('/dashboard/destroy-data/{id}', 'JemaatController@destroyList')->name('destroy_data');
 });
 
 
-Route::get('/post/{id?}', 'BaseController@post')->name('post_prototype');
-Route::get('/about', 'BaseController@about')->name('about');
+

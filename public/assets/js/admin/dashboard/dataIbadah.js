@@ -7,7 +7,7 @@ const method = {
 }
 
 const handleRequestAPI = (url, method, data = undefined) => {
-    if (!url) return; // guard claue
+    if (!url) return; // guard clause
     console.log(data, JSON.stringify(data))
     return fetch(url, {
         method: method,
@@ -28,6 +28,7 @@ const Form = (props) => {
     return (
         contents.map((val, index) => {
             let titleID = `title-${index}`, postID = `post-${index}`
+            
             return (
                 <div key={index} className="ui segment">
                     <div className="field">
@@ -39,6 +40,7 @@ const Form = (props) => {
                         <label htmlFor={postID}>{`Isi Konten #${index + 1}`}</label>
                         <textarea className="post" type="text" name={postID} data-id={index} id={postID} value={val.post}></textarea>
                     </div>
+
                     <input className="ui right floated negative button" type='button' value='Hapus' onClick={props.removeContent.bind(this, index)} />
                     <div style={{ "clear": "both" }} />
                 </div>
@@ -59,20 +61,20 @@ class MasterIbadah extends React.Component {
     callbackEdit(dataIbadah = null) {
         let boolEdit = this.state.isEdit;
         this.setState({
-            isEdit : !boolEdit,
+            isEdit: !boolEdit,
             dataIbadah: dataIbadah
         })
     }
 
     render() {
-        const {isEdit, dataIbadah} = this.state;
+        const { isEdit, dataIbadah } = this.state;
         if (isEdit) {
             return (
-            <PostIbadah callbackEdit={this.callbackEdit.bind(this)}
-            dataIbadah={dataIbadah}/>)
+                <PostIbadah callbackEdit={this.callbackEdit.bind(this)}
+                    dataIbadah={dataIbadah} />)
         }
         return (
-            <GetIbadah callbackEdit={this.callbackEdit.bind(this)}/>
+            <GetIbadah callbackEdit={this.callbackEdit.bind(this)} />
         );
     }
 }
@@ -91,6 +93,11 @@ class GetIbadah extends React.Component {
         this.setState({ listDataIbadah: listIbadah })
     }
 
+    async deleteIbadah(id) {
+        await handleRequestAPI(`http://localhost:8000/api/ibadah/delete/${id}`, method.DELETE);
+        this.getDataListIbadah();
+    }
+
     componentDidMount() {
         this.getDataListIbadah()
     }
@@ -99,6 +106,8 @@ class GetIbadah extends React.Component {
         const dataIbadahs = this.state.listDataIbadah;
         const fCallbackEdit = this.props.callbackEdit;
         return (
+            <div>
+            <h1>Kelola Data Ibadah</h1>
             <table className="ui compact celled table">
                 <thead>
                     <tr>
@@ -108,9 +117,9 @@ class GetIbadah extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    { dataIbadahs.map(data => {
-                        {/* keep eye on this */}
-                        const {id, title, description} = data; 
+                    {dataIbadahs.map(data => {
+                        {/* keep eye on this */ }
+                        const { id, title, description } = data;
                         return (
                             <tr>
                                 <td>{title}</td>
@@ -120,24 +129,25 @@ class GetIbadah extends React.Component {
                                         <button className="ui blue basic button" onClick={fCallbackEdit.bind(null, data)}>
                                             <i className="edit outline icon"></i>
                                         </button>
-                                        <a className="ui red basic button" href={`http://localhost:8000/api/ibadah/delete/${id}`}><i className="trash alternate outline icon"></i></a>
+                                        <button className="ui red basic button" onClick={this.deleteIbadah.bind(this, id)}><i className="trash alternate outline icon"></i></button>
                                     </div>
                                 </td>
                             </tr>)
-                        })
+                    })
                     }
                 </tbody>
                 <tfoot className="full-width">
                     <tr>
                         <th colspan="6">
                             <button class="ui right floated small primary labeled icon button" onClick={fCallbackEdit}>
-                                <i class="user icon"></i> Tambah Data
+                                <i class="plus icon"></i> Tambah Data
                             </button>
                             <div style={{ "clear": "both" }} />
                         </th>
                     </tr>
                 </tfoot>
             </table>
+            </div>
         );
     }
 }
@@ -167,11 +177,11 @@ class PostIbadah extends React.Component {
         const dataFromMaster = this.props.dataIbadah;
         if (!dataFromMaster.id) { return }
         // keep eye on this, look at the data JSON API
-        const {id, title, description, content} = dataFromMaster;
+        const { id, title, description, content } = dataFromMaster;
         let contents = []
         content.forEach((value) => {
-            const {id, title, content} = value
-            contents.push({id: id, title: title, post: content})
+            const { id, title, content } = value
+            contents.push({ id: id, title: title, post: content })
         })
         this.setState({
             id: id,
@@ -198,7 +208,7 @@ class PostIbadah extends React.Component {
     }
 
     async sendDataIbadah() {
-        const {id, title, description, contents} = this.state;
+        const { id, title, description, contents } = this.state;
         let urlAPI = (id) ? `http://localhost:8000/api/ibadah/update/${id}` : 'http://localhost:8000/api/ibadah/create';
         let methodREST = (id) ? method.PUT : method.POST;
         console.log(await handleRequestAPI(urlAPI, methodREST, {
@@ -247,7 +257,7 @@ class PostIbadah extends React.Component {
                     {<Form contents={contents} removeContent={this.removeContent} />}
 
                     <button className="ui left floated primary button" onClick={this.addClick.bind(this)}>Tambah</button>
-                    <input type="submit" value="Simpan" className="ui positive button" onClick={this.sendDataIbadah}/>
+                    <input type="submit" value="Simpan" className="ui positive button" onClick={this.sendDataIbadah} />
                     <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 </form>
             </div>

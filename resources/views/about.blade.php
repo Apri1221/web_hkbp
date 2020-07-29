@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ui fluid card">
+                <!-- <div class="ui fluid card">
                     <a target="_blank" rel="noopener noreferrer" class="image" href="https://www.instagram.com/joelmatondangg/">
                         <img src="" id="joel">
                     </a>
@@ -26,7 +26,7 @@
                             <a>Developer</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -43,7 +43,18 @@
     <div class="ui stackable grid">
         <div class="column">
             <h1>Misi</h1>
-            <p>Halo</p>
+            <h3>Pengembangan website ini bertujuan untuk mempermudah penyebaran informasi semua hal tentang ibadah untuk jemaat HKBP Padang Bulan.
+            </h3>
+
+            <div class="ui hidden divider"></div>
+            <h3>
+            Website ini dibangun di atas teknologi Laravel, React JS, Greensock, Semantic UI, Google Spreadsheet, dan MySQL. Pengembangan ini juga bertujuan sebagai ajang pembelajaran bagi developer.
+            </h3>
+            
+            <div class="ui hidden divider"></div>
+            <h3>    
+            Bagi jemaat yang ingin bergabung untuk membangun sistem ini dengan sangat senang hati saya akan terima permintaan bergabung di apriyantotobing8@gmail.com.
+            </h3>
         </div>
     </div>
 </div>

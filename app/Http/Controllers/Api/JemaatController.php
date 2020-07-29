@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseJSON;
 use App\Jemaat;
 use Illuminate\Http\Request;
 use Revolution\Google\Sheets\Facades\Sheets;
@@ -12,65 +13,26 @@ use Revolution\Google\Sheets\Facades\Sheets;
 
 class JemaatController extends Controller
 {
+    use ResponseJSON;
+
     private function compareData($fullHeader, $specifiedHeader)
     {
         $properties = [];
         foreach ($specifiedHeader as $value) {
             if (!in_array($value, $fullHeader)) {
-                array_push($properties, $value); // notify that properties didnt avaible
+                array_push($properties, $value); // notify that properties didnt available
             }
         }
         return $properties;
     }
 
-    private function console_log($data)
-    {
-        echo '<script>';
-        echo 'console.log(' . json_encode($data) . ')';
-        echo '</script>';
-    }
-
-
-    // API endpoint accessing listdata
-    public function get_list()
-    {
-        $jemaat = Jemaat::orderBy('distrik', 'ASC')->get();
-        return response()->json($jemaat, 200);
-    }
-
-    public function get_jemaat(Request $request, $sektor, $user, $dataCategory = 'default')
-    {
-        // define query selector
-        $query = $request->all();
-
-        // safe detect if query exist, default of relation is Kepala Keluarga
-        $relation = isset($query['relation']) ? $query['relation'] : 'Kepala Keluarga';
-        $familyID = isset($query['familyID']) ? $query['familyID'] : null;
-
-        $jemaat = Jemaat::where(['sektor' => $sektor])->first();
-
-        $spreadsheetID = $jemaat->url_sheet;
-        $sheetID = $jemaat->id_sheet;
-        $sheets = Sheets::spreadsheet($spreadsheetID)
+    private function getSpreadsheet($spreadsheetID, $sheetID) {
+        return Sheets::spreadsheet($spreadsheetID)
             ->sheet($sheetID)
             ->get();
+    }
 
-        $header = $sheets->pull(0); // index 0 is key, bunch of header
-
-        // must be choice, if need relation / need family
-        switch ($dataCategory) {
-            case $dataCategory == 'Hubungan':
-                $posts = Sheets::collection($header, $sheets)->where('Hubungan', $relation)->all();
-                break;
-            case $dataCategory == 'Keluarga':
-                $posts = Sheets::collection($header, $sheets)->where('Kode Keluarga', $familyID)->all();
-                break;
-            default:
-                $posts = Sheets::collection($header, $sheets)->all();
-        }
-
-        $posts = array_values($posts);
-
+    private function unusedData($user, $header, $posts) {
         if ($user != 'admin') {
             $specified_head = [ // spesific our header
                 'Kode Keluarga',
@@ -91,21 +53,60 @@ class JemaatController extends Controller
         foreach ($posts as $value) {
             $value['Nama'] = $value['Marga'] . ', ' . $value['Nama'];
             foreach ($header as $item) {
-                if ((!in_array($item, $specified_head)) || $item == 'Marga') {
+                if (!in_array($item, $specified_head) || $item == 'Marga') {
                     unset($value[$item]); // remove header that we dont want
                 }
             }
         }
-        return response()->json($posts, 200);
+        return $posts;
+    }
+
+    // API endpoint accessing listdata
+    public function getList()
+    {
+        $jemaat = Jemaat::orderBy('distrik', 'ASC')->get();
+        return response()->json($jemaat, 200);
+    }
+
+    public function getJemaat(Request $request, $sektor, $user, $dataCategory = 'default')
+    {
+        // define query selector
+        $query = $request->all();
+
+        // safe detect if query exist, default of relation is Kepala Keluarga
+        $relation = isset($query['relation']) ? $query['relation'] : 'Kepala Keluarga';
+        $familyID = isset($query['familyID']) ? $query['familyID'] : null;
+
+        $jemaat = Jemaat::where(['sektor' => $sektor])->first();
+
+        $spreadsheetID = $jemaat->url_sheet;
+        $sheetID = $jemaat->id_sheet;
+        $sheets = $this->getSpreadsheet($spreadsheetID, $sheetID);
+
+        $header = $sheets->pull(0); // index 0 is key, bunch of header
+
+        // must be choice, if need relation / need family
+        switch ($dataCategory) {
+            case $dataCategory == 'Hubungan':
+                $posts = Sheets::collection($header, $sheets)->where('Hubungan', $relation)->all();
+                break;
+            case $dataCategory == 'Keluarga':
+                $posts = Sheets::collection($header, $sheets)->where('Kode Keluarga', $familyID)->all();
+                break;
+            default:
+                $posts = Sheets::collection($header, $sheets)->all();
+        }
+
+        $posts = array_values($posts);
+        $posts = $this->unusedData($user, $header, $posts);
+
+        return $this->sendingData($posts);
     }
 
     // method for CRUD data
-    public function update_list(Request $request, $id)
+    public function updateList(Request $request, $id)
     {
-        // find object that match with id
         $jemaat = Jemaat::findOrFail($id);
-
-        // get all request input
         $input = $request->all();
 
         // this is we make cause url_sheet and id_sheet is guarded in Model
@@ -117,42 +118,28 @@ class JemaatController extends Controller
         // update timestamp data
         $jemaat->touch();
 
-        if ($jemaat) {
-            return redirect()->route('home');
-        } else {
-            return back();
-        }
+        return back();
     }
 
-    public function store_list(Request $request)
+    public function storeList(Request $request)
     {
         $jemaat = new Jemaat();
-
-        // get all request input
         $input = $request->all();
-
-        // this is we make cause url_sheet and id_sheet is guarded in Model
         $jemaat->url_sheet = $request->url_sheet;
         $jemaat->id_sheet = $request->id_sheet;
-
-        // save that input into that object
         $jemaat->fill($input)->save();
-        // update timestamp data
         $jemaat->touch();
 
-        if ($jemaat) {
-            return redirect()->route('home');
-        } else {
-            return back();
-        }
+        // if ($jemaat) {
+            // return redirect()->route('home');
+        return back();
     }
 
 
-    public function destroy_list($id)
+    public function destroyList($id)
     {
         $jemaat = Jemaat::findOrFail($id);
         $jemaat->delete();
-
         if ($jemaat) {
             return back();
         } else {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jemaat;
+use App\Ibadah;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,15 +14,16 @@ class BaseController extends Controller
 {
     public function index()
     {
-        return view('welcome');
-    }
-
-    public function post($id = null) {
-        return view('post', ['id' => $id]);
+        $ibadahs = Ibadah::take(5)->get()->sortByDesc('created_at');
+        return view('welcome', ['ibadahs' => $ibadahs]);
     }
 
     public function about(){
         return view('about');
+    }
+
+    public function getIbadah($id) {
+        return view('ibadah', ['id' => $id]);
     }
 
     public function login(Request $request)
@@ -38,8 +39,10 @@ class BaseController extends Controller
                 'name' => $result['name'],
                 'password' => bcrypt($request->password),
                 'email' => $result['email'],
+                'role' => $result['role'],
             ];
             Session::put('account', $data);
+            if($result['role'] == 'admin') return redirect('admin/dashboard');
             return back();
         } else {
             $request->session()->flash('gagal', $request->password);
@@ -49,6 +52,6 @@ class BaseController extends Controller
 
     public function logout () {
         Session::flush();
-        return back();
+        return redirect('/');
     }
 }

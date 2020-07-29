@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseJSON;
 use App\Ibadah;
 use App\IbadahContent;
 use Illuminate\Http\Request;
 
 class IbadahController extends Controller
 {
+    use ResponseJSON;
+
     public function getIbadah($id = null){
         $ibadahs = !$id ? Ibadah::all()->sortByDesc('created_at') : Ibadah::where('id', $id)->get();
 
@@ -18,7 +21,7 @@ class IbadahController extends Controller
             $ibadah->content = $ibadahContent;
             $data->add($ibadah);
         }
-        return response()->json($data, 200);
+        return $this->sendingData($data);
     }
 
     public function createIbadah(request $request){
@@ -35,7 +38,7 @@ class IbadahController extends Controller
             $ibadahContent->save();
         }
 
-        return response()->json('', 200);
+        return $this->sendingData(null);
     }
 
     public function updateIbadah(request $request, $id){
@@ -53,8 +56,7 @@ class IbadahController extends Controller
             $newIbadahContent->id_ibadah = $ibadah->id;
             $newIbadahContent->save();
         }
-
-        return response()->json('', 200);
+        return $this->sendingData(null);
     }
 
     public function deleteIbadah($id){
@@ -64,10 +66,8 @@ class IbadahController extends Controller
             $content->delete();
             $x++;
         }
-            
         $ibadah = Ibadah::where('id', $id)->first();
         $ibadah->delete();
-
-        return response()->json('', 200);
+        return $this->sendingData(null);
     }
 }

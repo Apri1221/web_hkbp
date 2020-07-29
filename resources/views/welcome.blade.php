@@ -40,11 +40,11 @@
 
 @push('top_content')
 <div class="ui fluid parallax" data-imgsrc="{{ asset('./assets/images/curch.jpg') }}">
-    <div class="ui container" style="padding:60vh 0 0">
+    <div class="ui container" style="padding:40vh 0 0">
         <div class="ui two column stackable grid">
             <div class="column">
                 <div class="ui custom left aligned header" id="title-massive">
-                    We Worship You
+                    HKBP Padang Bulan Medan
                 </div>
             </div>
             <div class="column">
@@ -74,49 +74,22 @@
         </div>
         <!-- section announcement -->
         <div class="four wide column" id="sticky-content">
-            <div class="ui fluid card">
-                <div class="content">
-                    <div class="header">Pelayanan Minggu, 28 Oktober 2020</div>
+            @foreach($ibadahs as $ibadah)
+                <div class="ui grey fluid card">
+                    <div class="content">
+                        <div class="header">{{ $ibadah->title }}</div>
+                    </div>
+                    <div class="content">
+                        <p class="ui description">{{ $ibadah->description }}</p>
+                        <div class="ui divider"></div>
+                        <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
+                    </div>
                 </div>
-                <div class="content">
-                    <h4 class="ui sub header">Misa Pagi</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                    <h4 class="ui sub header">Misa Siang</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                    <h4 class="ui sub header">Misa Sore</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                </div>
-            </div>
-            <div class="ui fluid card">
-                <div class="content">
-                    <div class="header">Pelayanan Minggu, 28 Oktober 2020</div>
-                </div>
-                <div class="content">
-                    <h4 class="ui sub header">Misa Pagi</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                    <h4 class="ui sub header">Misa Siang</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                    <h4 class="ui sub header">Misa Sore</h4>
-                    <p>06.00 - 08.00</p>
-                    <p>Pelayan: </p>
-                </div>
-            </div>
-            <a class="fluid ui positive labeled icon button" href="admin/dashboard#/dataTingting">
-                <i class="edit icon"></i>
-                Tambah Pelayanan
-            </a>
+            @endforeach
         </div>
     </div>
 </div>
 @endsection
-
-@stack('carousel_js')
-@stack('tablesort_js')
 
 @push('any_js')
 <script>

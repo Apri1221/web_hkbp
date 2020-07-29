@@ -49,9 +49,20 @@
             background-color: #fff;
             color: #414141;
             font-family: 'Nunito', sans-serif !important;
-            font-weight: 300;
+            font-weight: 300 !important;
+            font-size: 85%;
             height: 100vh;
             margin: 0;
+        }
+
+        p, .ui.sub.header {
+            font-size: 1.23rem !important;
+        }
+
+        .textIbadah {
+            white-space: "pre-line"; 
+            white-space: "pre-wrap";
+            line-height: 1.5em !important;
         }
 
         /* modify semantic ui */
@@ -66,8 +77,9 @@
             z-index: 1
         }
 
-        .ui.hidden.divider.huge {
-            margin: 3rem 0
+        .ui.hidden.divider.huge, 
+        .ui.divider.huge {
+            margin: 2.5rem 0
         }
 
         .ui.secondary.pointing.menu {
@@ -156,7 +168,7 @@
     @stack('top_content')
 
     <div class="overlay">
-        <div class="ui huge menu" id='sticky-header'>
+        <div class="ui big menu" id='sticky-header'>
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
@@ -175,13 +187,8 @@
                             <a class="item" href="{{ route('about') }}">
                                 <i class="user secret icon"></i>Pengembang
                             </a>
-
                             <a class="item" href="{{ route('dashboard') }}">
                                 <i class="th icon"></i>Dashboard
-                            </a>
-
-                            <a class="item" href="{{ route('post_prototype') }}">
-                                <i class="th icon"></i>Post
                             </a>
                         </div>
                     </div>
@@ -196,13 +203,13 @@
             </div>
             <div class="content ui left aligned container">
                 @if(Session::has('gagal'))
-                <div class="ui icon warning message">
+                <div class="ui icon negative message">
                     <i class="lock icon"></i>
                     <div class="content">
                         <div class="header">
                             Gagal Masuk!
                         </div>
-                        <p>Alamat email atau kata sandi mungkin salah!</p>
+                        <p>Email atau kata sandi mungkin salah</p>
                     </div>
                 </div>
                 @endif
@@ -230,9 +237,9 @@
     </div>
 
     <footer>
-        <div class="ui container">
+        <!-- <div class="ui container">
             <h1>Halo</h1>
-        </div>
+        </div> -->
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -255,8 +262,8 @@
                     y: 50, // move from 100px down to the current position
                     duration: 1,
                     autoAlpha: 0, // fade in from opacity 0 to the current
-                    stagger: 0.1,
-                    delay: 0.75,
+                    stagger: 0.2,
+                    delay: 0.5,
                     ease: Power3.easeInOut,
                 });
             }

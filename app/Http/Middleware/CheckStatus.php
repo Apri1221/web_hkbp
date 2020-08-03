@@ -14,6 +14,7 @@ class CheckStatus
      * @param  \Closure  $next
      * @return mixed
      */
+    
     public function handle($request, Closure $next)
     {
         $user = Session::get('account');

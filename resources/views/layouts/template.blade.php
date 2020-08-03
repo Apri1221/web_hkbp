@@ -50,18 +50,18 @@
             color: #414141;
             font-family: 'Nunito', sans-serif !important;
             font-weight: 300 !important;
-            font-size: 85%;
+            font-size: 90%;
             height: 100vh;
             margin: 0;
         }
 
         p, .ui.sub.header {
-            font-size: 1.23rem !important;
+            font-size: 1.1rem !important;
         }
 
         .textIbadah {
-            white-space: "pre-line"; 
-            white-space: "pre-wrap";
+            white-space: pre-line; 
+            white-space: pre-wrap;
             line-height: 1.5em !important;
         }
 
@@ -74,7 +74,7 @@
 
         .ui.form .inline.field>.selection.dropdown,
         .ui.form .inline.fields .field>.selection.dropdown {
-            z-index: 1
+            z-index: 2
         }
 
         .ui.hidden.divider.huge, 
@@ -125,7 +125,7 @@
             position: -webkit-sticky;
             position: sticky;
             top: 0;
-            z-index: 2;
+            z-index: 3;
             /* this is max of z-index! */
             margin: 0;
         }
@@ -150,7 +150,23 @@
         }
 
         #tableJemaat {
-            overflow-x: auto;
+            max-height: calc(100vh - 10em);
+            overflow: auto;
+        }
+
+        #tableJemaat thead tr:first-child > th {
+            position: -webkit-sticky !important;
+            position: sticky !important;
+            top: 0;
+            z-index: 1;
+        }
+
+        #tableJemaat thead th.sorted {
+            background: #e5e5e5;
+        }
+
+        #tableJemaat thead th {
+            background: #f2f2f2;
         }
 
         /* affect hidden to child, for GSAP animation */
@@ -177,7 +193,7 @@
                 <div class="right menu">
                     <div class="item">
                         @if(Session::has('account'))
-                        <a class="ui primary button" href="{{ route('logout') }}">Keluar</a>
+                        <a class="ui red inverted button" href="{{ route('logout') }}">Keluar</a>
                         @else
                         <div class="ui primary button" id="btnLogin">Masuk</div>
                         @endif

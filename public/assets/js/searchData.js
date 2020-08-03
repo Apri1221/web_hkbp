@@ -21,7 +21,7 @@ const TableJemaat = props => {
                         {data.user_role == 'admin' ? '' : <th>Aksi</th>}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tBodyJemaat">
                     {data.filteredData.map(item => ( // given an object
                         <tr key={item}>
                             { /* we want to get the each paired value-key in obj */
@@ -209,7 +209,7 @@ class DataJemaat extends React.Component {
                             </div>
                         </div>
                         <div className="field">
-                            <select id="dropdown-sektor" className="ui simple search dropdown" onChange={this.getDataJemaatSektor}>
+                            <select id="dropdown-sektor" className="ui fluid search dropdown" onChange={this.getDataJemaatSektor}>
                                 <option value="">Pilih Sektor</option>
                                 {listSektor.map(item => ( // given an object
                                     <option value={item['sektor']}>{item['sektor']}</option>

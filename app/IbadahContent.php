@@ -9,4 +9,8 @@ class IbadahContent extends Model
     protected $table = 'ibadah_content';
 
     protected $fillable = ['title', 'content', 'id_ibadah'];
+
+    public function ibadah() {
+        return $this->belongsTo(Ibadah::class);
+    }
 }

@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="ui fluid card">
+                <div class="ui fluid card">
                     <a target="_blank" rel="noopener noreferrer" class="image" href="https://www.instagram.com/joelmatondangg/">
                         <img src="" id="joel">
                     </a>
@@ -26,7 +26,7 @@
                             <a>Developer</a>
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
 

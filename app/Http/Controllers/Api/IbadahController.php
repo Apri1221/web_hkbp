@@ -13,15 +13,11 @@ class IbadahController extends Controller
     use ResponseJSON;
 
     public function getIbadah($id = null){
-        $ibadahs = !$id ? Ibadah::all()->sortByDesc('created_at') : Ibadah::where('id', $id)->get();
+        $ibadahs = !$id ? Ibadah::with('content')->get() : 
+                    Ibadah::where('id', $id)->with('content')->get();
 
-        $data = collect();
-        foreach($ibadahs as $ibadah){
-            $ibadahContent = IbadahContent::where('id_ibadah', $ibadah->id)->get();
-            $ibadah->content = $ibadahContent;
-            $data->add($ibadah);
-        }
-        return $this->sendingData($data);
+        $data = $ibadahs->sortByDesc('created_at');
+        return $this->sendingData($data->flatten());
     }
 
     public function createIbadah(request $request){
@@ -48,7 +44,7 @@ class IbadahController extends Controller
         $ibadah->save();
 
         $ibadahContent = IbadahContent::where('id_ibadah', $id);
-        $ibadahContent->delete();
+        $ibadahContent->delete(); // anjir masa gini wkkwk
         foreach ($request->contents as $content) {
             $newIbadahContent = new IbadahContent();
             $newIbadahContent->title = $content['title'];

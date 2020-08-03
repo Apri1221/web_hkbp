@@ -22,19 +22,27 @@
         padding: 0 1em 1em 0 !important
     }
 
-    .section.blue {
-        background-color: var(--main-color-palete)
-    }
-
-    .slider .content-custom {
-        background: #fff;
-        color: #3498db;
-        font-size: 36px;
-        line-height: 100px;
+    .slider .content-slider {
         margin: 10px;
         padding: 1rem;
         text-align: center;
     }
+
+    .slick-slide, 
+    .slick-slide:focus * {
+        outline: none !important;
+    }
+
+    .slider .img-slider {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .slider-nav .slick-current {
+        background: aqua;
+    }
+
 </style>
 @endpush
 

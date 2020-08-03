@@ -3,22 +3,29 @@ class Announcement extends React.Component {
         super(props)
     }
 
-    componentDidMount() {
+    initateSlick() {
         $('.slider-for').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
-            arrows: false,
-            fade: true,
+            infinite: false,
+            autoplay: true,
+            autoplaySpeed: 5000,
             asNavFor: '.slider-nav'
         });
+
         $('.slider-nav').slick({
             slidesToShow: 3,
             slidesToScroll: 1,
-            asNavFor: '.slider-for',
-            // dots: true,
+            infinite: false,
             centerMode: true,
-            focusOnSelect: true
+            focusOnSelect: true,
+            mobileFirst: true,
+            asNavFor: '.slider-for'
         });
+    }
+
+    componentDidMount() {
+        this.initateSlick();
     }
 
 
@@ -40,23 +47,22 @@ class Announcement extends React.Component {
 
     render() {
         return (
-            <div className="section blue">
+            <div>
                 <div class="slider slider-for">
-                    {/* Must be looping as much as slider-for */}
-                    <div>
-                        <h3 className="content-custom">1</h3>
+                    <div className="section">
+                        <img src={"https://cdn.dribbble.com/users/414899/screenshots/10761442/media/df3f331b7850f1deb1504106d7060577.png"} className="content-slider img-slider"/>
                     </div>
-                    <div>
-                        <h3 className="content-custom">2</h3>
+                    <div className="section">
+                        <img src={"https://cdn.dribbble.com/users/1151383/screenshots/3934256/quadedu_shot-small.png"} className="content-slider img-slider"/>
                     </div>
                 </div>
                 <div class="slider slider-nav">
                     {/* Must be looping as much as slider-for */}
                     <div>
-                        <h3 className="content-custom"><span>1</span></h3>
+                        <h3 className="content-slider"><span>1</span></h3>
                     </div>
                     <div>
-                        <h3 className="content-custom"><span>1</span></h3>
+                        <h3 className="content-slider"><span>1</span></h3>
                     </div>
                 </div>
             </div>

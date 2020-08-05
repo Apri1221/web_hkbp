@@ -218,6 +218,8 @@ class PostIbadah extends React.Component {
             description: description,
             contents: contents
         }))
+        // calling callback from Master Component
+        this.props.callbackEdit();
     }
 
     setValue(id, name, value) {

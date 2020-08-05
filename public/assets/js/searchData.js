@@ -200,7 +200,7 @@ class DataJemaat extends React.Component {
         return (
             <div>
                 <div className="ui big form">
-                    <div className="ui inline fields segment">
+                    <div className="inline fields">
                         <div className="field">
                             <div className="ui left icon input">
                                 {/* Correct: handleClick is passed as a reference! */}
@@ -208,7 +208,6 @@ class DataJemaat extends React.Component {
                                 <i className="users icon"></i>
                             </div>
                         </div>
-                        <div className="ui hidden section divider"></div>
                         <div className="field">
                             <select id="dropdown-sektor" className="ui fluid search dropdown" onChange={this.getDataJemaatSektor}>
                                 <option value="">Pilih Sektor</option>

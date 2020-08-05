@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Web Informasi HKBP</title>
+    <title>Laravel</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:600" rel="stylesheet">
@@ -55,13 +55,12 @@
             margin: 0;
         }
 
-        p,
-        .ui.sub.header {
+        p, .ui.sub.header {
             font-size: 1.1rem !important;
         }
 
         .textIbadah {
-            white-space: pre-line;
+            white-space: pre-line; 
             white-space: pre-wrap;
             line-height: 1.5em !important;
         }
@@ -78,17 +77,13 @@
             z-index: 2
         }
 
-        .ui.hidden.divider.huge,
+        .ui.hidden.divider.huge, 
         .ui.divider.huge {
             margin: 2.5rem 0
         }
 
         .ui.secondary.pointing.menu {
             background-color: white;
-        }
-
-        .ui.label {
-            color: #414141 !important;
         }
 
         /* end of modify */
@@ -159,7 +154,7 @@
             overflow: auto;
         }
 
-        #tableJemaat thead tr:first-child>th {
+        #tableJemaat thead tr:first-child > th {
             position: -webkit-sticky !important;
             position: sticky !important;
             top: 0;
@@ -193,9 +188,16 @@
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
-                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}"></a>
+                        <img style="width: 21px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}"></a>
                 </div>
                 <div class="right menu">
+                    <div class="item">
+                        @if(Session::has('account'))
+                        <a class="ui red inverted button" href="{{ route('logout') }}">Keluar</a>
+                        @else
+                        <div class="ui primary button" id="btnLogin">Masuk</div>
+                        @endif
+                    </div>
                     <div class="ui floating dropdown item" id="dropdown-menu"><i class="sidebar icon"></i>Menu<i class="dropdown icon"></i>
                         <div class="menu">
                             <a class="item" href="{{ route('about') }}">
@@ -204,14 +206,6 @@
                             <a class="item" href="{{ route('dashboard') }}">
                                 <i class="th icon"></i>Dashboard
                             </a>
-                            <div class="ui fitted divider"></div>
-                            <div class="item">
-                                @if(Session::has('account'))
-                                <a class="fluid ui red inverted button" href="{{ route('logout') }}">Keluar</a>
-                                @else
-                                <div class="fluid ui primary button" id="btnLogin">Masuk</div>
-                                @endif
-                            </div>
                         </div>
                     </div>
                 </div>

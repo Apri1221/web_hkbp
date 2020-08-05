@@ -18,7 +18,6 @@ Route::post('/login', 'BaseController@login')->name('login');
 Route::get('/logout', 'BaseController@logout')->name('logout');
 Route::get('/about', 'BaseController@about')->name('about');
 Route::get('/post/{id}', 'BaseController@getIbadah');
-Route::get('/article', 'BaseController@getArticle');
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['checkStatus']], 

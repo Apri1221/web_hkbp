@@ -9,7 +9,7 @@ class Announcement extends React.Component {
             slidesToScroll: 1,
             infinite: false,
             autoplay: true,
-            autoplaySpeed: 5000,
+            autoplaySpeed: 4000,
             asNavFor: '.slider-nav'
         });
 
@@ -19,7 +19,6 @@ class Announcement extends React.Component {
             infinite: false,
             centerMode: true,
             focusOnSelect: true,
-            mobileFirst: true,
             asNavFor: '.slider-for'
         });
     }
@@ -47,13 +46,21 @@ class Announcement extends React.Component {
 
     render() {
         return (
-            <div>
-                <div class="slider slider-for">
-                    <div className="section">
-                        <img src={"https://cdn.dribbble.com/users/414899/screenshots/10761442/media/df3f331b7850f1deb1504106d7060577.png"} className="content-slider img-slider"/>
+            <div className="ui basic segment">
+                <div className="slider slider-for">
+                    <div className="content slide">
+                        <img src={"https://cdn.dribbble.com/users/414899/screenshots/10761442/media/df3f331b7850f1deb1504106d7060577.png"} className="ui centered fluid image" />
+                        <div className="slide-description">
+                            <span>Buck's Homebrew Stayaway</span>
+                            <a className="header" href="">selengkapnya</a>
+                        </div>
                     </div>
-                    <div className="section">
-                        <img src={"https://cdn.dribbble.com/users/1151383/screenshots/3934256/quadedu_shot-small.png"} className="content-slider img-slider"/>
+                    <div className="content slide">
+                        <img src={"https://cdn.dribbble.com/users/1151383/screenshots/3934256/quadedu_shot-small.png"} className="ui centered fluid image" />
+                        <div className="slide-description">
+                            <span>Arrowhead Valley Camp Ragnarok</span>
+                            <a className="header" href="">selengkapnya</a>
+                        </div>
                     </div>
                 </div>
                 <div class="slider slider-nav">
@@ -62,11 +69,11 @@ class Announcement extends React.Component {
                         <h3 className="content-slider"><span>1</span></h3>
                     </div>
                     <div>
-                        <h3 className="content-slider"><span>1</span></h3>
+                        <h3 className="content-slider"><span>2</span></h3>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

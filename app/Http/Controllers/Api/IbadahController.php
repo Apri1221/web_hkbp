@@ -34,7 +34,7 @@ class IbadahController extends Controller
             $ibadahContent->save();
         }
 
-        return $this->sendingData(null);
+        return $this->sendingData('Success', 200);
     }
 
     public function updateIbadah(request $request, $id){
@@ -52,7 +52,7 @@ class IbadahController extends Controller
             $newIbadahContent->id_ibadah = $ibadah->id;
             $newIbadahContent->save();
         }
-        return $this->sendingData(null);
+        return $this->sendingData('Success', 200);
     }
 
     public function deleteIbadah($id){
@@ -63,7 +63,7 @@ class IbadahController extends Controller
             $x++;
         }
         $ibadah = Ibadah::where('id', $id)->first();
-        $ibadah->delete();
-        return $this->sendingData(null);
+        $result = $ibadah->delete();
+        return $this->sendingData($result);
     }
 }

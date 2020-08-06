@@ -14,7 +14,7 @@ class BaseController extends Controller
 {
     public function index()
     {
-        $ibadahs = Ibadah::take(5)->get()->sortByDesc('created_at');
+        $ibadahs = Ibadah::take(4)->get()->sortByDesc('created_at');
         return view('welcome', ['ibadahs' => $ibadahs]);
     }
 
@@ -24,6 +24,10 @@ class BaseController extends Controller
 
     public function getIbadah($id) {
         return view('ibadah', ['id' => $id]);
+    }
+
+    public function getArticle() {
+        return view('article');
     }
 
     public function login(Request $request)

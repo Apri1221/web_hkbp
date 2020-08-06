@@ -18,13 +18,9 @@
         font-size: 4rem !important;
     }
 
-    .ui.form .inline.fields .field {
-        padding: 0 1em 1em 0 !important
-    }
-
     .slider .content-slider {
-        margin: 10px;
         padding: 1rem;
+        overflow: hidden;
         text-align: center;
     }
 
@@ -33,14 +29,37 @@
         outline: none !important;
     }
 
-    .slider .img-slider {
-        width: 100%;
-        height: 400px;
+    .slider img {
         object-fit: cover;
     }
 
     .slider-nav .slick-current {
-        background: aqua;
+        background: aqua; /* nanti ganti */
+    }
+
+    .slider .content.slide {
+        position: relative
+    }
+
+    .content.slide .slide-description {
+        position: absolute;
+        background: rgb(255,255,255);
+        background: linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(228,253,255,1) 100%);
+        padding: 1rem;
+        bottom: 0;
+        display: inline-flex;
+        right: 0;
+        border-top-left-radius: 5px;
+    }
+
+    .content.slide .slide-description span {
+        max-width: 250px;
+        white-space: nowrap;
+        margin-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
     }
 
 </style>
@@ -78,9 +97,10 @@
         <div class="twelve wide column">
             <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
             <div class="ui hidden divider huge"></div>
+            <h1 class="header">Protoype Tingting</h1>
             <div id="announcement"></div>
         </div>
-        <!-- section announcement -->
+        <!-- section ibadah -->
         <div class="four wide column" id="sticky-content">
             @foreach($ibadahs as $ibadah)
                 <div class="ui grey fluid card">

@@ -50,7 +50,7 @@
             color: #414141;
             font-family: 'Nunito', sans-serif !important;
             font-weight: 300 !important;
-            font-size: 90%;
+            font-size: 95%;
             height: 100vh;
             margin: 0;
         }
@@ -91,15 +91,20 @@
             color: #414141 !important;
         }
 
+        .content {
+            text-align: center;
+        }
+
+        .content.left {
+            text-align: left;
+        }
+
         /* end of modify */
 
         .full-height {
             height: 100vh;
         }
 
-        .content {
-            text-align: center;
-        }
 
         .title {
             font-size: 84px;
@@ -189,7 +194,7 @@
     @stack('top_content')
 
     <div class="overlay">
-        <div class="ui big menu" id='sticky-header'>
+        <div class="ui large menu" id='sticky-header'>
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
@@ -304,12 +309,6 @@
             } catch (error) {
                 console.error(error);
             }
-
-            $('.overlay.example .overlay')
-                .visibility({
-                    type: 'fixed',
-                    offset: 15 // give some space from top of screen
-                });
         });
     </script>
 

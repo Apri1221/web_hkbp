@@ -116,7 +116,7 @@ class DataJemaat extends React.Component {
         this.setState({ filter: event.target.value });
     }
 
-    calculateAge (dateString) {
+    calculateAge(dateString) {
         if (!dateString) return '';
         dateString = dateString.split(/\//g).reverse().join('-');
         return String(Math.floor((new Date() - new Date(dateString)) / 3.15576e+10));
@@ -129,15 +129,15 @@ class DataJemaat extends React.Component {
         const btnIDTarget = `#btn${kodeKeluarga}`;
 
         const urlFetch = this.handleRequestAPI(`http://localhost:8000/api/jemaat/${sektor}/${user_role}/Keluarga?familyID=${kodeKeluarga}`, method.GET);
-        
+
         try {
             urlFetch.then(resJson => {
                 const data = Object.keys(resJson).map(item => { return resJson[item] });
-    
+
                 // ini mulai setelah data sektor telah ada
                 $(contentTarget).text('Keluarga ' + data[0]['Nama']);
                 $(formTarget).html('');
-    
+
                 data.forEach(item => {
                     $(formTarget).append(`<div class="ui list"><div class="item"><div class="header">${item['Nama']}</div>${item['Hubungan']}</div></div>`);
                 });
@@ -181,11 +181,11 @@ class DataJemaat extends React.Component {
     }
 
     render() {
-        const {filter, data, listSektor, sektor, user_role} = this.state;
-        
+        const { filter, data, listSektor, sektor, user_role } = this.state;
+
         // this will do action for table if data[0] not null
         var header, filteredData;
-        if (data[0]){
+        if (data[0]) {
             header = Object.keys(data[0]).map(key => key);
             filteredData = data.filter(item => {
                 return Object.keys(item).some(key =>
@@ -199,8 +199,8 @@ class DataJemaat extends React.Component {
 
         return (
             <div>
-                <div className="ui big form">
-                    <div className="ui inline fields segment">
+                <div className="ui large form segment">
+                    <div className="ui inline fields">
                         <div className="field">
                             <div className="ui left icon input">
                                 {/* Correct: handleClick is passed as a reference! */}

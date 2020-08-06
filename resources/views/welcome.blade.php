@@ -15,7 +15,7 @@
     }
 
     .ui.custom.header {
-        font-size: 4rem !important;
+        font-size: 3.5rem !important;
     }
 
     .slider .content-slider {
@@ -24,7 +24,7 @@
         text-align: center;
     }
 
-    .slick-slide, 
+    .slick-slide,
     .slick-slide:focus * {
         outline: none !important;
     }
@@ -34,7 +34,8 @@
     }
 
     .slider-nav .slick-current {
-        background: aqua; /* nanti ganti */
+        background: aqua;
+        /* nanti ganti */
     }
 
     .slider .content.slide {
@@ -43,8 +44,8 @@
 
     .content.slide .slide-description {
         position: absolute;
-        background: rgb(255,255,255);
-        background: linear-gradient(90deg, rgba(255,255,255,0.7) 0%, rgba(228,253,255,1) 100%);
+        background: rgb(255, 255, 255);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(228, 253, 255, 1) 100%);
         padding: 1rem;
         bottom: 0;
         display: inline-flex;
@@ -53,7 +54,7 @@
     }
 
     .content.slide .slide-description span {
-        max-width: 250px;
+        max-width: 8em;
         white-space: nowrap;
         margin-right: 5px;
         overflow: hidden;
@@ -62,6 +63,20 @@
         -ms-text-overflow: ellipsis;
     }
 
+    /* (640x960) iPhone 4 & 4S Surface duo */
+    @media only screen and (min-width: 450px) and (max-device-width: 960px) {
+        .content.slide .slide-description span {
+            max-width: 12em;
+        }
+    }
+
+    /* (720x1280) Galaxy Nexus, WXGA */
+    @media only screen and (min-width: 720px) and (max-width: 1920px) {
+        .content.slide .slide-description span {
+            max-width: 20em;
+        }
+    }
+    
 </style>
 @endpush
 
@@ -103,16 +118,16 @@
         <!-- section ibadah -->
         <div class="four wide column" id="sticky-content">
             @foreach($ibadahs as $ibadah)
-                <div class="ui grey fluid card">
-                    <div class="content">
-                        <div class="header">{{ $ibadah->title }}</div>
-                    </div>
-                    <div class="content">
-                        <p class="ui description">{{ $ibadah->description }}</p>
-                        <div class="ui divider"></div>
-                        <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
-                    </div>
+            <div class="ui grey fluid card">
+                <div class="content">
+                    <div class="header">{{ $ibadah->title }}</div>
                 </div>
+                <div class="content">
+                    <p class="ui description">{{ $ibadah->description }}</p>
+                    <div class="ui divider"></div>
+                    <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
+                </div>
+            </div>
             @endforeach
         </div>
     </div>

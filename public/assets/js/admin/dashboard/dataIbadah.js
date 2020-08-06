@@ -8,7 +8,6 @@ const method = {
 
 const handleRequestAPI = (url, method, data = undefined) => {
     if (!url) return; // guard clause
-    console.log(data, JSON.stringify(data))
     return fetch(url, {
         method: method,
         headers: {
@@ -177,7 +176,7 @@ class PostIbadah extends React.Component {
         const dataFromMaster = this.props.dataIbadah;
         if (!dataFromMaster.id) { return }
         // keep eye on this, look at the data JSON API
-        const { id, title, description, content } = dataFromMaster;
+        const { id, title, description, content, updated_at } = dataFromMaster;
         let contents = []
         content.forEach((value) => {
             const { id, title, content } = value
@@ -187,8 +186,15 @@ class PostIbadah extends React.Component {
             id: id,
             title: title,
             description: description,
+            updated_at: updated_at,
             contents: contents
         })
+        
+        $('.message .close').on('click', function() {
+            $(this)
+                .closest('.message')
+                .transition('fade down');
+            });
     }
 
     addClick() {
@@ -241,11 +247,15 @@ class PostIbadah extends React.Component {
     }
 
     render() {
-        let { title, description, contents } = this.state;
+        let { title, description, contents, updated_at } = this.state;
         const fCallbackEdit = this.props.callbackEdit;
 
         return (
             <div>
+                <div className="ui info message">
+                    <i className="close icon"></i>
+                    <span>Terakhir diperbaharui : {updated_at}</span>
+                </div>
                 <form className="ui form" onSubmit={this.handleSubmit} onChange={this.handleChange}>
                     <div className="field">
                         <label htmlFor="title">Judul</label>
@@ -256,7 +266,7 @@ class PostIbadah extends React.Component {
                         <input type="text" className="description" name="description" id="description" value={description} />
                     </div>
 
-                    {<Form contents={contents} removeContent={this.removeContent} />}
+                    <Form contents={contents} removeContent={this.removeContent} />
 
                     <button className="ui left floated primary button" onClick={this.addClick.bind(this)}>Tambah</button>
                     <input type="submit" value="Simpan" className="ui positive button" onClick={this.sendDataIbadah} />

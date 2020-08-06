@@ -33,10 +33,9 @@
                 <table class="ui compact celled table">
                     <thead>
                         <tr>
-                            <th class="three wide">Distrik</th>
-                            <th class="three wide">Resort</th>
+                            <th>Distrik</th>
+                            <th>Resort</th>
                             <th>Sektor</th>
-                            <th>Alamat Sheet</th>
                             <th>ID Sheet</th>
                             <th>Aksi</th>
                         </tr>
@@ -47,7 +46,6 @@
                             <td>{{ $item->distrik }}</td>
                             <td>{{ $item->resort }}</td>
                             <td>{{ $item->sektor }}</td>
-                            <td>{{ $item->url_sheet }}</td>
                             <td>{{ $item->id_sheet }}</td>
                             <td>
                                 <div class="ui icon buttons">

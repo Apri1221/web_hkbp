@@ -88,12 +88,12 @@ class GetIbadah extends React.Component {
     }
 
     async getDataListIbadah() {
-        const listIbadah = await handleRequestAPI('http://localhost:8000/api/ibadah/', method.GET);
+        const listIbadah = await handleRequestAPI('/api/ibadah/', method.GET);
         this.setState({ listDataIbadah: listIbadah })
     }
 
     async deleteIbadah(id) {
-        await handleRequestAPI(`http://localhost:8000/api/ibadah/delete/${id}`, method.DELETE);
+        await handleRequestAPI(`/api/ibadah/delete/${id}`, method.DELETE);
         this.getDataListIbadah();
     }
 
@@ -215,7 +215,7 @@ class PostIbadah extends React.Component {
 
     async sendDataIbadah() {
         const { id, title, description, contents } = this.state;
-        let urlAPI = (id) ? `http://localhost:8000/api/ibadah/update/${id}` : 'http://localhost:8000/api/ibadah/create';
+        let urlAPI = (id) ? `/api/ibadah/update/${id}` : '/api/ibadah/create';
         let methodREST = (id) ? method.PUT : method.POST;
         console.log(await handleRequestAPI(urlAPI, methodREST, {
             // object in controller Ibadah
@@ -268,8 +268,8 @@ class PostIbadah extends React.Component {
 
                     <Form contents={contents} removeContent={this.removeContent} />
 
-                    <button className="ui left floated primary button" onClick={this.addClick.bind(this)}>Tambah</button>
-                    <input type="submit" value="Simpan" className="ui positive button" onClick={this.sendDataIbadah} />
+                    <button className="ui left attached blue button" onClick={this.addClick.bind(this)}>Tambah</button>
+                    <input type="submit" value="Simpan" className="ui positive right attached button" onClick={this.sendDataIbadah} />
                     <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 </form>
             </div>

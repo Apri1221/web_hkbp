@@ -17,8 +17,8 @@ Route::get('/', 'BaseController@index')->name('home');
 Route::post('/login', 'BaseController@login')->name('login');
 Route::get('/logout', 'BaseController@logout')->name('logout');
 Route::get('/about', 'BaseController@about')->name('about');
-Route::get('/post/{id}', 'BaseController@getIbadah');
-Route::get('/article', 'BaseController@getArticle');
+Route::get('/post/{id_ibadah}', 'BaseController@getIbadah'); // ibadah
+Route::get('/article/{id_tingtin}', 'BaseController@getTingting'); // tingting
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['checkStatus']], 

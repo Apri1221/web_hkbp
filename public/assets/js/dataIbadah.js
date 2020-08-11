@@ -22,7 +22,7 @@ class ContentIbadah extends React.Component {
     }
 
     handleRequestAPI(url, method, data = undefined) {
-        if (!url) return; // guard claue
+        if (!url) return; // guard clause
         return fetch(url, {
             method: method,
             headers: {
@@ -38,7 +38,7 @@ class ContentIbadah extends React.Component {
     }
 
     async getDataIbadah(id) {
-        const dataIbadah = await this.handleRequestAPI(`http://localhost:8000/api/ibadah/${id}`, method.GET);
+        const dataIbadah = await this.handleRequestAPI(`/api/ibadah/${id}`, method.GET);
         dataIbadah.forEach(element =>{
             // keep eye on this, look at the data JSON API
             const {id, title, description, content} = element;
@@ -89,7 +89,6 @@ class ContentIbadah extends React.Component {
                 </div>
             </div>)
     }
-
 }
 
 $(document).ready(() => {

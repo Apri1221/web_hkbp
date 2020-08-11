@@ -12,6 +12,19 @@ class IbadahController extends Controller
 {
     use ResponseJSON;
 
+    private function createContentIbadah($title, $post, $id_ibadah){
+        $ibadahContent = new IbadahContent();
+        $ibadahContent->title = $title;
+        $ibadahContent->content = $post;
+        $ibadahContent->id_ibadah = $id_ibadah;
+        $ibadahContent->save();
+    }
+
+    private function deleteContentIbadah($id_ibadah) {
+        $ibadahContent = IbadahContent::where('id_ibadah', $id_ibadah);
+        $ibadahContent->delete(); // anjir masa gini wkkwk
+    }
+
     public function getIbadah($id = null){
         $ibadahs = !$id ? Ibadah::with('content')->get() : 
                     Ibadah::where('id', $id)->with('content')->get();
@@ -25,44 +38,28 @@ class IbadahController extends Controller
         $ibadah->title = $request->title;
         $ibadah->description = $request->description;
         $ibadah->save();
-
-        foreach ($request->contents as $oneContent) {
-            $ibadahContent = new IbadahContent();
-            $ibadahContent->title = $oneContent['title'];
-            $ibadahContent->content = $oneContent['post'];
-            $ibadahContent->id_ibadah = $ibadah->id;
-            $ibadahContent->save();
+        foreach ($request->contents as $content) {
+            $this->createContentIbadah($content['title'], $content['post'], $ibadah->id);
         }
-
         return $this->sendingData('Success', 200);
     }
 
     public function updateIbadah(request $request, $id){
-        $ibadah = Ibadah::where('id', $id)->first();
+        $ibadah = Ibadah::findOrFail($id);
         $ibadah->title = $request->title;
         $ibadah->description = $request->description;
         $ibadah->save();
-
-        $ibadahContent = IbadahContent::where('id_ibadah', $id);
-        $ibadahContent->delete(); // anjir masa gini wkkwk
+        $this->deleteContentIbadah($id);
         foreach ($request->contents as $content) {
-            $newIbadahContent = new IbadahContent();
-            $newIbadahContent->title = $content['title'];
-            $newIbadahContent->content = $content['post'];
-            $newIbadahContent->id_ibadah = $ibadah->id;
-            $newIbadahContent->save();
+            $this->createContentIbadah($content['title'], $content['post'], $id);
         }
+        $ibadah->touch();
         return $this->sendingData('Success', 200);
     }
 
     public function deleteIbadah($id){
-        $ibadahContent = IbadahContent::where('id_ibadah', $id)->get();
-        $x = 0;
-        foreach ($ibadahContent as $content) {
-            $content->delete();
-            $x++;
-        }
-        $ibadah = Ibadah::where('id', $id)->first();
+        $this->deleteContentIbadah($id);
+        $ibadah = Ibadah::findOrFail($id);
         $result = $ibadah->delete();
         return $this->sendingData($result);
     }

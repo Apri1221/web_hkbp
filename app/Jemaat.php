@@ -9,7 +9,7 @@ class Jemaat extends Model
     //
     protected $table = 'data_jemaat';
 
-    protected $fillable = ['distrik', 'resort', 'gereja', 'sektor', 'updated_at', 'created_at'];
+    protected $fillable = ['distrik', 'resort', 'gereja', 'sektor'];
     
     protected $hidden = ['id_sheet', 'url_sheet'];
 }

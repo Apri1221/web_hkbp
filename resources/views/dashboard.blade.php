@@ -14,6 +14,10 @@
         background-color: var(--secondary-color-palete);
         color: white
     }
+
+    .ui.action.input input[type="file"] {
+        display: none;
+    }
 </style>
 @endpush
 
@@ -57,21 +61,22 @@
                                 </div>
 
                                 <!-- Modal form update data -->
-                                <div class="ui small modal" id="dataGereja{{ $item->id }}">
-                                    <i class="close icon"></i>
-                                    <div class="header">
-                                        Ubah Data
-                                    </div>
-                                    <div class="content">
-                                        <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
+                                <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
+                                    <div class="ui small modal" id="dataGereja{{ $item->id }}">
+                                        <i class="close icon"></i>
+                                        <div class="header">
+                                            Ubah Data
+                                        </div>
+                                        <div class="scrolling content">
                                             @csrf
                                             <!-- dynamic modals -->
                                             <div id="valueFormUpdate{{ $item->id }}" class="ui form left aligned container"></div>
-                                            <br>
+                                        </div>
+                                        <div class="actions">
                                             <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
@@ -185,7 +190,8 @@
 
 <!-- https://codepen.io/cwiens/full/gyvqrg, https://greensock.com/cheatsheet/ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
-<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
 

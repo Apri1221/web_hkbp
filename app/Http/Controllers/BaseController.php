@@ -22,12 +22,12 @@ class BaseController extends Controller
         return view('about');
     }
 
-    public function getIbadah($id) {
-        return view('ibadah', ['id' => $id]);
+    public function getIbadah($id_ibadah) {
+        return view('ibadah', ['id' => $id_ibadah]);
     }
 
-    public function getArticle() {
-        return view('article');
+    public function getTingting($id_tingting) {
+        return view('tingting', ['id' => $id_tingting]);
     }
 
     public function login(Request $request)

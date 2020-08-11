@@ -30,11 +30,14 @@
     }
 
     .slider img {
+        height: 26em;
+        width: 100%;
         object-fit: cover;
+        align-items: center;
     }
 
     .slider-nav .slick-current {
-        background: aqua;
+        background: var(--main-color-palete-light);
         /* nanti ganti */
     }
 
@@ -112,8 +115,8 @@
         <div class="twelve wide column">
             <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
             <div class="ui hidden divider huge"></div>
-            <h1 class="header">Protoype Tingting</h1>
-            <div id="announcement"></div>
+            <h1 class="header">Tingting</h1>
+            <div id="bannerTingting"></div>
         </div>
         <!-- section ibadah -->
         <div class="four wide column" id="sticky-content">
@@ -154,5 +157,5 @@
 <script src="{{ asset('./assets/lib/tablesort/tablesort.min.js') }}"></script>
 
 <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
-<script type="text/babel" src="{{ asset('assets/js/announce.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script>
 @endpush

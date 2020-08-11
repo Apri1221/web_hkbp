@@ -55,18 +55,8 @@ const TableJemaat = props => {
 
 const LoadingPreview = () => {
     return (
-        <div className="ui fluid placeholder">
-            <div className="very short line"></div>
-            <div className="paragraph">
-                <div className="line"></div>
-                <div className="line"></div>
-                <div className="line"></div>
-            </div>
-            <div className="very short line"></div>
-            <div className="paragraph">
-                <div className="line"></div>
-                <div className="line"></div>
-            </div>
+        <div className="ui info message">
+            <span>Pilih sektor terlebih dahulu</span>
         </div>
     )
 }
@@ -89,7 +79,7 @@ class DataJemaat extends React.Component {
 
     componentDidMount() {
         $('#dropdown-sektor').dropdown({ clearable: true });
-        const urlFetch = this.handleRequestAPI('http://localhost:8000/api/jemaat/list', method.GET);
+        const urlFetch = this.handleRequestAPI('/api/jemaat/list', method.GET);
         urlFetch.then(resJson => {
             Object.keys(resJson).map((item) => {
                 this.state.listSektor.push(resJson[item]);
@@ -128,7 +118,7 @@ class DataJemaat extends React.Component {
         const modalTarget = '#modalDataKeluarga';
         const btnIDTarget = `#btn${kodeKeluarga}`;
 
-        const urlFetch = this.handleRequestAPI(`http://localhost:8000/api/jemaat/${sektor}/${user_role}/Keluarga?familyID=${kodeKeluarga}`, method.GET);
+        const urlFetch = this.handleRequestAPI(`/api/jemaat/${sektor}/${user_role}/Keluarga?familyID=${kodeKeluarga}`, method.GET);
 
         try {
             urlFetch.then(resJson => {
@@ -160,7 +150,7 @@ class DataJemaat extends React.Component {
         const user_role = this.state.user_role;
         const relation = 'Kepala Keluarga'; // define whatever you want, default
 
-        const urlFetch = this.handleRequestAPI(`http://localhost:8000/api/jemaat/${sektor}/${user_role}/` + (user_role != 'admin' ? `Hubungan?relation=${relation}` : ''), method.GET);
+        const urlFetch = this.handleRequestAPI(`/api/jemaat/${sektor}/${user_role}/` + (user_role != 'admin' ? `Hubungan?relation=${relation}` : ''), method.GET);
 
         urlFetch.then(resJson => {
             const data = Object.keys(resJson).map(item => {
@@ -220,7 +210,8 @@ class DataJemaat extends React.Component {
                     </div>
                 </div>
                 {/* render content depend on given condition, pass the method */}
-                {data[0] ? <TableJemaat data={dataTable} whenClicked={this.getDataKeluargaJemaat} /> : <LoadingPreview />}
+                {!data[0] ? !sektor ? <LoadingPreview/> : null :
+                <TableJemaat data={dataTable} whenClicked={this.getDataKeluargaJemaat} />}
             </div>
         )
     }

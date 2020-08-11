@@ -37,16 +37,14 @@
 
 
             --main-color-palete: #00a6fb;
-            --main-color-palete-dark: #006494;
+            --main-color-palete-light: #81f5ff;
 
-            /* pink */
+            /* orange */
             --secondary-color-palete: #ef8354;
-            --third-color-palete: #ef8354;
         }
 
         html,
         body {
-            background-color: #fff;
             color: #414141;
             font-family: 'Nunito', sans-serif !important;
             font-weight: 300 !important;

@@ -22,16 +22,26 @@ function () {
     Route::get('/{sektor}/{user}/{dataCategory?}', 'JemaatController@getJemaat');
 });
 
-Route::get('ibadah/{id?}', 'Api\IbadahController@getIbadah');
-Route::post('ibadah/create', 'Api\IbadahController@createIbadah');
-Route::put('ibadah/update/{id}', 'Api\IbadahController@updateIbadah');
-Route::delete('ibadah/delete/{id}', 'Api\IbadahController@deleteIbadah');
+Route::group(['prefix' => 'ibadah', 'namespace' => 'Api'], 
+function () {    
+    Route::get('/{id?}', 'IbadahController@getIbadah');
+    Route::post('/create', 'IbadahController@createIbadah');
+    Route::put('/update/{id}', 'IbadahController@updateIbadah');
+    Route::delete('/delete/{id}', 'IbadahController@deleteIbadah');
+});
 
 
-// Belum yaa
+Route::group(['prefix' => 'tingting', 'namespace' => 'Api'], 
+function () {    
+    Route::get('/{id?}', 'TingtingController@showTingting');
+    // this get can handle query : ?limit=10&image=true
+    
+    Route::post('/create', 'TingtingController@createTingting');
+    Route::put('/update/{id}', 'TingtingController@updateTingting');
+    Route::delete('/delete/{id}', 'TingtingController@deleteTingting');
+});
+
+// Belum yaa Joelkun
 Route::get('tingting/{id_tingting}', 'Api\TingtingController@getSpecificTingting');
 Route::get('tingting', 'Api\TingtingController@getAllTingting');
-Route::post('tingting/create', 'Api\TingtingController@createTingting');
-Route::post('tingting/update', 'Api\TingtingController@updateTingting');
-Route::post('tingting/delete/{id_tingting}', 'Api\TingtingController@deleteTingting');
 

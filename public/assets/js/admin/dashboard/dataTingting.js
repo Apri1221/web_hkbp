@@ -1,21 +1,3 @@
-{/* <div class="ui form">
-    <div class="field">
-        <input type="text" name="first-name" placeholder="First name">
-                    </div>
-        <div class="field">
-            <textarea placeholder="Some example text..."></textarea>
-        </div>
-    </div> */}
-
-
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
 class MasterTingting extends React.Component {
     constructor(props) {
         super(props)
@@ -128,8 +110,8 @@ class PostTingting extends React.Component {
             image: null,
         }
 
-        this.onUpload = this.onUpload.bind(this);
-        this.onDelete = this.onDelete.bind(this);
+        this.onUploadImage = this.onUploadImage.bind(this);
+        this.onDeleteImage = this.onDeleteImage.bind(this);
         this.sendData = this.sendData.bind(this);
     }
 
@@ -145,8 +127,11 @@ class PostTingting extends React.Component {
             title: title,
             contents: content,
         })
-        const blob_image = await fetch(image).then(r => r.blob());
-        this.setStateImage(blob_image, file_attached);
+        if (image != null) {
+            $('#img-desc').val("Memuat Gambar");
+            const blob_image = await fetch(image).then(r => r.blob());
+            this.setStateImage(blob_image, file_attached);
+        }
     }
 
     componentDidMount() {
@@ -157,30 +142,27 @@ class PostTingting extends React.Component {
     }
 
     componentDidUpdate() {
-        $('.message .close').on('click', function () {
-            $(this)
-                .closest('.message')
-                .transition('fade down');
-        });
+        // from parrent Dashboard html
+        clossableMessage();
     }
 
-    handleChange = (e) => {
-        this.setValue(e.target.className, e.target.value);
+    handleChangeInput = (e) => {
+        this.setValueState(e.target.className, e.target.value);
     }
 
-    onUpload(e) {
+    onUploadImage(e) {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length)
             return;
         this.setStateImage(files[0]);
     }
 
-    onDelete(e) {
+    onDeleteImage(e) {
         e.preventDefault();
         this.setStateImage(null);
     }
 
-    setValue(name, value) {
+    setValueState(name, value) {
         this.setState({ [name]: value })
     }
 
@@ -188,28 +170,27 @@ class PostTingting extends React.Component {
         this.setState({
             image: file ? file : null
         })
-        const file_name = file.name ? file.name : name;
-        const file_size = Math.ceil(file.size / 1000);
+        const file_name = name ? name : file ? file.name : null;
+        const file_size = file ? Math.ceil(file.size / 1000) : null;
         $('#img-desc').val(file ? `${file_name} | ${file_size}KB` : null);
     }
 
     async sendData(e) {
         e.preventDefault();
-        const { title, contents, image } = this.state;
-        let data = new FormData();
+        const { id, title, contents, image } = this.state;
+        const compressedImage = await imageCompression(image);
         data.append('title', title);
         data.append('content', contents);
-        data.append('image', image);
-        await axios.post('/api/tingting/create', data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Accept': 'application/json',
-                    // "Authorization" : `Bearer ${token}`}
-                }
-            }).then(res => console.log(res.data))
-            .catch(e => console.log(e))
-            
+        data.append('image', compressedImage, image.name);
+        const url = '/api/tingting/' + (id ? `update/${id}` : 'create');
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                // "Authorization" : `Bearer ${token}`}
+            }
+        }
+        // AXIOS LARAVEL ERROR PUT REQUEST MULTIPART
+        axios.post(url, data, config).then(r => console.log(r.data));
         // calling callback from Master Component
         this.props.callbackEdit();
     }
@@ -218,7 +199,7 @@ class PostTingting extends React.Component {
         const { title, contents, image } = this.state;
         const fCallbackEdit = this.props.callbackEdit;
         return (
-            <form className="ui form" onChange={this.handleChange}>
+            <form className="ui form" onChange={this.handleChangeInput}>
                 <div className="field">
                     <label htmlFor="title">Judul</label>
                     <input type="text" className="title" name="title" id="title" value={title} />
@@ -231,20 +212,20 @@ class PostTingting extends React.Component {
                     <label htmlFor="image">Lampiran Foto Sampul</label>
                     <div class="ui action input">
                         <input type="text" id="img-desc" placeholder="Klik di sini untuk upload" readonly="readonly" />
-                        <input type="file" accept="image/*" name="image" id="image" onChange={this.onUpload} />
+                        <input type="file" accept="image/*" name="image" id="image" onChange={this.onUploadImage} />
                         <div class="ui basic grey icon button">
                             <i class="attach icon"></i>
                         </div>
                     </div>
                 </div>
                 <button className="ui positive button" onClick={this.sendData}>Simpan</button>
-                <button className="ui negative button" onClick={this.onDelete}>Hapus</button>
+                <button className="ui negative button" onClick={this.onDeleteImage}>Hapus</button>
                 <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 <div className="ui hidden divider"></div>
                 <div>
                     {
-                        image ? (<img className="ui bordered fluid image" 
-                        src={URL.createObjectURL(image)} />) :
+                        image != null ? (<img className="ui bordered fluid image"
+                            src={URL.createObjectURL(image)} />) :
                             (<div className="ui info message">
                                 <i className="close icon"></i>
                                 <span>Preview gambar tampil disini</span>

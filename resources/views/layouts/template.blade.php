@@ -14,11 +14,6 @@
     <!-- Semantic CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 
-    <!-- Library Carousel Slick -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <!-- Add the slick-theme.css if you want default styling -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
     <!-- Styles -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
@@ -227,14 +222,14 @@
                 Silakan Masuk
             </div>
             <div class="content ui left aligned container">
-                @if(Session::has('gagal'))
+                @if(Session::has('fail_login'))
                 <div class="ui icon negative message">
                     <i class="lock icon"></i>
                     <div class="content">
                         <div class="header">
                             Gagal Masuk!
                         </div>
-                        <p>Email atau kata sandi mungkin salah</p>
+                        <p>{{ session('fail_login') }}</p>
                     </div>
                 </div>
                 @endif
@@ -258,16 +253,22 @@
                 </form>
             </div>
         </div>
-        @yield('content')
+
+        <div class="ui container" style="margin:70px 0">
+            @if(session('fail_dashboard'))
+            <div class="ui negative message">
+                <span>{{session('fail_dashboard')}}</span>
+            </div>
+            @endif
+            @yield('content')
+        </div>
     </div>
 
     <footer>
-        <!-- <div class="ui container">
-            <h1>Halo</h1>
-        </div> -->
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
 
     <!-- react js v16 -->
@@ -277,8 +278,11 @@
     <!-- Semantic JS -->
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
+
     <script>
-        // className can be separate by '|' if there is multiple object to animate
+        // className can be separate by '|' if there is multiple component to animate
         function animateFadeIn(className) {
             let elements = className.split('|');
             for (let element of elements) {
@@ -286,12 +290,38 @@
                     x: 0, // move from 0px right to the current position
                     y: 50, // move from 100px down to the current position
                     duration: 1,
-                    autoAlpha: 0, // fade in from opacity 0 to the current
+                    autoAlpha: 0,
                     stagger: 0.2,
                     delay: 0.5,
                     ease: Power3.easeInOut,
                 });
             }
+        }
+
+        // enums
+        const method = {
+            GET: 'GET',
+            POST: 'POST',
+            PUT: 'PUT',
+            DELETE: 'DELETE'
+        }
+
+        const handleRequestAPI = (url, method, data = undefined) => {
+            if (!url) return; // guard clause
+            return fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(result => {
+                if (result.status === 200) {
+                    return result.json()
+                }
+            }).then(resJson => {
+                return resJson
+            }).catch(error => console.log(error, url));
         }
 
         $(document).ready(() => {

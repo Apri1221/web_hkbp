@@ -37,7 +37,8 @@ function () {
     // this get can handle query : ?limit=10&image=true
     
     Route::post('/create', 'TingtingController@createTingting');
-    Route::put('/update/{id}', 'TingtingController@updateTingting');
+    // laravel/php/symfony - axios, error request PUT
+    Route::post('/update/{id}', 'TingtingController@updateTingting');
     Route::delete('/delete/{id}', 'TingtingController@deleteTingting');
 });
 

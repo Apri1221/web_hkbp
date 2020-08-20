@@ -1,11 +1,3 @@
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
 const TableJemaat = props => {
     const data = props.data;
     return (

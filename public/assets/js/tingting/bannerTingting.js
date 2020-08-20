@@ -1,28 +1,3 @@
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
-const handleRequestAPI = (url, method, data = undefined) => {
-    if (!url) return; // guard clause
-    return fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(result => {
-        if (result.status === 200) { return result.json() }
-    }).then(resJson => {
-        return resJson
-    }).catch(error => console.log(error));
-}
-
-
 const Slider = (props) => {
     const dataSlide = props.data;
     return (

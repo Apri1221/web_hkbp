@@ -1,27 +1,3 @@
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
-const handleRequestAPI = (url, method, data = undefined) => {
-    if (!url) return; // guard clause
-    return fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(result => {
-        if (result.status === 200) { return result.json() }
-    }).then(resJson => {
-        return resJson
-    }).catch(error => console.log(error));
-}
-
 class DataTingting extends React.Component {
     constructor(props) {
         super(props)
@@ -54,9 +30,10 @@ class DataTingting extends React.Component {
     render() {
         console.log(this.state)
         const {title, content, image, updated_at} = this.state;
+        
         return (
             <div>
-                <img className="ui centered fluid image" src={image} />
+                <img className="ui centered fluid raised image" src={image} />
                 <div className="ui divider"></div>
                 <h1 className="header">{title}</h1>
                 <div className="ui circular labels">

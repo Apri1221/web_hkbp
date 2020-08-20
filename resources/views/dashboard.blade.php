@@ -22,104 +22,102 @@
 @endpush
 
 @section('content')
-<div class="ui container" style="margin:70px 0">
-    <div class="ui two column stackable grid">
-        <div class="four wide column">
-            <div class="ui vertical fluid tabular menu hiddenGSAP">
-                <a class="item active" data-tab="dataJemaat">Data Jemaat</a>
-                <a class="item" data-tab="dataTingting">Data Tingting</a>
-                <a class="item" data-tab="dataIbadah">Data Ibadah</a>
-            </div>
+<div class="ui two column stackable grid">
+    <div class="four wide column">
+        <div class="ui vertical fluid tabular menu hiddenGSAP">
+            <a class="item active" data-tab="dataJemaat">Data Jemaat</a>
+            <a class="item" data-tab="dataTingting">Data Tingting</a>
+            <a class="item" data-tab="dataIbadah">Data Ibadah</a>
         </div>
-        <div class="twelve wide column">
-            <div class="ui tab active" data-tab="dataJemaat">
-                <h1>Kelola Data Jemaat</h1>
-                <table class="ui compact celled table">
-                    <thead>
-                        <tr>
-                            <th>Distrik</th>
-                            <th>Resort</th>
-                            <th>Sektor</th>
-                            <th>ID Sheet</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($dataHKBP as $item)
-                        <tr>
-                            <td>{{ $item->distrik }}</td>
-                            <td>{{ $item->resort }}</td>
-                            <td>{{ $item->sektor }}</td>
-                            <td>{{ $item->id_sheet }}</td>
-                            <td>
-                                <div class="ui icon buttons">
-                                    <button data-id="{{ $item->id }}" distrik="{{ $item->distrik }}" resort="{{ $item->resort }}" gereja="{{ $item->gereja }}" sektor="{{ $item->sektor }}" url_sheet="{{ $item->url_sheet }}" id_sheet="{{ $item->id_sheet }}" class="ui blue basic button btnModal">
-                                        <i class="edit outline icon"></i>
-                                    </button>
+    </div>
+    <div class="twelve wide column">
+        <div class="ui tab active" data-tab="dataJemaat">
+            <h1>Kelola Data Jemaat</h1>
+            <table class="ui compact celled table">
+                <thead>
+                    <tr>
+                        <th>Distrik</th>
+                        <th>Resort</th>
+                        <th>Sektor</th>
+                        <th>ID Sheet</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($dataHKBP as $item)
+                    <tr>
+                        <td>{{ $item->distrik }}</td>
+                        <td>{{ $item->resort }}</td>
+                        <td>{{ $item->sektor }}</td>
+                        <td>{{ $item->id_sheet }}</td>
+                        <td>
+                            <div class="ui icon buttons">
+                                <button data-id="{{ $item->id }}" distrik="{{ $item->distrik }}" resort="{{ $item->resort }}" gereja="{{ $item->gereja }}" sektor="{{ $item->sektor }}" url_sheet="{{ $item->url_sheet }}" id_sheet="{{ $item->id_sheet }}" class="ui blue basic button btnModal">
+                                    <i class="edit outline icon"></i>
+                                </button>
 
-                                    <a class="ui red basic button" href="{{ route('destroy_data', ['id' => $item->id ]) }}"><i class="trash alternate outline icon"></i></a>
-                                </div>
+                                <a class="ui red basic button" href="{{ route('destroy_data', ['id' => $item->id ]) }}"><i class="trash alternate outline icon"></i></a>
+                            </div>
 
-                                <!-- Modal form update data -->
-                                <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
-                                    <div class="ui small modal" id="dataGereja{{ $item->id }}">
-                                        <i class="close icon"></i>
-                                        <div class="header">
-                                            Ubah Data
-                                        </div>
-                                        <div class="scrolling content">
-                                            @csrf
-                                            <!-- dynamic modals -->
-                                            <div id="valueFormUpdate{{ $item->id }}" class="ui form left aligned container"></div>
-                                        </div>
-                                        <div class="actions">
-                                            <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
-                                        </div>
+                            <!-- Modal form update data -->
+                            <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
+                                <div class="ui small modal" id="dataGereja{{ $item->id }}">
+                                    <i class="close icon"></i>
+                                    <div class="header">
+                                        Ubah Data
                                     </div>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot class="full-width">
-                        <tr>
-                            <th colspan="6">
-                                <div class="ui right floated small primary labeled icon button btnModal" id="addGereja">
-                                    <i class="plus icon"></i> Tambah Data
+                                    <div class="scrolling content">
+                                        @csrf
+                                        <!-- dynamic modals -->
+                                        <div id="valueFormUpdate{{ $item->id }}" class="ui form left aligned container"></div>
+                                    </div>
+                                    <div class="actions">
+                                        <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
+                                    </div>
                                 </div>
-                                <div class="">
-                                    NB: Pastikan integrasi data excel yang baru sudah benar
-                                </div>
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot class="full-width">
+                    <tr>
+                        <th colspan="6">
+                            <div class="ui right floated small primary labeled icon button btnModal" id="addGereja">
+                                <i class="plus icon"></i> Tambah Data
+                            </div>
+                            <div class="">
+                                NB: Pastikan integrasi data excel yang baru sudah benar
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
 
-                <!-- Modal form store data -->
-                <div class="ui small modal" id="addGerejaModal">
-                    <i class="close icon"></i>
-                    <div class="header">
-                        Tambah Data
-                    </div>
-                    <div class="content">
-                        <form action="{{ route('store_data') }}" method="POST">
-                            @csrf
-                            <!-- dynamic modals without writing it with PHP trough foreach -->
-                            <div id="valueFormStore" class="ui form left aligned container"></div>
-                            <br>
-                            <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
-                        </form>
-                    </div>
+            <!-- Modal form store data -->
+            <div class="ui small modal" id="addGerejaModal">
+                <i class="close icon"></i>
+                <div class="header">
+                    Tambah Data
+                </div>
+                <div class="content">
+                    <form action="{{ route('store_data') }}" method="POST">
+                        @csrf
+                        <!-- dynamic modals without writing it with PHP trough foreach -->
+                        <div id="valueFormStore" class="ui form left aligned container"></div>
+                        <br>
+                        <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="ui tab" data-tab="dataTingting">
-                <div id="contentTingting"></div>
-            </div>
+        <div class="ui tab" data-tab="dataTingting">
+            <div id="contentTingting"></div>
+        </div>
 
-            <div class="ui tab" data-tab="dataIbadah">
-                <div id="contentIbadah"></div>
-            </div>
+        <div class="ui tab" data-tab="dataIbadah">
+            <div id="contentIbadah"></div>
         </div>
     </div>
 </div>
@@ -130,6 +128,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
 
 <script>
+    // call this in your jsx react, on mount or on update to close message Semantic UI Component
+    function clossableMessage() {
+        $('.message .close').click(function() {
+            $(this).closest('.message').transition('fade down');
+        });
+    }
     $(document).ready(() => {
         // semantic for data URL href
         $('.tabular.menu .item').tab({
@@ -145,41 +149,31 @@
             var id = $(this).attr('data-id');
             var modal = id ? ('#dataGereja' + id) : '#addGerejaModal'
 
-            // make dynamic modals without writing it with PHP trough foreach, its also on store new data, wow!
-
-            const distrik_name = $(this).attr('distrik') ? $(this).attr('distrik') : '';
-            const resort_name = $(this).attr('resort') ? $(this).attr('resort') : '';
-            const gereja_name = $(this).attr('gereja') ? $(this).attr('gereja') : '';
-            const sektor_name = $(this).attr('sektor') ? $(this).attr('sektor') : '';
-            const url_sheet = $(this).attr('url_sheet') ? $(this).attr('url_sheet') : '';
-            const id_sheet = $(this).attr('id_sheet') ? $(this).attr('id_sheet') : '';
-
-            var formTarget = modal == '#addGerejaModal' ? '#valueFormStore' : ('#valueFormUpdate' + id);
+            /** 
+             * make dynamic modals without writing it with PHP trough foreach, its also on store new data, wow!
+             * 
+             * in php, there is null colescing ternary or shorthand ternary
+             * in js, no shorthand, we use || operator
+             */ 
+            
+            let formTarget = modal == '#addGerejaModal' ? '#valueFormStore' : (`#valueFormUpdate${id}`);
 
             $(formTarget).html('');
-            $(formTarget).append('<div class="field">' +
-                '<label>Nama Distrik</label>' +
-                '<input type="text" name="distrik" value="' + distrik_name + '"/></div>' +
+            
+            const dataGereja = {
+                distrik: $(this).attr('distrik') || '',
+                resort: $(this).attr('resort') || '',
+                gereja: $(this).attr('gereja') || '',
+                sektor: $(this).attr('sektor') || '',
+                url_sheet: $(this).attr('url_sheet') || '',
+                id_sheet: $(this).attr('id_sheet') || ''
+            }
 
-                '<div class="field">' +
-                '<label>Nama Resort</label>' +
-                '<input type="text" name="resort" value="' + resort_name + '"/></div>' +
-
-                '<div class="field">' +
-                '<label>Nama Gereja</label>' +
-                '<input type="text" name="gereja" value="' + gereja_name + '"/></div>' +
-
-                '<div class="field">' +
-                '<label>Nama Sektor</label>' +
-                '<input type="text" name="sektor" value="' + sektor_name + '"/></div>' +
-
-                '<div class="field">' +
-                '<label>URL Spreadsheet</label>' +
-                '<input type="text" name="url_sheet" value="' + url_sheet + '"/></div>' +
-
-                '<div class="field">' +
-                '<label>ID Spreadsheet</label>' +
-                '<input type="text" name="id_sheet" value="' + id_sheet + '"/></div>');
+            const arrData = Object.keys(dataGereja);
+            const arrValue = Object.values(dataGereja);
+            arrData.forEach((data, id) => {
+                $(formTarget).append(`<div class="field"><label>Nama Distrik</label><input type="text" name=${data} value="${arrValue[id]}"/></div>`);
+            })
 
             $(modal)
                 .modal('setting', 'closable', false)
@@ -189,11 +183,9 @@
 </script>
 
 <!-- https://codepen.io/cwiens/full/gyvqrg, https://greensock.com/cheatsheet/ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
-
 <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script>
 @endpush

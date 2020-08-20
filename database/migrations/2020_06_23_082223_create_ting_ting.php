@@ -16,7 +16,7 @@ class CreateTingTing extends Migration
         Schema::create('tingting', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->string('file_attached')->nullable();
             $table->timestamps();
         });

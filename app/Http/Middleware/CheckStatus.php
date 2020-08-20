@@ -23,6 +23,6 @@ class CheckStatus
             return $next($request);
         }
 
-        return back();
+        return back()->with('fail_dashboard', 'Masuk Terlebih Dahulu');
     }
 }

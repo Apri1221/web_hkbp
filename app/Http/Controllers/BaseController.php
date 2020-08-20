@@ -49,7 +49,7 @@ class BaseController extends Controller
             if($result['role'] == 'admin') return redirect('admin/dashboard');
             return back();
         } else {
-            $request->session()->flash('gagal', $request->password);
+            $request->session()->flash('fail_login', 'Alamat Email atau Kata Sandi salah');
             return back();
         }
     }

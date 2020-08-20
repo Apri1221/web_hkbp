@@ -1,11 +1,3 @@
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
 class ContentIbadah extends React.Component {
     constructor(props) {
         super(props)
@@ -34,7 +26,7 @@ class ContentIbadah extends React.Component {
             if (result.status === 200) { return result.json() }
         }).then(resJson => {
             return resJson
-        }).catch(error => console.log(error));
+        }).catch(error => sendCrashReport(error, url));
     }
 
     async getDataIbadah(id) {

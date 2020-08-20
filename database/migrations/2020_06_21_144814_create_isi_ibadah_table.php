@@ -16,7 +16,7 @@ class CreateIsiIbadahTable extends Migration
         Schema::create('ibadah_content', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->unsignedBigInteger('id_ibadah');
             $table->foreign('id_ibadah')->references('id')->on('ibadah');
             $table->timestamps();

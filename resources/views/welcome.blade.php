@@ -1,5 +1,11 @@
 @extends('layouts.template')
 @push('any_css')
+
+<!-- Library Carousel Slick -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
 <style>
     #detailKeluarga {
         background-position: center;
@@ -79,7 +85,6 @@
             max-width: 20em;
         }
     }
-    
 </style>
 @endpush
 
@@ -109,30 +114,28 @@
     </div>
 </div>
 
-<div class="ui container" style="margin:70px 0">
-    <div class="ui stackable grid" style="align-items: flex-start;">
-        <!-- section content -->
-        <div class="twelve wide column">
-            <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
-            <div class="ui hidden divider huge"></div>
-            <h1 class="header">Tingting</h1>
-            <div id="bannerTingting"></div>
-        </div>
-        <!-- section ibadah -->
-        <div class="four wide column" id="sticky-content">
-            @foreach($ibadahs as $ibadah)
-            <div class="ui grey fluid card">
-                <div class="content">
-                    <div class="header">{{ $ibadah->title }}</div>
-                </div>
-                <div class="content">
-                    <p class="ui description">{{ $ibadah->description }}</p>
-                    <div class="ui divider"></div>
-                    <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
-                </div>
+<div class="ui stackable grid" style="align-items: flex-start;">
+    <!-- section content -->
+    <div class="twelve wide column">
+        <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
+        <div class="ui hidden divider huge"></div>
+        <h1 class="header">Tingting</h1>
+        <div id="bannerTingting"></div>
+    </div>
+    <!-- section ibadah -->
+    <div class="four wide column" id="sticky-content">
+        @foreach($ibadahs as $ibadah)
+        <div class="ui grey fluid card">
+            <div class="content">
+                <div class="header">{{ $ibadah->title }}</div>
             </div>
-            @endforeach
+            <div class="content">
+                <p class="ui description">{{ $ibadah->description }}</p>
+                <div class="ui divider"></div>
+                <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
+            </div>
         </div>
+        @endforeach
     </div>
 </div>
 @endsection

@@ -6,9 +6,7 @@
 @endpush
 
 @section('content')
-<div class="ui container" style="margin:70px 0">
-    <div id="contentTingting" tingting-id={{$id}}></div>
-</div>
+<div id="contentTingting" tingting-id={{$id}}></div>
 @endsection
 
 @push('any_js')

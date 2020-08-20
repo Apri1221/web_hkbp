@@ -1,27 +1,3 @@
-// enums
-const method = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE'
-}
-
-const handleRequestAPI = (url, method, data = undefined) => {
-    if (!url) return; // guard clause
-    return fetch(url, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }).then(result => {
-        if (result.status === 200) { return result.json() }
-    }).then(resJson => {
-        return resJson
-    }).catch(error => console.log(error));
-}
-
 const Form = (props) => {
     const { contents } = props
     return (
@@ -189,12 +165,7 @@ class PostIbadah extends React.Component {
             updated_at: updated_at,
             contents: contents
         })
-        
-        $('.message .close').on('click', function() {
-            $(this)
-                .closest('.message')
-                .transition('fade down');
-            });
+        clossableMessage();
     }
 
     addClick() {
@@ -215,15 +186,15 @@ class PostIbadah extends React.Component {
 
     async sendDataIbadah() {
         const { id, title, description, contents } = this.state;
-        let urlAPI = (id) ? `/api/ibadah/update/${id}` : '/api/ibadah/create';
-        let methodREST = (id) ? method.PUT : method.POST;
-        console.log(await handleRequestAPI(urlAPI, methodREST, {
+        const url = (id) ? `/api/ibadah/update/${id}` : '/api/ibadah/create';
+        const methodREST = (id) ? method.PUT : method.POST;
+        await handleRequestAPI(url, methodREST, {
             // object in controller Ibadah
             id: id,
             title: title,
             description: description,
             contents: contents
-        }))
+        })
         // calling callback from Master Component
         this.props.callbackEdit();
     }

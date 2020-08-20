@@ -8,62 +8,34 @@ use App\Tag;
 use App\RelationTag;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FileManagement;
 use App\Http\Controllers\ResponseJSON;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class TingtingController extends Controller
 {
     use ResponseJSON;
+    use FileManagement;
     // under public/*
     private $basePath = '/assets/images/tingting/';
-
-    private function getImage($name){
-        $path = public_path().$this->basePath.$name;
-        return File::exists($path) ? url($this->basePath.$name) : null;
-    }
-
-    private function uploadImage($file_image)
-    {
-        $fileName = Str::random(8) . date("Ymd") .
-                    ".{$file_image->getClientOriginalExtension()}";
-
-        $destinationPath = public_path($this->basePath);
-        $file_image->move($destinationPath, $fileName);
-        return $fileName;
-    }
-
-    private function downloadImage($name) 
-    {
-        // https://stackoverflow.com/questions/43091997/laravel-get-file-content
-        $path = public_path().$this->basePath.$name;
-        if(File::exists($path)) return File::get($path);
-    }
-
-    private function deleteImage($name)
-    {
-        // "http://localhost:8000/assets/images/tingting/WqadiLur20200810.png"
-        $path = public_path().$this->basePath.$name;
-        if(File::exists($path)) File::delete($path);
-    }
 
     public function showTingting($id = null, Request $request)
     {
         $query = $request->query(); // ex: base_url/api/tingting?apri=irene
         $limit = $query['limit'] ?? null; // null coalescing operator
         $is_image = $query['image'] ?? false;
-        
-        $tingting = $id ? Tingting::where('id', $id) : 
-        (!$is_image ? Tingting::limit($limit) : 
-        Tingting::whereNotNull('file_attached')->limit($limit));
+
+        $tingting = $id ? Tingting::where('id', $id) : (!$is_image ? Tingting::limit($limit) :
+            Tingting::whereNotNull('file_attached')->limit($limit));
 
         $tingting = $tingting->get();
-        $tingting->map(function($q){
-            $q['image'] = $this->getImage($q->file_attached);
+        $tingting->map(function ($q) {
+            if ($q->file_attached != null) {
+                $q['image'] = $this->getFile($q->file_attached, $this->basePath);
+            }
             return $q;
         })->sortByDesc('created_at');
-        
+
         return $this->sendingData($tingting, 200);
     }
 
@@ -71,39 +43,32 @@ class TingtingController extends Controller
     {
         $tingting = new Tingting();
         $input = collect($request)->except('image');
-        $fileImg = $request->image ? $request->image : null;
-        if ($fileImg != null) {
-            try {
-                $imgName = $this->uploadImage($fileImg);
-                $input->put('file_attached', $imgName);
-            } catch (\Throwable $th) {
-                return $this->sendingData($th, 500);
-            }
+        if ($request->hasFile('image')) {
+            $imgName = $this->uploadFile($request->image, $this->basePath);
+            $input->put('file_attached', $imgName);
         }
         $tingting->fill($input->all())->save();
         return $this->sendingData('Success', 200);
     }
 
-    public function updateTingting(Request $request, $id_tingting) {
+    public function updateTingting(Request $request, $id_tingting)
+    {
+        $tingting = Tingting::findOrFail($id_tingting);
         $input = collect($request)->except('image');
-        $tingting = Tingting::findOrFail($id_tingting);
-        $fileImg = $request->image ? $request->image : null;
-        if ($fileImg != null) {
-            try {
-                $this->deleteImage($tingting->file_attached);
-                $imgName = $this->uploadImage($fileImg);
-                $input->put('file_attached', $imgName);
-            } catch (\Throwable $th) {
-                return $this->sendingData($th, 500);
-            }
-        }
+        if ($request->hasFile('image')) {
+            $this->deleteFile($tingting->file_attached, $this->basePath);
+            $imgName = $this->uploadFile($request->image, $this->basePath);
+            $input->put('file_attached', $imgName);
+        } 
         $tingting->fill($input->all())->save();
         return $this->sendingData('Success', 200);
+            
     }
 
-    public function deleteTingting($id_tingting) {
+    public function deleteTingting($id_tingting)
+    {
         $tingting = Tingting::findOrFail($id_tingting);
-        $this->deleteImage($tingting->file_attached);
+        $this->deleteFile($tingting->file_attached, $this->basePath);
         $tingting->delete();
         $this->sendingData('Success', 200);
     }

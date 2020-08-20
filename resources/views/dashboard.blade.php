@@ -124,9 +124,6 @@
 @endsection
 
 @push('any_js')
-<!-- this script use for data-tabular menu URL -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
-
 <script>
     // call this in your jsx react, on mount or on update to close message Semantic UI Component
     function clossableMessage() {

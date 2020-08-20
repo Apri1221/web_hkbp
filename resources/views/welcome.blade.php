@@ -156,9 +156,6 @@
 <!-- Library Carousel Slick -->
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-<!-- Library for table sorting -->
-<script src="{{ asset('./assets/lib/tablesort/tablesort.min.js') }}"></script>
-
 <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
 <script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script>
 @endpush

@@ -11,5 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.js(['resources/lib/jquery/jquery-address.1.6.min.js',
+    'resources/lib/semantic-ui/semantic.min.js',
+    'resources/lib/gsap/gsap.3.min.js',
+    'resources/lib/tablesort/tablesort.min.js'], 'public/js/main.js');
+

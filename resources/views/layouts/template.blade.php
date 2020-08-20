@@ -8,14 +8,13 @@
 
     <title>Web Informasi HKBP</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:600" rel="stylesheet">
-
     <!-- Semantic CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 
     <!-- Styles -->
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Nunito:600');
+
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 
         :root {
@@ -268,18 +267,15 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+    <!-- using webpack -->
+    <script src="{{ asset('./js/main.js') }}"></script>
 
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
 
     <!-- react js v16 -->
     <script src="{{ asset('./assets/lib/react/react-production.min.js') }}"></script>
     <script src="{{ asset('./assets/lib/react/reactdom-production.min.js') }}"></script>
-
-    <!-- Semantic JS -->
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.0/gsap.min.js"></script>
 
     <script>
         // className can be separate by '|' if there is multiple component to animate

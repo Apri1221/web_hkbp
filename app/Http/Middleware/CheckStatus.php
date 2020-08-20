@@ -22,7 +22,7 @@ class CheckStatus
         if($user['role'] == 'admin'){
             return $next($request);
         }
-
+        if($request->segments(2) == 'dashboard') return redirect('home');
         return back()->with('fail_dashboard', 'Masuk Terlebih Dahulu');
     }
 }

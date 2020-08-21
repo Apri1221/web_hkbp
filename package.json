@@ -13,6 +13,9 @@
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.13",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "fomantic-ui": "^2.8.6"
     }
 }

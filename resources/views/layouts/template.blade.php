@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="manifest" href="{{ asset('/manifest.json') }}">
+
+    <meta name="theme-color" content="#00a6fb">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel="apple-touch-icon" href="{{ asset('assets/icon/apple-icon-180x180.png') }}">
+    <!-- https://appsco.pe/developer/splash-screens -->
+    <link rel="apple-touch-startup-image" href="{{ asset('assets/icon/apple-icon-180x180.png') }}">
+
     <title>Web Informasi HKBP</title>
 
+
     <!-- Semantic CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="{{ mix('css/semantic.css') }}">
 
     <!-- Styles -->
     <style>
@@ -60,7 +70,6 @@
 
         /* modify semantic ui */
 
-        .ui.button,
         .ui.primary.button {
             box-shadow: var(--main-box-shadow) !important
         }
@@ -77,10 +86,6 @@
 
         .ui.secondary.pointing.menu {
             background-color: white;
-        }
-
-        .ui.label {
-            color: #414141 !important;
         }
 
         .content {
@@ -253,12 +258,21 @@
             </div>
         </div>
 
-        <div class="ui container" style="margin:70px 0">
+        <div class="ui container" style="margin-top:70px">
             @if(session('fail_dashboard'))
             <div class="ui negative message">
                 <span>{{session('fail_dashboard')}}</span>
             </div>
             @endif
+
+            <div class="content install-prompt">
+                <p>Install aplikasi Web HKBP di ponsel kamu
+                </p>
+                <button href="#" class="ui positive button" onclick="addToHomeScreen()">Install
+                </button>
+            </div>
+            <div class="ui hidden divider"></div>
+
             @yield('content')
         </div>
     </div>
@@ -267,15 +281,16 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    
+
     <!-- using webpack -->
-    <script src="{{ asset('./js/main.js') }}"></script>
+    <script src="{{ mix('js/semantic.js') }}"></script>
+    <script src="{{ mix('js/main.js') }}"></script>
 
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
 
     <!-- react js v16 -->
-    <script src="{{ asset('./assets/lib/react/react-production.min.js') }}"></script>
-    <script src="{{ asset('./assets/lib/react/reactdom-production.min.js') }}"></script>
+    <script src="{{ asset('/assets/lib/react/react-production.min.js') }}"></script>
+    <script src="{{ asset('/assets/lib/react/reactdom-production.min.js') }}"></script>
 
     <script>
         // className can be separate by '|' if there is multiple component to animate
@@ -291,6 +306,42 @@
                     delay: 0.5,
                     ease: Power3.easeInOut,
                 });
+            }
+        }
+
+      
+        // Check that service workers are supported
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('/service-worker.js')
+                    .then(() => {
+                        console.log("Pendaftaran ServiceWorker berhasil");
+                    })
+                    .catch(() => {
+                        console.log("Pendaftaran ServiceWorker gagal");
+                    });
+            });
+        }
+
+        if (window.matchMedia('(display-mode: standalone)').matches) {  
+            document.querySelector('.install-prompt').style.display = 'none';
+        }  
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+            return false;
+        });
+
+        function addToHomeScreen() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    console.log(choiceResult.outcome);
+                });
+                deferredPrompt = null;
             }
         }
 

@@ -2,9 +2,8 @@
 @push('any_css')
 
 <!-- Library Carousel Slick -->
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" href="{{ mix('css/slick.css') }}" />
 <!-- Add the slick-theme.css if you want default styling -->
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 
 <style>
     #detailKeluarga {
@@ -154,7 +153,7 @@
 </script>
 
 <!-- Library Carousel Slick -->
-<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
 <script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script>

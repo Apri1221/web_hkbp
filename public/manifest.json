@@ -1,0 +1,44 @@
+{
+	"name": "Web HKBP Padang Bulan",
+	"short_name": "HKBP",
+	"lang": "id,in",
+	"description": "Informasi ibadah, tingting, dan jemaat HKBP terbaik",
+	"start_url": "/",
+	"scope": "/",
+	"background_color": "#00a6fb",
+	"theme_color": "#00a6fb",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "assets/icon/icon-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "assets/icon/android-icon-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "assets/icon/favicon-96x96.png",
+			"type": "image/png",
+			"sizes": "96x96",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "assets/icon/favicon-32x32.png",
+			"type": "image/png",
+			"sizes": "32x32",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "assets/icon/apple-icon-180x180.png",
+			"type": "image/png",
+			"sizes": "180x180",
+			"purpose": "any maskable"
+		}
+	],
+	"prefer_related_applications": false
+}

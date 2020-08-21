@@ -1,3 +1,7 @@
 {
-    "/js/main.js": "/js/main.js"
+    "/js/main.js": "/js/main.js",
+    "/js/semantic.js": "/js/semantic.js",
+    "/js/slick.js": "/js/slick.js",
+    "/css/slick.css": "/css/slick.css",
+    "/css/semantic.css": "/css/semantic.css"
 }

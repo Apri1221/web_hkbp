@@ -20,7 +20,6 @@ class DataTingting extends React.Component {
             image: image,
             updated_at: updated_at
         })
-        console.log(this.state)
     }
 
     componentDidMount() {
@@ -28,7 +27,6 @@ class DataTingting extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         const {title, content, image, updated_at} = this.state;
         
         return (
@@ -53,6 +51,5 @@ class DataTingting extends React.Component {
 
 $(document).ready(() => {
     var id = $("#contentTingting").attr('tingting-id');
-    console.log(id)
     ReactDOM.render(<DataTingting idTingting={id} />, document.getElementById("contentTingting"));
 })

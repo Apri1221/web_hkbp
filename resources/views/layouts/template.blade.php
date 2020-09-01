@@ -17,13 +17,18 @@
 
     <title>Web Informasi HKBP</title>
 
+    <!-- preload -->
+    <link rel="preload" href="/css/themes/default/assets/fonts/icons.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/css/fonts/slick.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Nunito:600&display=swap" as="font" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" as="font" crossorigin>
 
     <!-- Semantic CSS -->
     <link rel="stylesheet" href="{{ mix('css/semantic.css') }}">
 
     <!-- Styles -->
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Nunito:600');
+        @import url('https://fonts.googleapis.com/css?family=Nunito:600&display=swap');
 
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 
@@ -195,7 +200,7 @@
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
-                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}"></a>
+                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}" alt="logo hkbp"></a>
                 </div>
                 <div class="right menu">
                     <div class="ui floating dropdown item" id="dropdown-menu"><i class="sidebar icon"></i>Menu<i class="dropdown icon"></i>
@@ -278,6 +283,7 @@
     </div>
 
     <footer>
+        <div class="ui huge hidden divider"></div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -309,7 +315,7 @@
             }
         }
 
-      
+
         // Check that service workers are supported
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -324,9 +330,9 @@
             });
         }
 
-        if (window.matchMedia('(display-mode: standalone)').matches) {  
+        if (window.matchMedia('(display-mode: standalone)').matches) {
             document.querySelector('.install-prompt').style.display = 'none';
-        }  
+        }
 
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (event) => {

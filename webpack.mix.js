@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,12 +12,13 @@ const mix = require('laravel-mix');
  |
  */
 
+
 mix.js(['resources/lib/jquery/jquery-address.1.6.min.js',
-    'resources/lib/semantic-ui/semantic.min.js',
     'resources/lib/gsap/gsap.3.min.js',
     'resources/lib/tablesort/tablesort.min.js'], 'public/js/main.js')
     .styles(['resources/lib/slick/slick.css',
         'resources/lib/slick/slick-theme.css'], 'public/css/slick.css')
     .styles('semantic/dist/semantic.min.css', 'public/css/semantic.css')
     .js('resources/lib/slick/slick.min.js', 'public/js/slick.js')
-    .js('semantic/dist/semantic.min.js', 'public/js/semantic.js', 'public/js/semantic.js');
+    .js('semantic/dist/semantic.min.js', 'public/js/semantic.js')
+    .version();

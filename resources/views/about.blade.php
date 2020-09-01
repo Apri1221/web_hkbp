@@ -32,28 +32,32 @@
     <div class="six wide column">
         <div class="hiddenGSAP">
             <div class="content" id="img_code">
-                <img src="{{ asset('./assets/images/code_people_hero.svg') }}" x="0" y="0" width="100%" height="100%">
+                <img src="{{ asset('./assets/images/code_people_hero.svg') }}" x="0" y="0" width="95%">
             </div>
         </div>
         <div class="ui hidden divider"></div>
-        <a class="ui primary fluid button" href="" target="_blank" rel="noopener noreferrer"><i class="coffee icon"></i>Bergabung</a>
+        <a class="ui black fluid button" href="https://github.com/Apri1221/web_hkbp" target="_blank" rel="noopener noreferrer"><i class="github icon"></i>Bergabung</a>
     </div>
 </div>
 <div class="ui stackable grid">
+
     <div class="column">
-        <h1>Misi</h1>
-        <h3>Pengembangan website ini bertujuan untuk mempermudah penyebaran informasi semua hal tentang ibadah untuk jemaat HKBP Padang Bulan.
+        <div class="ui info message">
+            <div class="header">Apa yang baru?</div>
+            <ul>
+                <li>Dukungan Progressif Web App. Dengan PWA, aplikasi HKBP ini bisa diinstall di Android dan IOS, <a href="#" class="ui positive compact button" onclick="addToHomeScreen()">Install</a> sekarang</li>
+                <li>Image compression. Otomatis kompresi image ketika Admin upload tingting</li>
+            </ul>
+            <span>Yang akan datang: pemutar musik lagu ibadah pada fitur tata ibadah</span>
+        </div>
+        <h1 class="ui header">Misi</h1>
+        <h3>Pengembangan website ini bertujuan untuk mempermudah penyebaran informasi semua hal tentang ibadah untuk jemaat HKBP Padang Bulan yang diinisiasikan selama pandemi Corona Virus Disease 2019.
         </h3>
 
         <div class="ui hidden divider"></div>
-        <h3>
-            Website ini dibangun di atas teknologi Laravel, React JS, Greensock, Semantic UI, Google Spreadsheet, dan MySQL. Pengembangan ini juga bertujuan sebagai ajang pembelajaran bagi developer.
-        </h3>
-
-        <div class="ui hidden divider"></div>
-        <h3>
-            Bagi jemaat yang ingin bergabung untuk membangun sistem ini dengan sangat senang hati saya akan terima permintaan bergabung di apriyantotobing8@gmail.com.
-        </h3>
+        <p>
+            Dibangun di atas teknologi <strong>Laravel, React JS, Greensock, Semantic UI, Google Spreadsheet, dan MySQL</strong>, pengembangan website ini juga bertujuan sebagai ajang pembelajaran bagi developer.
+        </p>
     </div>
 </div>
 @endsection

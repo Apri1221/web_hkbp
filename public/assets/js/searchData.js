@@ -182,28 +182,32 @@ class DataJemaat extends React.Component {
         return (
             <div>
                 <div className="ui large form segment">
+                    <label for="search_jemaat"></label>
                     <div className="ui inline fields">
                         <div className="field">
                             <div className="ui left icon input">
                                 {/* Correct: handleClick is passed as a reference! */}
-                                <input value={filter} onChange={this.handleSearch} type="text" placeholder="Cari Jemaat" />
+                                <input id="search_jemaat" value={filter} onChange={this.handleSearch} type="text" placeholder="Cari Jemaat" />
                                 <i className="users icon"></i>
                             </div>
+
                         </div>
                         <div className="ui hidden section divider"></div>
                         <div className="field">
-                            <select id="dropdown-sektor" className="ui fluid search dropdown" onChange={this.getDataJemaatSektor}>
-                                <option value="">Pilih Sektor</option>
-                                {listSektor.map(item => ( // given an object
-                                    <option value={item['sektor']}>{item['sektor']}</option>
-                                ))}
-                            </select>
+                            <label>
+                                <select id="dropdown-sektor" className="ui fluid search dropdown" onChange={this.getDataJemaatSektor}>
+                                    <option value="">Pilih Sektor</option>
+                                    {listSektor.map(item => ( // given an object
+                                        <option value={item['sektor']}>{item['sektor']}</option>
+                                    ))}
+                                </select>
+                            </label>
                         </div>
                     </div>
                 </div>
                 {/* render content depend on given condition, pass the method */}
-                {!data[0] ? !sektor ? <LoadingPreview/> : null :
-                <TableJemaat data={dataTable} whenClicked={this.getDataKeluargaJemaat} />}
+                {!data[0] ? !sektor ? <LoadingPreview /> : null :
+                    <TableJemaat data={dataTable} whenClicked={this.getDataKeluargaJemaat} />}
             </div>
         )
     }

@@ -179,7 +179,7 @@
     });
 </script>
 
-<!-- https://codepen.io/cwiens/full/gyvqrg, https://greensock.com/cheatsheet/ -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@latest/dist/browser-image-compression.js"></script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 

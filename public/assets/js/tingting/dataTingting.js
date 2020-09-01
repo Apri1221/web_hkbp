@@ -31,7 +31,7 @@ class DataTingting extends React.Component {
         
         return (
             <div>
-                <img className="ui centered fluid raised image" src={image} />
+                <img className="ui centered fluid raised image" src={image} alt={title}/>
                 <div className="ui divider"></div>
                 <h1 className="header">{title}</h1>
                 <div className="ui circular labels">

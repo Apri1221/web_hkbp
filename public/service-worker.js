@@ -1,8 +1,9 @@
 
+
 const CACHE_NAME = "hkbp-pwa-v1";
+const CACHE_IMAGE = "hkbp-asset";
 
 let urlsToCache = [
-    "/",
     "/manifest.json",
     "/assets/icon/apple-icon-180x180.png",
     "/assets/icon/icon-512x512.png",
@@ -14,10 +15,6 @@ let urlsToCache = [
     "/css/semantic.css",
     "/css/slick.css",
     "/css/ajax-loader.gif",
-    "/css/fonts/slick.woff",
-    "/css/themes/default/assets/fonts/icons.woff2",
-    "/css/themes/default/assets/fonts/icons.woff",
-    "/css/themes/default/assets/fonts/icons.ttf",
     "/js/semantic.js",
     "/js/main.js",
     "/js/slick.js",
@@ -80,30 +77,40 @@ self.addEventListener("activate", function (event) {
  */
 
 self.addEventListener("fetch", function (event) {
-    if (event.request.url.startsWith("chrome-extension://")) return;
-    if (event.request.url.match('^.*(\/api\/).*$')) return
+    if (event.request.url.startsWith("chrome-extension://") || event.request.url.match('^.*(\/api\/).*$')) return;
 
-    event.respondWith(
-        caches.match(event.request, { cacheName: CACHE_NAME })
-            .then(response => {
-                // Cache hit - return response
-                if (response) {
-                    return response;
-                }
+    regexAsset = new RegExp('(.*).js|(.*).css|(.*).woff$')
+    regexImage = new RegExp('(.*).jpeg|(.*).jpg|(.*).png$')
 
-                return fetch(event.request)
-                    .then(response => {
-                        if (!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-                        var responseToCache = response.clone();
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
+    if (regexImage.test(event.request.url)) {
+        console.log("ServiceWorker: Fetch dari asset")
+        event.respondWith(
+            caches.open(CACHE_IMAGE).then(cache => {
+                return cache.match(event.request).then(response => {
+                    return response || fetch(event.request).then(response => {
+                        cache.put(event.request, response.clone());
+                        return response;
+                    });
+                })
+            })
+        );
+    }
+
+    if (regexAsset.test(event.request.url)) {
+        console.log("ServiceWorker: Fetch dari hkbp")
+        event.respondWith(
+            caches.match(event.request, { cacheName: CACHE_NAME })
+                .then(response => {
+                    // Cache hit - return response
+                    return response || fetch(event.request)
+                        .then(response => {
+                            let responseToCache = response.clone();
+                            caches.open(CACHE_NAME).then(cache => {
                                 cache.put(event.request, responseToCache);
                             });
-                        return response;
-                    }
-                    );
-            })
-    );
+                            return response;
+                        });
+                })
+        );
+    }
 });

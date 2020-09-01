@@ -163,25 +163,32 @@ class PostTingting extends React.Component {
     }
 
     setValueState(name, value) {
-        this.setState({ [name]: value })
+        this.setState({ [name]: value });
     }
 
-    setStateImage(file, name = null) {
-        this.setState({
-            image: file ? file : null
-        })
+    async setStateImage(file = null, name = null) {
         const file_name = name ? name : file ? file.name : null;
-        const file_size = file ? Math.ceil(file.size / 1000) : null;
+        let file_size = file ? Math.ceil(file.size / 1000) : null;
+
+        if (file_size > 2048) {
+            let options = {
+                maxSizeMB: 2,
+                useWebWorker: true
+            }
+            file = await imageCompression(file, options);
+            file_size = Math.ceil(file.size / 1000);
+        }
+        this.setState({image: file})
         $('#img-desc').val(file ? `${file_name} | ${file_size}KB` : null);
     }
 
     async sendData(e) {
         e.preventDefault();
         const { id, title, contents, image } = this.state;
-        const compressedImage = await imageCompression(image);
+        let data = new FormData();
         data.append('title', title);
         data.append('content', contents);
-        data.append('image', compressedImage, image.name);
+        data.append('image', image);
         const url = '/api/tingting/' + (id ? `update/${id}` : 'create');
         const config = {
             headers: {

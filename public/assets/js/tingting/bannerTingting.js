@@ -7,7 +7,7 @@ const Slider = (props) => {
                     const {id, title, image} = data;
                     return(
                         <div className="content slide">
-                            <img src={image} />
+                            <img src={image} alt={title}/>
                             <div className="slide-description">
                                 <span>{title}</span>
                                 <a className="header" href={`/article/${id}`} >selengkapnya</a>

@@ -34,19 +34,23 @@
 
         :root {
             --main-box-shadow:
-                0 2.1px 2.7px rgb(0, 0, 0, 0.022),
-                0 5.2px 6.9px rgb(0, 0, 0, 0.031),
+                0 4.1px 3.7px rgb(0, 0, 0, 0.024),
+                0 5.2px 6.9px rgb(0, 0, 0, 0.032),
                 0 10.6px 14.2px rgb(0, 0, 0, 0.039),
                 0 21.9px 29.2px rgb(0, 0, 0, 0.048),
-                0 60px 80px rgb(0, 0, 0, 0.07);
+                0 70px 90px rgb(0, 0, 0, 0.07);
+
+            --big-shadow:
+                0 5.2px 6.9px rgb(0, 0, 0, 0.032),
+                0 8px 20px 0 rgba(0, 0, 0, 0.3);
 
             --small-box-shadow:
-                0 7.4px 4.1px rgba(0, 0, 0, 0.018),
-                0 20px 68px rgba(0, 0, 0, 0.07);
+                0 7.4px 5.1px rgba(0, 0, 0, 0.028),
+                0 30px 68px rgba(0, 0, 0, 0.07);
 
 
             --main-color-palete: #00a6fb;
-            --main-color-palete-light: #81f5ff;
+            --main-color-palete-light: #A0F1FF;
 
             /* orange */
             --secondary-color-palete: #ef8354;
@@ -298,6 +302,11 @@
     <script src="{{ asset('/assets/lib/react/react-production.min.js') }}"></script>
     <script src="{{ asset('/assets/lib/react/reactdom-production.min.js') }}"></script>
 
+    
+    <!-- Firebase JS CDN -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"></script>
+
     <script>
         // className can be separate by '|' if there is multiple component to animate
         function animateFadeIn(className) {
@@ -313,6 +322,33 @@
                     ease: Power3.easeInOut,
                 });
             }
+        }
+
+        let firebaseConfig = {
+            apiKey: "AIzaSyC8sOPhPviWiab6O19iNdVo2kc9PoRMCxo",
+            authDomain: "hkbp-pbulan.firebaseapp.com",
+            databaseURL: "https://hkbp-pbulan.firebaseio.com",
+            projectId: "hkbp-pbulan",
+            storageBucket: "hkbp-pbulan.appspot.com",
+            messagingSenderId: "883338731802",
+            appId: "1:883338731802:web:93354e0f924ed417ca8ca3",
+            measurementId: "G-KX4CGXNV85"
+        };
+
+        let app = firebase.initializeApp(firebaseConfig);
+        // using db
+        let db = firebase.firestore(app);
+
+
+        function sendData(msg) {
+            const { serverTimestamp } = firebase.firestore.FieldValue;
+
+            db.collection("nyanyian").add({
+                    lagu: msg,
+                    tanggal: serverTimestamp()
+                })
+                .then(docRef => console.log("Sending analytics: ", docRef.id))
+                .catch(e => console.error("Fail sending analytics: ", e));
         }
 
 

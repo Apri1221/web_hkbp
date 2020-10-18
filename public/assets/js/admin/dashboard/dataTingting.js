@@ -178,6 +178,7 @@ class PostTingting extends React.Component {
             file = await imageCompression(file, options);
             file_size = Math.ceil(file.size / 1000);
         }
+        console.log(file)
         this.setState({image: file})
         $('#img-desc').val(file ? `${file_name} | ${file_size}KB` : null);
     }
@@ -196,6 +197,7 @@ class PostTingting extends React.Component {
                 // "Authorization" : `Bearer ${token}`}
             }
         }
+        console.log(image)
         // AXIOS LARAVEL ERROR PUT REQUEST MULTIPART
         axios.post(url, data, config).then(r => console.log(r.data));
         // calling callback from Master Component

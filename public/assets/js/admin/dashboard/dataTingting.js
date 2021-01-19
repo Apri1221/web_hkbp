@@ -217,6 +217,7 @@ class PostTingting extends React.Component {
                     <label htmlFor="description">Deskripsi</label>
                     <textarea className="contents" name="contents" id="contents" value={contents}></textarea>
                 </div>
+
                 <div className="field">
                     <label htmlFor="image">Lampiran Foto Sampul</label>
                     <div class="ui action input">
@@ -225,10 +226,13 @@ class PostTingting extends React.Component {
                         <div class="ui basic grey icon button">
                             <i class="attach icon"></i>
                         </div>
+                        <button className="ui negative button" onClick={this.onDeleteImage}>
+                            <i class="trash alternate outline icon"></i>Hapus
+                        </button>
                     </div>
                 </div>
+                
                 <button className="ui positive button" onClick={this.sendData}>Simpan</button>
-                <button className="ui negative button" onClick={this.onDeleteImage}>Hapus</button>
                 <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 <div className="ui hidden divider"></div>
                 <div>

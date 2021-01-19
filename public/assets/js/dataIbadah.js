@@ -129,7 +129,7 @@ class ContentIbadah extends React.Component {
         if (content.search(re) > 0) {
             for (const item of content.match(re)) {
                 const nyanyian = item.replace(/[.,]/g, '').split(' ');
-                if(nyanyian.length > 3) continue
+                if (nyanyian.length > 3) continue
                 const buku = nyanyian[0];
                 const nomor = nyanyian[2];
                 

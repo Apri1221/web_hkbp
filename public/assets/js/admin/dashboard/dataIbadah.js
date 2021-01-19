@@ -203,11 +203,36 @@ class PostIbadah extends React.Component {
         if (['title', 'post'].includes(name) && id != null) {
             // make duplicate of post state
             let contents = [...this.state.contents]
+
+            // check if title is correct
+            if (name === 'title') this.validationBukuLagu(value, id+1);
+
             // store data that has changed, and insert back
             contents[id][name] = value
             this.setState({ contents });
         } else {
             this.setState({ [name]: value })
+        }
+    }
+
+    validationBukuLagu(value, id_konten) {
+        // checking if title Nyanyian is correct (only 1 title) eg: BE NO. 198 "Lorem Ipsum" BL.178 (wrong)
+        
+        const re = new RegExp(/\b(be|kj|bl|bn|pkj)\b.*\s*(?=\d+)[0-9](\w)/gi);
+        if (value.search(re) > 0) {
+            const nyanyian = value.match(re).join().replace(/[.,]/g, '').split(' ');
+            if (nyanyian.length > 3) {
+                // do toast
+                $('body')
+                    .toast({
+                        title: `Title Konten ${Number(id_konten)} Bermasalah`,
+                        message: 'Buku lagu yang digunakan tidak boleh duplikat',
+                        displayTime: 6000,
+                        showProgress: 'top',
+                        classProgress: 'red'
+                    })
+                ;
+            }
         }
     }
 
@@ -220,6 +245,8 @@ class PostIbadah extends React.Component {
     render() {
         let { title, description, contents, updated_at } = this.state;
         const fCallbackEdit = this.props.callbackEdit;
+
+        updated_at = updated_at == null ? '-' : updated_at;
 
         return (
             <div>
@@ -239,8 +266,8 @@ class PostIbadah extends React.Component {
 
                     <Form contents={contents} removeContent={this.removeContent} />
 
-                    <button className="ui left attached blue button" onClick={this.addClick.bind(this)}>Tambah</button>
-                    <input type="submit" value="Simpan" className="ui positive right attached button" onClick={this.sendDataIbadah} />
+                    <button className="ui left blue button" onClick={this.addClick.bind(this)}>Tambah</button>
+                    <input type="submit" value="Simpan" className="ui positive right button" onClick={this.sendDataIbadah} />
                     <button className="ui right floated labeled icon secondary button" onClick={fCallbackEdit}><i className="angle left icon"></i>Kembali</button>
                 </form>
             </div>

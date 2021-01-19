@@ -26,8 +26,12 @@ class BaseController extends Controller
         return view('ibadah', ['id' => $id_ibadah]);
     }
 
-    public function getTingting($id_tingting) {
+    public function getTingting($id_tingting = null) {
         return view('tingting', ['id' => $id_tingting]);
+    }
+
+    public function testpage(){
+        return view('testpage');
     }
 
     public function login(Request $request)

@@ -22,8 +22,16 @@ class DataTingting extends React.Component {
         })
     }
 
+    getAllDataTingting(){
+        // provide API untuk tampilin semua tingting
+    }
+
     componentDidMount() {
-        this.getDataTingting(this.state.id);
+        if (this.state.id != null) {
+            this.getDataTingting(this.state.id);
+        } else {
+            this.getAllDataTingting()
+        }
     }
 
     render() {

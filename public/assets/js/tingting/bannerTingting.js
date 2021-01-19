@@ -69,7 +69,8 @@ class Tingting extends React.Component {
         super(props)
         this.state = {
             slide: null,
-            list: null
+            list: null,
+            error: false
         }
     }
 
@@ -97,11 +98,38 @@ class Tingting extends React.Component {
         const list = await handleRequestAPI(`/api/tingting?${qL}`, method.GET);
         this.setState({slide: slide, list: list})
         this.initateSlick();
+        setTimeout(
+            () => {
+                if (!this.state.slide || !this.state.list) {
+                    this.setState({
+                        error : true
+                    })
+                } 
+            }, 8000
+        )
     }
 
     render() {
-        const {slide, list} = this.state;
-        if (!slide || !list) return (<div className="ui active centered inline loader"></div>);
+        const {slide, list, error} = this.state;
+        const myStyle = {
+            color : "gray",
+            fontFamily : "Verdana",
+            textAlign : "center", 
+            fontStyle : "italic"
+        };
+        if (error) {
+            return (
+                <div>
+                    <p style={{textAlign : "center"}}>
+                        <em data-emoji="astonished" class="medium"/>
+                    </p>
+                    <p style={myStyle}>
+                        Maaf, tidak ada data tingting yang diambil.
+                    </p>
+                </div>
+            )
+        }
+        else if (!slide || !list) return (<div className="ui active centered inline loader"></div>);
         else return (
             <div>
                 <Slider data={slide}/>

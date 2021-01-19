@@ -407,10 +407,12 @@
             }).then(result => {
                 if (result.status === 200) {
                     return result.json()
+                } else {
+                    throw new Error('gagal data dari server')
                 }
             }).then(resJson => {
                 return resJson
-            }).catch(error => console.log(error, url));
+            }).catch(err => console.error(err));
         }
 
         $(document).ready(() => {

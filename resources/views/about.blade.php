@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ui fluid card">
+            <!-- <div class="ui fluid card">
                 <a target="_blank" rel="noopener noreferrer" class="image" href="https://www.instagram.com/joelmatondangg/">
                     <img src="" id="joel">
                 </a>
@@ -25,7 +25,7 @@
                         <a>Developer</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -47,8 +47,11 @@
             <ul>
                 <li>Dukungan Progressif Web App. Dengan PWA, aplikasi HKBP ini bisa diinstall di Android dan IOS, <a href="#" class="ui positive compact button" onclick="addToHomeScreen()">Install</a> sekarang</li>
                 <li>Image compression. Otomatis kompresi image ketika Admin upload tingting</li>
+                <li>Performa website lebih cepat</li>
+                <li>Feed instagram NHKBP Padang Bulan</li>
+                <li>Pemutar musik lagu/kidung ibadah pada fitur tata ibadah (indeks otomatis)</li>
             </ul>
-            <span>Yang akan datang: pemutar musik lagu ibadah pada fitur tata ibadah</span>
+            <span>Yang akan datang: konten renungan & input masukan dari jemaat untuk admin</span>
         </div>
         <h1 class="ui header">Misi</h1>
         <h3>Pengembangan website ini bertujuan untuk mempermudah penyebaran informasi semua hal tentang ibadah untuk jemaat HKBP Padang Bulan yang diinisiasikan selama pandemi Corona Virus Disease 2019.
@@ -85,7 +88,7 @@
             }
         }
         getPhoto('aprijplt', '#apri');
-        getPhoto('joelmatondangg', '#joel');
+        // getPhoto('joelmatondangg', '#joel');
 
         animateFadeIn('#img_code');
 

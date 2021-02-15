@@ -10,5 +10,6 @@
 @endsection
 
 @push('any_js')
-<script type="text/babel" src="{{ asset('assets/js/tingting/dataTingting.js') }}"></script>
+<!-- <script type="text/babel" src="{{ asset('assets/js/tingting/dataTingting.js') }}"></script> -->
+<script type="text/javascript" src="{{ asset('assets/prod/js/tingting/dataTingting.js') }}"></script>
 @endpush

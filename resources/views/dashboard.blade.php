@@ -183,6 +183,9 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
-<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script>
+<!-- <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script> -->
+
+<script type="text/javascript" src="{{ asset('assets/prod/js/admin/dashboard/dataIbadah.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/prod/js/admin/dashboard/dataTingting.js') }}"></script>
 @endpush

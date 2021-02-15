@@ -1,6 +1,6 @@
 
 
-const CACHE_NAME = "hkbp-pwa-v1";
+const CACHE_NAME = "hkbp-pwa-v2";
 const CACHE_IMAGE = "hkbp-asset";
 
 let urlsToCache = [
@@ -79,7 +79,7 @@ self.addEventListener("activate", function (event) {
 self.addEventListener("fetch", function (event) {
     if (event.request.url.startsWith("chrome-extension://") || event.request.url.match('^.*(\/api\/).*$')) return;
 
-    regexAsset = new RegExp('(.*).js|(.*).css|(.*).woff$')
+    regexAsset = new RegExp('(.*).css|(.*).woff$')
     regexImage = new RegExp('(.*).jpeg|(.*).jpg|(.*).png$')
 
     if (regexImage.test(event.request.url)) {

@@ -204,16 +204,21 @@
             <div class="ui container">
                 <div class="header item">
                     <a href="{{ route('home') }}">
-                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}" alt="logo hkbp"></a>
+                        <img style="width: 20px;" src="{{ asset('./assets/images/HKBP_40.jpg') }}" alt="logo hkbp">
+                    </a>
                 </div>
                 <div class="right menu">
                     <div class="ui floating dropdown item" id="dropdown-menu"><i class="sidebar icon"></i>Menu<i class="dropdown icon"></i>
                         <div class="menu">
-                            <a class="item" href="{{ route('about') }}">
-                                <i class="user secret icon"></i>Pengembang
+                            <a class="item" href="{{ route('home') }}">
+                                <i class="home icon"></i>Beranda
                             </a>
                             <a class="item" href="{{ route('dashboard') }}">
                                 <i class="th icon"></i>Dashboard
+                            </a>
+                            <div class="ui fitted divider"></div>
+                            <a class="item" href="{{ route('about') }}">
+                                <i class="user secret icon"></i>Pengembang
                             </a>
                             <div class="ui fitted divider"></div>
                             <div class="item">
@@ -288,6 +293,15 @@
 
     <footer>
         <div class="ui huge hidden divider"></div>
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                <div class="ui stackable inverted divided equal height stackable grid">
+                    <div class="wide column">
+                        <h4 style="color: #bbb;">HKBP Padang Bulan Medan - 2021</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -296,13 +310,14 @@
     <script src="{{ mix('js/semantic.js') }}"></script>
     <script src="{{ mix('js/main.js') }}"></script>
 
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
+    <!-- Uncomment ini jika dalam fase development -->
+    <!-- <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script> -->
 
     <!-- react js v16 -->
     <script src="{{ asset('/assets/lib/react/react-production.min.js') }}"></script>
     <script src="{{ asset('/assets/lib/react/reactdom-production.min.js') }}"></script>
 
-    
+
     <!-- Firebase JS CDN -->
     <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-firestore.js"></script>
@@ -341,7 +356,9 @@
 
 
         function sendData(msg) {
-            const { serverTimestamp } = firebase.firestore.FieldValue;
+            const {
+                serverTimestamp
+            } = firebase.firestore.FieldValue;
 
             db.collection("nyanyian").add({
                     lagu: msg,

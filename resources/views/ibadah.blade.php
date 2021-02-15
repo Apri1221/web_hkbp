@@ -14,5 +14,6 @@
 
 <script src="https://unpkg.com/react-jinke-music-player@4.19.0/dist/react-jinke-music-player.min.js"></script>
 
-<script type="text/babel" src="{{ asset('assets/js/dataIbadah.js') }}"></script>
+<!-- <script type="text/babel" src="{{ asset('assets/js/dataIbadah.js') }}"></script> -->
+<script type="text/javascript" src="{{ asset('assets/prod/js/dataIbadah.js') }}"></script>
 @endpush

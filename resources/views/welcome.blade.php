@@ -72,9 +72,15 @@
     }
 
     /* (640x960) iPhone 4 & 4S Surface duo */
-    @media only screen and (min-width: 450px) and (max-device-width: 960px) {
+    @media only screen and (max-device-width: 960px) {
         .content.slide .slide-description span {
             max-width: 12em;
+        }
+
+        /* instagram feed change 29.3333% to auto */
+        .instagram-image,
+        .instagram-sidecar {
+            width: auto !important;
         }
     }
 
@@ -131,11 +137,16 @@
             <div class="content">
                 <p class="ui description">{{ $ibadah->description }}</p>
                 <div class="ui divider"></div>
-                <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer"></i>Lihat</a>
+                <a class="ui primary fluid button" href="/post/{{ $ibadah->id }}" rel="noopener noreferrer">Lihat</a>
             </div>
         </div>
         @endforeach
     </div>
+</div>
+<div class="ui hidden divider huge"></div>
+<div class="ui basic fitted segment">
+    <h1 class="header">Feed NHKBP P. Bulan</h1>
+    <div id="instagram-feed-nhkbp"></div>
 </div>
 @endsection
 
@@ -155,6 +166,32 @@
 <!-- Library Carousel Slick -->
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-<script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
-<script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script>
+<!-- Instagram feed -->
+<script src="{{ asset('js/instagramfeed.min.js') }}"></script>
+<script>
+    // dokumentasi https://www.sowecms.com/demos/InstagramFeed/#examples
+    (function(){
+        let data = null;
+
+        new InstagramFeed({
+            'username': 'nhkbppbulan',
+            'container': document.getElementById("instagram-feed-nhkbp"),
+            'display_profile': false,
+            'display_biography': false,
+            'display_gallery': true,
+            'display_captions': false,
+            'callback': (data) => { console.log(data) },
+            'styling': true,
+            'items': 9,
+            'items_per_row': 3,
+            'margin': 2 ,
+            'lazy_load': true
+        });
+    })();
+</script>
+
+<!-- <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script> -->
+<script type="text/javascript" src="{{ asset('assets/prod/js/searchData.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/prod/js/tingting/bannerTingting.js') }}"></script>
 @endpush

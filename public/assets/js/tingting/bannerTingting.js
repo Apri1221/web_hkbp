@@ -6,8 +6,12 @@ const Slider = (props) => {
                 {dataSlide.map(data => {
                     const {id, title, image} = data;
                     return(
-                        <div className="content slide">
-                            <img src={image} alt={title}/>
+                        <div className="content slide" style={{
+                            backgroundImage: `url("https://fomantic-ui.com/images/wireframe/image.png")`,
+                            'background-position': '50% 50%',
+                            'background-size': 'cover'
+                        }}>
+                            <img src={image} />
                             <div className="slide-description">
                                 <span>{title}</span>
                                 <a className="header" href={`/article/${id}`} >selengkapnya</a>
@@ -51,7 +55,7 @@ const List = (props) => {
                     )
                 })}
                 <div className="ui fitted divider"></div>
-                <a className="ui feed item" href="">
+                <a className="ui feed item" href="/article">
                     <div className="content">
                         <div className="summary">
                             Lihat tingting lebih banyak lagi di sini.

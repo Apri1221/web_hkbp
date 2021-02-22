@@ -32,7 +32,7 @@ class AllTingting extends React.Component {
                                     image != null ? (
                                         <div class="image"
                                             style={{
-                                                backgroundImage: `url("https://fomantic-ui.com/images/wireframe/image.png")`,
+                                                backgroundColor: `#fff`,
                                                 'background-position': '50% 50%',
                                                 'background-size': 'cover'
                                             }}>

@@ -60,22 +60,21 @@
                             </div>
 
                             <!-- Modal form update data -->
-                            <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
-                                <div class="ui small modal" id="dataGereja{{ $item->id }}">
-                                    <i class="close icon"></i>
-                                    <div class="header">
-                                        Ubah Data
-                                    </div>
-                                    <div class="scrolling content">
+                            <div class="ui small modal" id="dataGereja{{ $item->id }}">
+                                <i class="close icon"></i>
+                                <div class="header">
+                                    Ubah Data
+                                </div>
+                                <div class="scrolling content">
+                                    <form action="{{ route('update_data', ['id' => $item->id ]) }}" method="POST">
                                         @csrf
                                         <!-- dynamic modals -->
                                         <div id="valueFormUpdate{{ $item->id }}" class="ui form left aligned container"></div>
-                                    </div>
-                                    <div class="actions">
+                                        <br>
                                         <button class="ui positive labeled icon button">Simpan<i class="save icon"></i></button>
-                                    </div>
-                                </div>
-                            </form>
+                                    </form>
+                                </div>      
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -100,7 +99,7 @@
                 <div class="header">
                     Tambah Data
                 </div>
-                <div class="content">
+                <div class="scrolling content">
                     <form action="{{ route('store_data') }}" method="POST">
                         @csrf
                         <!-- dynamic modals without writing it with PHP trough foreach -->
@@ -169,8 +168,9 @@
             const arrData = Object.keys(dataGereja);
             const arrValue = Object.values(dataGereja);
             arrData.forEach((data, id) => {
-                $(formTarget).append(`<div class="field"><label>Nama Distrik</label><input type="text" name=${data} value="${arrValue[id]}"/></div>`);
+                $(formTarget).append(`<div class="field"><label>${data.charAt(0).toUpperCase() + data.slice(1)}</label><input type="text" name=${data} value="${arrValue[id]}"/></div>`);
             })
+            // $(formTarget).append(`<div class="field"><label>Link: <a href="https://docs.google.com/spreadsheets/d/${arrValue[4]} target="_blank" noopener noreferrer>Klik di sini</a></label></div>`);
 
             $(modal)
                 .modal('setting', 'closable', false)

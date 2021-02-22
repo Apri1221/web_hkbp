@@ -17,7 +17,7 @@ class CreateIsiIbadahTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->unsignedBigInteger('id_ibadah');
+            $table->unsignedBigInteger('id_ibadah')->index();
             $table->foreign('id_ibadah')->references('id')->on('ibadah');
             $table->timestamps();
         });

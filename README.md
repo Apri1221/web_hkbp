@@ -22,5 +22,5 @@ Sharing article Tingting (announcement) and information related to Christian wor
  
 You can contribute for this project. :relaxed:
 
-## Hosted on : [web_hkbp](https://ucokjelantah.com/ "ucokjelantah.com"). 
-https://ucokjelantah.com/
+## Hosted on : [web_hkbp](https://hkbppadangbulan.com/ "hkbppadangbulan.com"). 
+https://hkbppadangbulan.com/

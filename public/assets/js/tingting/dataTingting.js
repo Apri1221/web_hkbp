@@ -21,11 +21,13 @@ class AllTingting extends React.Component {
 
     render() {
         const { tingtings } = this.state;
+        const regexTagHtml = /<.+?>/g;
         return (
             <div class="ui two doubling horizontal cards">
                 {
                     tingtings.map(tingting => {
                         const { id, image, title, updated_at, content } = tingting;
+                        const contentTingting = content.replace(regexTagHtml, '');
                         return (
                             <div class="card">
                                 {
@@ -50,7 +52,7 @@ class AllTingting extends React.Component {
                                     </div>
                                     <div class="description" 
                                         style={{'display': '-webkit-box', '-webkit-line-clamp': '3', '-webkit-box-orient': 'vertical', 'overflow': 'hidden'}}>
-                                        {content}
+                                        {contentTingting}
                                     </div>
                                 </div>
                                 <div class="extra content">
@@ -97,7 +99,7 @@ class DataTingting extends React.Component {
 
     render() {
         const { title, content, image, updated_at } = this.state;
-
+        const regexTagHtml = /<.+?>/g;
         return (
             <div>
                 <img style={{
@@ -115,7 +117,11 @@ class DataTingting extends React.Component {
                     <span className="ui label">Admin</span>
                 </div>
                 <div className="ui basic segment">
-                    <p>{content}</p>
+                    {
+                        regexTagHtml.test(content) 
+                            ? <div dangerouslySetInnerHTML={{__html: content}}></div> 
+                            : <div class="description" style={{'display': '-webkit-box', '-webkit-line-clamp': '3', '-webkit-box-orient': 'vertical', 'overflow': 'hidden'}}>{content}</div>
+                    }
                 </div>
             </div>
         )

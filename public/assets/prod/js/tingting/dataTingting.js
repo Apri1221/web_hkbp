@@ -25,6 +25,7 @@ class AllTingting extends React.Component {
     const {
       tingtings
     } = this.state;
+    const regexTagHtml = /<.+?>/g;
     return /*#__PURE__*/React.createElement("div", {
       class: "ui two doubling horizontal cards"
     }, tingtings.map(tingting => {
@@ -35,12 +36,13 @@ class AllTingting extends React.Component {
         updated_at,
         content
       } = tingting;
+      const contentTingting = content.replace(regexTagHtml, '');
       return /*#__PURE__*/React.createElement("div", {
         class: "card"
       }, image != null ? /*#__PURE__*/React.createElement("div", {
         class: "image",
         style: {
-          backgroundImage: `url("https://fomantic-ui.com/images/wireframe/image.png")`,
+          backgroundColor: `#fff`,
           'background-position': '50% 50%',
           'background-size': 'cover'
         }
@@ -66,7 +68,7 @@ class AllTingting extends React.Component {
           '-webkit-box-orient': 'vertical',
           'overflow': 'hidden'
         }
-      }, content)), /*#__PURE__*/React.createElement("div", {
+      }, contentTingting)), /*#__PURE__*/React.createElement("div", {
         class: "extra content"
       }, /*#__PURE__*/React.createElement("a", {
         class: "ui primary right floated right labeled icon button",
@@ -121,6 +123,7 @@ class DataTingting extends React.Component {
       image,
       updated_at
     } = this.state;
+    const regexTagHtml = /<.+?>/g;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
       style: {
         backgroundImage: `url("https://fomantic-ui.com/images/wireframe/image.png")`,
@@ -144,7 +147,19 @@ class DataTingting extends React.Component {
       className: "ui label"
     }, "Admin")), /*#__PURE__*/React.createElement("div", {
       className: "ui basic segment"
-    }, /*#__PURE__*/React.createElement("p", null, content)));
+    }, regexTagHtml.test(content) ? /*#__PURE__*/React.createElement("div", {
+      dangerouslySetInnerHTML: {
+        __html: content
+      }
+    }) : /*#__PURE__*/React.createElement("div", {
+      class: "description",
+      style: {
+        'display': '-webkit-box',
+        '-webkit-line-clamp': '3',
+        '-webkit-box-orient': 'vertical',
+        'overflow': 'hidden'
+      }
+    }, content)));
   }
 
 }

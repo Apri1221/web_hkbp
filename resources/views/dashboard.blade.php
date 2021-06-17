@@ -180,8 +180,8 @@
 </script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@latest/dist/browser-image-compression.js"></script>
-
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/fbgatducbg7x6a04vt2532dxl5dw4z56l7xov0dx2p2f0bcy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <!-- <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
 <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script> -->

@@ -12,6 +12,10 @@ class MasterTingting extends React.Component {
   }
 
   callbackEdit(dataTingting = null) {
+    if (tinyMCE.activeEditor !== null) {
+      tinyMCE.activeEditor.destroy();
+    }
+
     let boolEdit = this.state.isEdit;
     this.setState({
       isEdit: !boolEdit,
@@ -66,6 +70,7 @@ class GetTingting extends React.Component {
   render() {
     const dataTingtings = this.state.listDataTingting;
     const fCallbackEdit = this.props.callbackEdit;
+    const regexTagHtml = /<.+?>/g;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Kelola Data Tingting"), /*#__PURE__*/React.createElement("table", {
       className: "ui compact celled table"
     }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Judul"), /*#__PURE__*/React.createElement("th", null, "Deskripsi"), /*#__PURE__*/React.createElement("th", {
@@ -79,7 +84,8 @@ class GetTingting extends React.Component {
         title,
         content
       } = data;
-      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, title), /*#__PURE__*/React.createElement("td", null, content), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("div", {
+      const contentTingting = content.replace(regexTagHtml, '');
+      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, title), /*#__PURE__*/React.createElement("td", null, contentTingting), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("div", {
         className: "ui icon buttons"
       }, /*#__PURE__*/React.createElement("button", {
         className: "ui blue basic button",
@@ -150,6 +156,11 @@ class PostTingting extends React.Component {
       title: title,
       contents: content
     });
+    const isContentNull = tinyMCE.activeEditor.getContent() === '';
+
+    if (isContentNull) {
+      tinymce.activeEditor.setContent(content);
+    }
 
     if (image != null) {
       $('#img-desc').val("Memuat Gambar");
@@ -159,6 +170,10 @@ class PostTingting extends React.Component {
   }
 
   componentDidMount() {
+    tinymce.init({
+      selector: 'textarea',
+      plugins: ''
+    });
     this.initiateData();
     $("input:text").click(function () {
       $(this).parent().find("input:file").click();
@@ -215,9 +230,10 @@ class PostTingting extends React.Component {
       contents,
       image
     } = this.state;
+    const contentTingting = tinyMCE.activeEditor.getContent();
     let data = new FormData();
     data.append('title', title);
-    data.append('content', contents);
+    data.append('content', contentTingting);
     data.append('image', image);
     const url = '/api/tingting/' + (id ? `update/${id}` : 'create');
     const config = {

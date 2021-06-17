@@ -8,6 +8,9 @@ class MasterTingting extends React.Component {
     }
 
     callbackEdit(dataTingting = null) {
+        if (tinyMCE.activeEditor !== null) {
+            tinyMCE.activeEditor.destroy();
+        }
         let boolEdit = this.state.isEdit;
         this.setState({
             isEdit: !boolEdit,
@@ -54,6 +57,7 @@ class GetTingting extends React.Component {
     render() {
         const dataTingtings = this.state.listDataTingting;
         const fCallbackEdit = this.props.callbackEdit;
+        const regexTagHtml = /<.+?>/g;
         return (
             <div>
                 <h1>Kelola Data Tingting</h1>
@@ -69,10 +73,11 @@ class GetTingting extends React.Component {
                         {dataTingtings.map(data => {
                             {/* keep eye on this */ }
                             const { id, title, content } = data;
+                            const contentTingting = content.replace(regexTagHtml, '');
                             return (
                                 <tr>
                                     <td>{title}</td>
-                                    <td>{content}</td>
+                                    <td>{contentTingting}</td>
                                     <td>
                                         <div className="ui icon buttons">
                                             <button className="ui blue basic button" onClick={fCallbackEdit.bind(null, data)}>
@@ -127,6 +132,11 @@ class PostTingting extends React.Component {
             title: title,
             contents: content,
         })
+        const isContentNull = tinyMCE.activeEditor.getContent() === '';
+        if (isContentNull) {
+            tinymce.activeEditor.setContent(content);
+        }
+
         if (image != null) {
             $('#img-desc').val("Memuat Gambar");
             const blob_image = await fetch(image).then(r => r.blob());
@@ -135,6 +145,10 @@ class PostTingting extends React.Component {
     }
 
     componentDidMount() {
+        tinymce.init({
+            selector: 'textarea',
+            plugins: '',
+        });
         this.initiateData();
         $("input:text").click(function () {
             $(this).parent().find("input:file").click();
@@ -186,9 +200,12 @@ class PostTingting extends React.Component {
     async sendData(e) {
         e.preventDefault();
         const { id, title, contents, image } = this.state;
+        
+        const contentTingting = tinyMCE.activeEditor.getContent();
+
         let data = new FormData();
         data.append('title', title);
-        data.append('content', contents);
+        data.append('content', contentTingting);
         data.append('image', image);
         const url = '/api/tingting/' + (id ? `update/${id}` : 'create');
         const config = {

@@ -122,10 +122,17 @@
 <div class="ui stackable grid" style="align-items: flex-start;">
     <!-- section content -->
     <div class="twelve wide column">
-        <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
-        <div class="ui hidden divider huge"></div>
-        <h1 class="header">Tingting</h1>
-        <div id="bannerTingting"></div>
+        <div id="playerYoutube"></div>
+
+        <section>
+            <div id="contentJemaat" type-user="{{ Session::has('account') ? 'admin' : 'user' }}"></div>
+            <div class="ui hidden divider huge"></div>
+        </section>
+        
+        <section>
+            <h1 class="header">Tingting</h1>
+            <div id="bannerTingting"></div>
+        </section>
     </div>
     <!-- section ibadah -->
     <div class="four wide column" id="sticky-content">
@@ -176,11 +183,14 @@
         new InstagramFeed({
             'username': 'nhkbppbulan',
             'container': document.getElementById("instagram-feed-nhkbp"),
-            'display_profile': false,
-            'display_biography': false,
-            'display_gallery': true,
-            'display_captions': false,
+            'host': 'https://images' + ~~(Math.random() * 3333) + '-focus-opensocial.googleusercontent.com/gadgets/proxy?container=none&url=https://www.instagram.com/',
+            'display_profile': true,
+            'display_biography': true,
+            'display_gallery': false,
+            'display_captions': true,
             'callback': (data) => { console.log(data) },
+            'max_tries': 2,
+            'cache_time': 360,
             'styling': true,
             'items': 9,
             'items_per_row': 3,
@@ -191,7 +201,13 @@
 </script>
 
 <!-- <script type="text/babel" src="{{ asset('assets/js/searchData.js') }}"></script>
-<script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script> -->
+<script type="text/babel" src="{{ asset('assets/js/tingting/bannerTingting.js') }}"></script>
+<script type="text/babel" src="{{ asset('assets/js/playerYoutube.js') }}"></script> -->
 <script type="text/javascript" src="{{ asset('assets/prod/js/searchData.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/prod/js/tingting/bannerTingting.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/prod/js/playerYoutube.js') }}"></script>
+
+<!-- css dan js video -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+<script defer src="https://cdn.plyr.io/3.5.6/plyr.polyfilled.js"></script>
 @endpush

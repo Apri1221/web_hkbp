@@ -20,7 +20,6 @@ Route::get('/about', 'BaseController@about')->name('about');
 Route::get('/post/{id_ibadah}', 'BaseController@getIbadah'); // ibadah
 Route::get('/article/{id_tingting?}', 'BaseController@getTingting'); // tingting
 
-Route::get('/testpage', 'BaseController@testpage'); //testpage
 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['checkStatus']], 
@@ -35,6 +34,3 @@ function () {
     Route::post('/dashboard/store-data', 'JemaatController@storeList')->name('store_data');
     Route::get('/dashboard/destroy-data/{id}', 'JemaatController@destroyList')->name('destroy_data');
 });
-
-
-

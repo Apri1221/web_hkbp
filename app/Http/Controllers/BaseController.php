@@ -30,10 +30,6 @@ class BaseController extends Controller
         return view('tingting', ['id' => $id_tingting]);
     }
 
-    public function testpage(){
-        return view('testpage');
-    }
-
     public function login(Request $request)
     {
         // I'm from HTTP

@@ -28,6 +28,7 @@
             <a class="item active" data-tab="dataJemaat">Data Jemaat</a>
             <a class="item" data-tab="dataTingting">Data Tingting</a>
             <a class="item" data-tab="dataIbadah">Data Ibadah</a>
+            <a class="item" data-tab="dataVideo">Video Stream<em data-emoji=":loudspeaker:"></em></a>
         </div>
     </div>
     <div class="twelve wide column">
@@ -118,6 +119,10 @@
         <div class="ui tab" data-tab="dataIbadah">
             <div id="contentIbadah"></div>
         </div>
+
+        <div class="ui tab" data-tab="dataVideo">
+            <div id="contentVideo"></div>
+        </div>
     </div>
 </div>
 @endsection
@@ -184,8 +189,11 @@
 <script src="https://cdn.tiny.cloud/1/fbgatducbg7x6a04vt2532dxl5dw4z56l7xov0dx2p2f0bcy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <!-- <script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataIbadah.js') }}"></script>
-<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script> -->
+<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataTingting.js') }}"></script> 
+<script type="text/babel" src="{{ asset('assets/js/admin/dashboard/dataVideo.js') }}"></script>-->
+
 
 <script type="text/javascript" src="{{ asset('assets/prod/js/admin/dashboard/dataIbadah.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/prod/js/admin/dashboard/dataTingting.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/prod/js/admin/dashboard/dataVideo.js') }}"></script>
 @endpush

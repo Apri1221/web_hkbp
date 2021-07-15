@@ -31,6 +31,15 @@ function () {
 });
 
 
+Route::group(['prefix' => 'video', 'namespace' => 'Api'], 
+function () {    
+    Route::get('/{id?}', 'StreamController@getVideo');
+    Route::post('/create', 'StreamController@createVideo');
+    Route::post('/update/{id}', 'StreamController@updateVideo');
+    Route::delete('/delete/{id}', 'StreamController@deleteVideo');
+});
+
+
 Route::group(['prefix' => 'tingting', 'namespace' => 'Api'], 
 function () {    
     Route::get('/{id?}', 'TingtingController@showTingting');

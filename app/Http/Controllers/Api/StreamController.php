@@ -12,9 +12,16 @@ class StreamController extends Controller
     use ResponseJSON;
 
 
-    public function getVideo($id = null) {
-        $videos = !$id ? Video::all() : 
-                    video::where('id', $id)->get();
+    public function getVideo(Request $request, $id = null) {
+        $query = $request->query();
+        $condition = [];
+        $all_post = $query['all'] ?? false;
+        if (!$all_post) {
+            $condition += ['is_show' => true];
+        }
+        if ($id != null) $condition += ['id' => $id];
+
+        $videos = Video::where($condition)->get();
 
         $data = $videos->sortByDesc('created_at');
         return $this->sendingData($data->flatten());
@@ -24,8 +31,9 @@ class StreamController extends Controller
         $video = new Video;
         $input = $request->all();
         $video->fill(collect($input)
-            ->except(['type'])
+            ->except(['type', 'is_show'])
             ->put('type', $this->videoType($request->url))
+            ->put('is_show', $request->is_show == false || $request->is_show == 'false' ? 0 : 1)
             ->all())
             ->save();
         return $this->sendingData('Success', 200);
@@ -35,8 +43,9 @@ class StreamController extends Controller
         $video = Video::findOrFail($id);
         $input = $request->all();
         $video->fill(collect($input)
-            ->except(['type'])
+            ->except(['type', 'is_show'])
             ->put('type', $this->videoType($request->url))
+            ->put('is_show', $request->is_show == false || $request->is_show == 'false' ? 0 : 1)
             ->all())
             ->save();
         $video->touch();

@@ -13,7 +13,7 @@ class PlayerYoutube extends React.Component {
     }
 
     async componentDidMount() {
-        const listVideo = await handleRequestAPI('/api/video/', method.GET);
+        const listVideo = await handleRequestAPI('/api/video', method.GET);
         if (listVideo.length === 0) { return }
         
         this.setState({

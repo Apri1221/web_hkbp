@@ -244,9 +244,11 @@ class PostTingting extends React.Component {
     };
     console.log(image); // AXIOS LARAVEL ERROR PUT REQUEST MULTIPART
 
-    axios.post(url, data, config).then(r => console.log(r.data)); // calling callback from Master Component
+    axios.post(url, data, config).then(r => {
+      console.log(r.data); // calling callback from Master Component
 
-    this.props.callbackEdit();
+      this.props.callbackEdit();
+    });
   }
 
   render() {

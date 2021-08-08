@@ -9,7 +9,7 @@ class Video extends Model
 {
     protected $table = 'video_content';
 
-    protected $fillable = ['title', 'description', 'url', 'show', 'type'];
+    protected $fillable = ['title', 'description', 'url', 'is_show', 'type'];
 
     protected $casts = [
         'created_at' => 'datetime:d M Y',

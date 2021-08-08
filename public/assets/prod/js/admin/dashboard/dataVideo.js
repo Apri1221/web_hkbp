@@ -48,7 +48,7 @@ class GetVideo extends React.Component {
   }
 
   async getDataListVideo() {
-    const listVideo = await axios.get('/api/video/');
+    const listVideo = await axios.get('/api/video?all=true');
     this.setState({
       listDataVideo: listVideo.data
     });
@@ -115,13 +115,18 @@ class PostVideo extends React.Component {
     super(props);
 
     _defineProperty(this, "handleChangeInput", e => {
-      this.setValueState(e.target.className, e.target.value);
+      if (e.target.className == 'togle-button-custom') {
+        this.setValueState('is_show', !this.state.is_show);
+      } else {
+        this.setValueState(e.target.className, e.target.value);
+      }
     });
 
     this.state = {
       title: '',
       description: '',
-      url: null
+      url: null,
+      is_show: null
     };
     this.sendData = this.sendData.bind(this);
   }
@@ -138,13 +143,17 @@ class PostVideo extends React.Component {
       id,
       title,
       description,
-      url
+      url,
+      is_show
     } = dataFromMaster;
+    console.log(is_show);
+    document.getElementById("show-video").checked = is_show == 1 ? true : false;
     this.setState({
       id: id,
       title: title,
       description: description,
-      url: url
+      url: url,
+      is_show: is_show == 1 ? true : false
     });
   }
 
@@ -177,16 +186,20 @@ class PostVideo extends React.Component {
       id,
       title,
       description,
-      url
+      url,
+      is_show
     } = this.state;
     let data = new FormData();
     data.append('title', title);
     data.append('description', description);
     data.append('url', url);
+    data.append('is_show', is_show);
     const link = '/api/video/' + (id ? `update/${id}` : 'create');
-    axios.post(link, data).then(r => console.log(r.data)); // calling callback from Master Component
+    axios.post(link, data).then(r => {
+      console.log(r.data); // calling callback from Master Component
 
-    this.props.callbackEdit();
+      this.props.callbackEdit();
+    });
   }
 
   render() {
@@ -200,6 +213,8 @@ class PostVideo extends React.Component {
       className: "ui form",
       onChange: this.handleChangeInput
     }, /*#__PURE__*/React.createElement("div", {
+      className: "ui positive message"
+    }, /*#__PURE__*/React.createElement("p", null, "Video yang ditampilkan di beranda adalah yang terakhir di tambahkan dengan status show aktif.")), /*#__PURE__*/React.createElement("div", {
       className: "field"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "title"
@@ -219,6 +234,15 @@ class PostVideo extends React.Component {
       id: "description",
       value: description
     })), /*#__PURE__*/React.createElement("div", {
+      className: `ui toggle checkbox field`
+    }, /*#__PURE__*/React.createElement("input", {
+      className: `togle-button-custom`,
+      type: "checkbox",
+      name: "show-video",
+      id: "show-video"
+    }), /*#__PURE__*/React.createElement("label", {
+      htmlFor: "show-video"
+    }, "Tampilkan video kepada publik")), /*#__PURE__*/React.createElement("div", {
       className: "field"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: "url"

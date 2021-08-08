@@ -38,7 +38,7 @@ class GetVideo extends React.Component {
     }
 
     async getDataListVideo() {
-        const listVideo = await axios.get('/api/video/');
+        const listVideo = await axios.get('/api/video?all=true');
         this.setState({ listDataVideo: listVideo.data });
     }
 
@@ -108,6 +108,7 @@ class PostVideo extends React.Component {
             title: '',
             description: '',
             url: null,
+            is_show: null,
         }
 
         this.sendData = this.sendData.bind(this);
@@ -117,13 +118,17 @@ class PostVideo extends React.Component {
         // we get data from MasterVideo to be edited?
         const dataFromMaster = this.props.dataVideo;
         if (!dataFromMaster.id) { return }
-        const { id, title, description, url } = dataFromMaster;
+        const { id, title, description, url, is_show } = dataFromMaster;
+
+        console.log(is_show)
+        document.getElementById("show-video").checked = is_show == 1 ? true : false;
         
         this.setState({
             id: id,
             title: title,
             description: description,
             url: url,
+            is_show: is_show == 1 ? true : false,
         })
     }
 
@@ -140,7 +145,11 @@ class PostVideo extends React.Component {
     }
 
     handleChangeInput = (e) => {
-        this.setValueState(e.target.className, e.target.value);
+        if (e.target.className == 'togle-button-custom') {
+            this.setValueState('is_show', !this.state.is_show);
+        } else {
+            this.setValueState(e.target.className, e.target.value);
+        }
     }
 
     onDeleteImage(e) {
@@ -155,25 +164,32 @@ class PostVideo extends React.Component {
     
     async sendData(e) {
         e.preventDefault();
-        const { id, title, description, url } = this.state;
+        const { id, title, description, url, is_show } = this.state;
         
 
         let data = new FormData();
         data.append('title', title);
         data.append('description', description);
         data.append('url', url);
+        data.append('is_show', is_show);
         const link = '/api/video/' + (id ? `update/${id}` : 'create');
 
-        axios.post(link, data).then(r => console.log(r.data));
-        // calling callback from Master Component
-        this.props.callbackEdit();
+        axios.post(link, data).then(r => {
+            console.log(r.data)
+            // calling callback from Master Component
+            this.props.callbackEdit();
+        });
     }
 
     render() {
         const { title, description, url } = this.state;
+        
         const fCallbackEdit = this.props.callbackEdit;
         return (
             <form className="ui form" onChange={this.handleChangeInput}>
+                <div className="ui positive message">
+                    <p>Video yang ditampilkan di beranda adalah yang terakhir di tambahkan dengan status show aktif.</p>
+                </div>
                 <div className="field">
                     <label htmlFor="title">Judul</label>
                     <input type="text" className="title" name="title" id="title" value={title} />
@@ -181,6 +197,12 @@ class PostVideo extends React.Component {
                 <div className="field">
                     <label htmlFor="description">Deskripsi</label>
                     <textarea className="description" name="description" id="description" value={description}></textarea>
+                </div>
+
+
+                <div className={`ui toggle checkbox field`}>
+                    <input className={`togle-button-custom`}  type="checkbox" name="show-video" id="show-video"></input>
+                    <label htmlFor="show-video">Tampilkan video kepada publik</label>
                 </div>
 
                 <div className="field">
